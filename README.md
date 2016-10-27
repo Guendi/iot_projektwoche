@@ -39,9 +39,9 @@ author: Sven Schirmer
 
 1. kurzer Überblick Programmablauf
 2. Einführung: Was ist IoT, Live-Demos demonstrieren (1h)
-3. Workshops (9h)
-4. Projekte (27h)
-5. Präsemntationen und Abschluss (2-3h)
+3. Workshops / Posten (9h)
+4. Projekte (27h+nächtliches Hacking (requires Pizza+Kaffee))
+5. Präsentationen und Abschluss (3h)
 
 # Demos 
 
@@ -49,3 +49,14 @@ author: Sven Schirmer
 - [http://www.buildinginternetofthings.com/list-of-projects/](http://www.buildinginternetofthings.com/list-of-projects/)
 - [https://scanlibs.com/internet-things-arduino-cookbook/](https://scanlibs.com/internet-things-arduino-cookbook/)
 
+```include 
+intro.md
+```
+
+```include 
+workshops.md
+```
+
+```include 
+projects.md
+```
