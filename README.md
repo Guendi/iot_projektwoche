@@ -2,7 +2,7 @@
 pandoc -s iot_topics.md -o /tmp/md.html -t html5 --toc --toc-depth 2 --self-contained; firefox /tmp/md.html
 -->
 
-<style>
+<!--style>
 	body{
 		font-family: sans-serif;
 		width: 60%;
@@ -29,12 +29,12 @@ pandoc -s iot_topics.md -o /tmp/md.html -t html5 --toc --toc-depth 2 --self-cont
 		margin: 5px auto;
 		
 	}
-</style>
----
+</style-->
+<!-----
 title: IoT - Topics
 subtitle: Draft
 author: Sven Schirmer
----
+--->
 # Demos 
 
 - Wetterdaten weltweit (mit Historie, Aktuelle Vorhersage): http://openweathermap.org/
@@ -128,13 +128,24 @@ Ursachen:
 
 ![IoT-Energyverbrauch vs. Einsparung, [Quelle: http://www.heise.de/ix/meldung/Studie-Internet-of-Things-frisst-zunehmend-Energie-2250476.html](http://www.heise.de/ix/meldung/Studie-Internet-of-Things-frisst-zunehmend-Energie-2250476.html)](img/iot_energy_consumption.png)
 
-# Lehrvorträge
+# Lehrvorträge / Posten
 
 ## Intro Mikroprozessoren / Sensoren (Arduino)
 
-- Kurzvortrag (30 Minuten)
+- Kurzvortrag (max. 30 Minuten)
+	- Arduino IDE vorstellen
+	- Konzept Microcontroller (vs. PC)
 - Mini-Projekte mit Breadboards, LEDS, Schaltern und Sensoren (3h)
 - allenfalls Display-Miniprojekt (2h)
+
+## Intro Kommunikation Mikrocotroller - PC 
+
+- Kurzvortrag (max. 30 Minuten)
+	- Seriell (am einfachsten und schnellsten)
+	- WLAN-basiert?
+	- XBEE / LoRa?
+- Mini-Projekt (2-3 h)
+
 
 ## Intro Webserver mit PHP und Datenbanken (Raspberry)
 
@@ -143,10 +154,13 @@ Ursachen:
 - Mini-Projekt: Sensordaten vom Arduino auf Pi laden, visualisieren mit Web-UI (4h)
 
 
-# Studentenprojekte (20h)
+# Studentenprojekte (30h)
 
 - Raumtemperatur/Feuchtigkeitsüberwachung mit Remote-Logging & Alarm
-	- allenfalls Server-Abschaltung bei Übertemperatur 
+	- Server-Abschaltung bei Übertemperatur (mc-kontrolliert)
+	- Webserver-basiertes Monitoring (grafische Anzeige) 
 	
-- kombinierte RFID / Zahlencode-basierte Zugangskontrolle mit Remote-Logging & Remote-Deaktivierung
-- 
+- kombinierte RFID / Zahlencode-basierte Zugangskontrolle 
+	- mit Remote-Logging & Remote-Deaktivierung
+	- Webserver-basiertes Monitoring (grafische Anzeige) 
+
