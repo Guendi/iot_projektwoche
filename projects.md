@@ -9,3 +9,9 @@
 
 - mit Remote-Logging & Remote-Deaktivierung
 - Webserver-basiertes Monitoring (grafische Anzeige) 
+
+## Arduino-basiertes Leistungsmessgerät für PC
+
+- Spannung+Strom für 5/12V Strecke im PC messen
+- Ausgabe auf Display
+- Webserver-basiertes Monitoring (grafische Anzeige) 
