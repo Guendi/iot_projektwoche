@@ -31,11 +31,40 @@
 
 ### Hardware:
 
-- Genuino Bords (inkl. WiFi); ca 45 Fr/Stück (playzone.ch)
-- DHT22 Sensoren (ca. 3 Fr/Stück)
-- LEDs, Widerstände, Breadboards, Breadboard Kabelsätze (sollte vorhanden sein)
-- konfigurierbarer WLAN-Accesspoint mit LAN-Anschlüssen (sollte vorhanden sein)
-- PC's mit Bastelfestplatte für Web/Datenbankserver
+#### TODO: Entscheidung
+
+- Favorit: Arduino UNO WiFi (UNO kompatibel) (ca. 43 Fr/Stück)
+	- [https://blog.play-zone.ch/2016/06/01/arduino-wifi/2/](https://blog.play-zone.ch/2016/06/01/arduino-wifi/2/)
+	- 20 DI/O
+	- 6 AI
+	- U=5V, I=40mA je DO
+	- onboard ESP8266 mit 4MB flash, 8MB instruction + 12MB data memory
+ 	- Atmel AVR, 8bit
+
+- Alternative: Genuino MKR1000 (inkl. WiFi); ca 45 Fr/Stück (playzone.ch)
+	- [http://www.play-zone.ch/de/genuino-mkr1000.html](http://www.play-zone.ch/de/genuino-mkr1000.html)
+	- löten!
+	- 8 DI/O
+	- 7 AI, 1 AO 
+	- 3.3V; 7mA je DO
+	- 256kB Flash, 32kB SRAM
+	- 32bit controller
+
+#### Zubehör
+
+je Team:
+
+- Sensorshield (Komplettpaket mit Temp, Feucht, Poti IR uvm.); [http://www.play-zone.ch/de/sensor-und-io-shield-fur-arduino.html](http://www.play-zone.ch/de/sensor-und-io-shield-fur-arduino.html)
+
+- alternativ (Fun-Faktor!)
+	- DHT11 Temp, Feucht.. Sensoren (ca. 3 Fr/Stück)
+	- LEDs, Widerstände, Breadboards, Breadboard Kabelsätze (sollte vorhanden sein)
+
+- LCD Display 16x2 [http://mikroshop.ch/LED_LCD.html?gruppe=7&artikel=15](http://mikroshop.ch/LED_LCD.html?gruppe=7&artikel=15)
+- RFID Sensor + Karten; ca. 17 Fr; [http://www.play-zone.ch/de/mfrc522-rfid-reader-breakout-inkl-2-keys.html](http://www.play-zone.ch/de/mfrc522-rfid-reader-breakout-inkl-2-keys.html)
+- PC's mit Bastelfestplatte für Web/Datenbankserver + Arduino IDE (am einfachsten mit Debian8 oder (X)Ubuntu1604)
+
+für gesamte Klasse: ein konfigurierbarer WLAN-Accesspoint mit LAN-Anschlüssen (sollte vorhanden sein)
 
 ### Durchführung
 
