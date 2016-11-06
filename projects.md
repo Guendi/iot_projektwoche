@@ -33,7 +33,17 @@
 
 #### TODO: Entscheidung
 
-- Favorit: Arduino UNO WiFi (UNO kompatibel) (ca. 43 Fr/Stück)
+- Arduino UNO R3 + Ethernet-Shield mit SD-Card Slot
+	- [http://www.mikroshop.ch/Warenkorb.html?gruppe=3&artikel=501](http://www.mikroshop.ch/Warenkorb.html?gruppe=3&artikel=501)
+	-[http://www.mikroshop.ch/Warenkorb.html?gruppe=3&artikel=849](http://www.mikroshop.ch/Warenkorb.html?gruppe=3&artikel=849)
+	- unter 20 Fr (!)
+	- 20 DI/O
+	- 6 AI
+	- U=5V, I=40mA je DO
+ 	- Atmel AVR, 8bit
+
+
+- Alternative: Arduino UNO WiFi (UNO kompatibel) (ca. 43 Fr/Stück)
 	- [https://blog.play-zone.ch/2016/06/01/arduino-wifi/2/](https://blog.play-zone.ch/2016/06/01/arduino-wifi/2/)
 	- 20 DI/O
 	- 6 AI
