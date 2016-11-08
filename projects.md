@@ -9,6 +9,7 @@
 
 - mit Remote-Logging & Remote-Deaktivierung
 - Webserver-basiertes Monitoring (grafische Anzeige) 
+- zusätzlich: Einmalcodes vom Server
 
 ## Arduino-basiertes Leistungsmessgerät für PC
 
@@ -59,6 +60,8 @@
 	- 3.3V; 7mA je DO
 	- 256kB Flash, 32kB SRAM
 	- 32bit controller
+- Ausblick Miniatur-Versionen (Arduino-Mini)
+	- für produktionsreife Prototypen...
 
 #### Zubehör
 
