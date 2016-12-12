@@ -9,7 +9,7 @@
 
 2. Hands ON Arduino anschliessen, serielle Kommunikation, Debugging (60 Minuten)
 
-	/*Pause*/
+	** Z9i Pause
 
 3. Kurzvortrag Elektronik-Grundlagen (30 Minuten)
 	 - Widerstände, LED, Transistoren...
@@ -17,19 +17,19 @@
 
 4. Mini-Projekte mit Breadboards, Widerstände, LEDS, Tastern (60 Minuten)
 
-	/*Mittagspause*/
+	** Mittagspause **
 
 5. Löten Grundlagen (5 Minuten)
 
 6. kurzes Hands on: einfache Schaltungen (Taster, LED...) auf Lochrasterplatine mit Stiftleistenanschluss löten (25 Minuten) 
 
-	/* Pause*/
+	** Pause **
 
 4. Kurzvortrag (max. 30 Minuten)
     - aktive, passive Sensoren / Aktoren Grundlagen (1-2 Folien)
     - Arduino Bibliotheken für aktive Sensoren, LCDs
 
-5. Mini-Projekte mit Breadboards, Sensoren, Aktor (Lüfter via Transistor?) + LCD-Display-Miniprojekt (2h)
+5. Mini-Projekte mit Breadboards, Sensoren, Aktor (Lüfter via Transistor?) + 7-Segment-Anzeige Miniprojekt (2h)
 
 ## Intro Mikroprozessor-Architektur (4 Lektionen)
 1. Kurzvortrag Konzept Microcontroller vs. PC/Raspi (30 Minuten)
@@ -39,15 +39,18 @@
 
 2. Übung Arduino-Interrupt - Programmierung (60 Minuten)
 
-	/* Z9i-Pause */
+	** Z9i-Pause **
 
-3. Bus-Systeme (I²C, SPI, etc.)
-	- zur Kommunikation mit Sensoren (RFID), Aktoren (LCD, TFT, Lichtmatrix...) 
+3. Bus-Systeme - I²C, SPI, etc. (30 Minuten)
+	- zur Kommunikation mit Sensoren (RFID), Aktoren (LCD, TFT) 
+	- I2C: L3 OSI; SPI: L2 OSI
+	- proprietäre erwähnen
 	- Experte Christoph!
 
-4. Übung Bus-Systeme (I²C, SPI, etc.)
+4. Übung Bus-Systeme (60 Minuten)
+	- LCD I2C; Gyro, DHT
 
-	/* Zmittag Pause */
+	** Zmittag Pause **
 
 <!-- WISS only
 	- [SimulAVR](https://www.mikrocontroller.net/articles/AVR-Simulation), 
@@ -62,16 +65,22 @@
 
 	 
 	
-## Intro Kommunikation Mikrocotroller - PC  (4 Lektionen)
+## Intro Kommunikation Mikrocontroller - PC  (4 Lektionen)
 
 1. Kurzvortrag (max. 30 Minuten)
-	- UART... was notwendig ist, um HANOKs abzudecken
+	- *UART... was notwendig ist, um HANOKs abzudecken*
 	- Seriell (am einfachsten und schnellsten)
-	- LORA, WLAN-basierte Kommunikation
+	- LORA, W/LAN-basierte Kommunikation
+	- SD-Card für EthernetShield kann als storage für html/js/css genutzt werden (Webserver)
 
-2. Mini-Projekt (3 Lektionen)
-	- serielle Kommunikation zwischen Arduinos oder
-	- WiFi basierte Kommunikation zwischen Arduinos / PCs
+2. Mini-Projekt (120 Minuten)
+	- serielle oder LORA Kommunikation zwischen Arduinos oder
+	- W-/LAN basierte Kommunikation zwischen Arduinos / PCs
+
+3. Vorstellung Projekte (30 Minuten)
+	- Printouts auslegen 
+	- Brainstorming, Erweiterungen (bis zum nächsten Tag selbst evaluieren)
+	- Projekte/Teams werden am nächsten Tag nach Machbarkeitstudie (durch Dozenten) freigegeben 
 
 <div class="wiss">
 ### @WISS 4. Semester: Webserver mit PHP und Datenbanken (Raspberry)
