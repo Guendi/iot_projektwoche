@@ -1,15 +1,20 @@
 # Projekte
 
-## Raumtemperatur/Feuchtigkeitsüberwachung mit Remote-Logging & Alarm
+## Raumtemperatur/Feuchtigkeitsüberwachung mit Remote-Logging & Alarm *
 - Lüfter anschalten bei Übertemperatur (mc-kontrolliert)
 - Raumluft-Qualität messen
-- Webserver-basiertes Monitoring (grafische Anzeige) 
+- U/I Monitoring
+	- Spannung+Strom für 5/12V Strecke im PC messen
+	- Ausgabe auf Display
+- Webserver-basiertes Monitoring (Nagios, grafische Anzeige) 
+
+## LORA - GPS Game *
 
 ## Heim-Automation
 - Pflanzenbewässerung
-- 
+- Licht/Temperatur/Zeitabhängige Rolladen/Heizungssteuerung
 	
-## kombinierte RFID und Zahlencode-basierte Zugangskontrolle 
+## kombinierte RFID und Zahlencode-basierte Zugangskontrolle *
 
 - mit Remote-Logging & Remote-Deaktivierung
 - Webserver-basiertes Monitoring (grafische Anzeige), z.B. Webcam aktivieren bei falscher Pin-Eingabe oder nicht vorhandener RFID
@@ -17,13 +22,7 @@
 
 <img src="img/title.jpg"  style="max-width: 300px;"/>
 
-## Arduino-basiertes Leistungsmessgerät für Niedervolt-Geräte
-
-- Spannung+Strom für 5/12V Strecke im PC messen
-- Ausgabe auf Display
-- Webserver-basiertes Monitoring (grafische Anzeige) 
-
-## Multiplayer - Game 
+## Multiplayer - Game *
 - mit Gyroskop-WLAN Things (alà Wii)
 - Robigame via GameServer 
 - Force-Feedback (mobile vibration stuff)
