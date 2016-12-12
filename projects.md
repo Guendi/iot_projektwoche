@@ -6,7 +6,9 @@
 - U/I Monitoring
 	- Spannung+Strom für 5/12V Strecke im PC messen
 	- Ausgabe auf Display
-- Webserver-basiertes Monitoring (Nagios, grafische Anzeige) 
+
+## Webserver-basiertes Monitoring (Nagios, grafische Anzeige) *
+- Monitoring (Nagios) visualisieren (z.B. Analoganzeige mit Servo)
 
 ## LORA - GPS Game *
 
