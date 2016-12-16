@@ -10,12 +10,12 @@ Prototypische Implementierung auf LoLin NodeMCU V3, RobiGame ist auf Laptop inst
 
 **Game:**
 
-	* erster Robi ist vom Micocontroller steuerbar
-	* andere Robis sind KI-gesteuert
-	* UDP-Kommunikation funktional und für mehrere Controller vorbereitet
-	* **TODO:** Zustandautomat zum anmelden mehrerer Controller muss noch implementiert werden
-	* **TODO:** Kommunikationsprotokoll für *bullets* erweitern
-	* **TODO:** Debugging-Console wenn Game ohne Eclipse-IDE gestartet wird
+* erster Robi ist vom Micocontroller steuerbar
+* andere Robis sind KI-gesteuert
+* UDP-Kommunikation funktional und für mehrere Controller vorbereitet
+* **TODO:** Zustandautomat zum anmelden mehrerer Controller muss noch implementiert werden
+* **TODO:** Kommunikationsprotokoll für *bullets* erweitern
+* **TODO:** Debugging-Console wenn Game ohne Eclipse-IDE gestartet wird
 
 # Projektbeschreibung
 
