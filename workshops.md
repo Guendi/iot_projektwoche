@@ -76,6 +76,7 @@
 2. Mini-Projekt (120 Minuten)
 	- serielle oder LORA Kommunikation zwischen Arduinos oder
 	- W-/LAN basierte Kommunikation zwischen Arduinos / PCs
+	- z.B. Trump Tweets abonnieren und auf LCD anzeigen
 
 3. Vorstellung Projekte (30 Minuten)
 	- Printouts auslegen 
