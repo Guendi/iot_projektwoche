@@ -9,7 +9,7 @@
 
 2. Hands ON Arduino anschliessen, serielle Kommunikation, Debugging (60 Minuten)
 
-	** Z9i Pause
+	** Z9i Pause **
 
 3. Kurzvortrag Elektronik-Grundlagen (30 Minuten)
 	 - Widerstände, LED, Transistoren...

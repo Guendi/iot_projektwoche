@@ -1,0 +1,128 @@
+body{
+    font-family: sans-serif;
+    line-height: 1.2em; 
+	background-color:#D2E1FF;
+	max-width:1024px;
+	margin-left:auto;
+	margin-right:auto;
+}        
+
+#nav ul {
+    padding: 0px;
+    margin: 0px;
+    font-size: 14pt;
+}
+
+#nav ul:after {
+    clear: both;
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+#nav ul,#nav ul li{
+    background-color: #FAFAFA;
+}
+#nav ul li {
+    list-style: none;
+    float:left;
+    border-right: 2px solid #dfdfdf;
+    margin-bottom:0em;
+}
+#nav ul li a {
+    text-decoration: none;
+    display: block;
+    color: black;
+    padding: 4px 6px 0px 6px;
+
+    transition: background 0.3s ease-out; /* explorer 10 */
+    -webkit-transition: background 0.3s ease-out; /* chrome & safari */
+    -moz-transition: background 0.3 ease-out; /* firefox */
+    -o-transition: background 0.3 ease-out; /* opera */
+}
+
+#nav ul li:hover a, #nav ul li:hover > ul li a  {
+    background-color: #763284;
+    color: white;
+}
+
+
+#nav ul li:hover > a {
+    color: white;
+}
+#nav ul li:hover > ul {
+    visibility: visible;
+}
+
+#nav ul li ul{
+    display: inline;
+    visibility: hidden;
+    position: absolute;
+    min-width: 8em;
+    margin-left: 1em;
+    padding:0px;
+    font-size: 14pt;
+}
+#nav ul li ul li{
+	float: none;
+	margin-bottom:0em;
+}
+#nav ul li ul li a {
+    color: white;
+}
+#nav ul li ul li a:hover{
+	color: black;
+	background-color: #FAFAFA !important;
+}
+
+
+
+#rahmen 		{width: 100%; background-color: white;}
+#thWrapper  {width:100%;margin:0;border:0;padding:0;}	/* kleiner weiÃŸer Rand */
+/*#thMenu a, #thMenu span span {text-decoration:none;font-size:14pt;}*/
+
+/* #thMenu a:visited {color:#000044;}		,auskommentiert spr 9.1. */
+
+#thPath	    {font-size:12pt;}
+#thPath a    {text-decoration:none;}
+#footer		{background-color:#081B45;color:#EEEEEE;}
+.thSep 	     { margin: 0 2px; }
+
+#thMainTitle {font-size:20pt;color:#763284;}
+#thPageTitle {color:#763284;font-size:24pt;}
+#thPathCurrent {color:#763284;}
+#thMenuCurrent {color:#763284; padding: 4px 6px 0px 6px;display: block;}
+#thContent 		{margin-left: 10px; margin-right: 10px; min-height: 640px;background-image: url(staufi2.jpg);background-repeat: no-repeat;background-position: right top;}	/*668 -> 640, spr, 9.1. */
+#startseite    {background-color: white;}
+pre          {background-color:#FFFFE0;padding:10px;}
+
+/*table a      {color:#222222; text-decoration:none; font-weight:bold;}*/
+
+  img{
+    display: block;
+    margin: 5px;
+  }
+
+a:visited    {color:#000044;}
+
+a img        {border-width:0px;}
+ul li        {list-style-type:square; margin-bottom:0.5em;}
+ol li        {list-style-type:decimal; margin-bottom:0.5em;}
+li li        {list-style-type:circle; margin-bottom:0.25em;}
+
+h4            {background-color:#D7D7D7;font-size:14pt;}
+	
+th				{text-align: left;}
+.tab1 th           {text-align: left;border:1px solid black; }	/* table head */
+.blocksatz   {text-align: justify}	/* z.B. Schulprofil */
+.tab1        { border-collapse:collapse;}
+.tab1 td     { border:1px solid black ; }
+
+@media projection
+{
+
+.screen {display:none;}
+
+.projection {display: block; padding:65px 200px 0px 24px;page-break-after: always;}

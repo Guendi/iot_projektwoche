@@ -1,0 +1,24 @@
+
+# TODO bis 15.12.
+
+- Wer macht an welchem Tag(esabschnitt) welchen Part?
+
+- Welche Hardware / Komponenten?
+
+Stücklisten, nicht sparsam sein
+- z.B. 15 UNOs, 15 Feathers
+- 15 I2C
+- 30 Displays
+
+
+Adafruit Feather HUZZAH with ESP8266 WiFi
+http://www.play-zone.ch/de/adafruit-feather-huzzah-with-esp8266-wifi.html
+21.90 CHF
+
+Original Genuino Uno R3 (Atmega328)
+http://www.play-zone.ch/de/original-genuino-uno-r3-atmega328.html
+28.30
+
+
+
+- ZBW sorgt dafür, dass Arduino IDE bei allen vorinstalliert ist
