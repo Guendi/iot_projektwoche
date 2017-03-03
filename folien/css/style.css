@@ -7,26 +7,28 @@
     font-family: 'Yanone Kaffeesatz';
     font-weight: normal;
   }
-	
+
 	.remark-slide-content h1 {
     font-size: 55px;
-    margin-top: -10px;
+    margin-top: -5px;
+    margin-bottom: 10px;
 	}
 		img{
 			max-width: 100%;
+			max-height: 500px;
 			margin: 0 auto;
 		}
-		
+
 		/* divs containing img with half width */
 		.img_half_width{
 			width: 50%;
-			margin: 0 auto;					
+			margin: 0 auto;
 		}
-			
+
 		.right img{
 			width: 200px;
-			margin: 50px;		
-		}	
+			margin: 50px;
+		}
 		ul{
 			margin: 12px 0 12px 0;
 		}
@@ -38,7 +40,7 @@
 			float: left;
 			background-color: rgba(255,255,255,0.5);
 			margin-left: 1%;
-			margin-top: -10px;
+			/*margin-top: -10px;*/
 			margin-bottom: 10px;
 			text-align: left;
 		}
@@ -49,11 +51,17 @@
 			float: left;
 			background-color: rgba(255,255,255,0.5);
 			margin-left: 1%;
-			margin-top: -10px;
 			margin-bottom: 10px;
 			text-align: left;
+
 		}
 		
+		.row .col6{
+			margin-top: 10px;		
+			display: inline-block;
+			float: none;
+		}
+
 		.col4{
 			width: 32%;
 			/*border: 1px solid #CCC;*/
@@ -61,11 +69,11 @@
 			float: left;
 			background-color: rgba(255,255,255,0.5);
 			margin-left: 1%;
-			margin-top: -10px;
+			/*margin-top: -10px;*/
 			margin-bottom: 10px;
 			text-align: left;
 		}
-		
+
 		.col3{
 			width: 24%;
 			/*border: 1px solid #CCC;*/
@@ -73,29 +81,29 @@
 			float: left;
 			background-color: rgba(255,255,255,0.5);
 			margin-left: 1%;
-			margin-top: -10px;
+			/*margin-top: -10px;*/
 			margin-bottom: 10px;
 			text-align: left;
 		}
-		
+
 		.max_height450{
 			max-height: 450px;
-			overflow: hidden;		
+			overflow: hidden;
 		}
 
 		.max_height400{
 			max-height: 400px;
-			overflow: hidden;		
+			overflow: hidden;
 		}
 
 		/*  */
 		.remark-slide-content h2{
-			font-size: 32px;	
-			margin-bottom: 5px;	
+			font-size: 32px;
+			margin-bottom: 5px;
 		}
-		
+
 		.remark-slide-content h3{
-			font-size: 28px;		
+			font-size: 28px;
 			margin-bottom: 15px;
 		}
 
@@ -103,35 +111,41 @@
 		.col6 h2, .col6 h3, .row h2, .row h3, .col9 h2, .col9 h3, .col4 h2, .col4.h3{
     		margin: 3px 10px -10px 10px;
 		}
-		
+
 		.col6 p, .col4 p{
 			margin-top: 0;
-			margin-bottom: 0;		
-		}		
-		
-		.col6 h2+p img, .col6 h3+p img{
-			margin-top: 10px;		
+			margin-bottom: 0;
 		}
-		
+
+		.col6 h2+p img, .col6 h3+p img{
+			margin-top: 10px;
+		}
+
+		pre{
+			margin: 4px 8px;
+			padding: 4px;
+			background-color: #eee;
+		}
+
 		/* neat references for pictures */
 		.reference p{
 			text-align: center;
-			font-size: 0.5em;	
-			margin-bottom: 3px;	
+			font-size: 0.5em;
+			margin-bottom: 3px;
 		}
 		.reference a{
 			text-decoration: none;
-		}		
+		}
 
 		div.row{
 			clear: both;
 			/*border: 1px solid #CCC;*/
 			box-shadow: 2px 2px 5px 2px #CCC;
-			padding-top: 10px;
 			width: 98%;
 			margin: 0 auto;
+      padding: 5px 0;
 		}
-		
+
 		.red{ color: red; }
 		.bold{ font-weight: bold;}
 
@@ -154,7 +168,7 @@
 		@page {
 		  size: 1210px 681px;
 		  margin: 0;
-		  
+
 		}
 
 		@media print {

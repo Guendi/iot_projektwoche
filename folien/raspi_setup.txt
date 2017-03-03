@@ -1,0 +1,61 @@
+# Config
+df -h: 1.5GB frei auf 8GB SD
+
+# Menu/Preferences/Raspi-Config:
+Zeitzone und Tastatur einstellen
+
+# eth0 konfigurieren (via /etc/network/interfaces):
+auto eth0
+iface eth0 inet static
+netmask 255.255.255.0
+address 192.168.0.53
+gateway 192.168.0.1 
+dns-nameservers 8.8.8.8
+
+## DHCP
+auto eth0
+iface eth0 inet dhcp
+//doesn't work with UPC router, works with Linux DHCP server :|
+//bridging 
+
+# usual suspects:
+sudo apt-get update
+sudo apt-get upgrade (takes a while)
+
+# remove Wolfram (saves 650MB)
+sudo apt-get purge wolfram-engine
+
+# Eclipse installieren
+sudo apt-get install eclipse
+//takes ages to start...
+perhaps use BlueJ instead, RobiGame works with processing core.jar in "+lib" directory within src folder
+
+# Arduino Install
+sudo apt-get install arduino
+
+sudo chmod 666 /dev/ttyUSB (oder ttyACM0)
+
+# LibreOffice uninstall to free 256MB
+sudo apt-get remove --purge libreoffice*
+
+# VNC
+sudo raspi-config; VNC aktivieren --> Auflösung crap (800x600...)
+besser vncserver via ssh starten: vncserver -geometry 1024x768
+
+https://www.realvnc.com/download/vnc/linux/
+(alles andere funktioniert nicht)
+
+
+# DVD-Support (besides VLC)
+wget http://www.videolan.org/pub/libdvdcss/1.2.12/libdvdcss-1.2.12.tar.bz2
+bzip2 -d libdvdcss-1.2.12.tar.bz2
+tar -xvf libdvdcss-1.2.12.tar
+
+cd libdvdcss-1.2.12
+./configure
+make
+sudo make install
+sudo cp /usr/local/lib/libdvdcss* /lib
+//see https://www.raspberrypi.org/forums/viewtopic.php?t=17598
+
+//other option: https://www.oblivion-software.de/index.php?id=56&type=98

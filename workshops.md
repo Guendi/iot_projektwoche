@@ -1,6 +1,7 @@
 # Lehrvorträge / Posten
 
 ## Intro Mikroprozessoren / Sensoren (8 Lektionen)
+(Christoph, Sven)
 
 1. Kurzvortrag (max. 30 Minuten)
     - Demo IoT
@@ -66,7 +67,7 @@
 	 
 	
 ## Intro Kommunikation Mikrocontroller - PC  (4 Lektionen)
-
+(Wene, Christoph, Paul)
 1. Kurzvortrag (max. 30 Minuten)
 	- *UART... was notwendig ist, um HANOKs abzudecken*
 	- Seriell (am einfachsten und schnellsten)

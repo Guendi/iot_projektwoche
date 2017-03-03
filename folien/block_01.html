@@ -11,15 +11,15 @@
 # Modul 242 - Mikroprozessor-Anwendungen
 
 ## Handlungsziele
-1. Vorgabe auf verlangte Funktionen und benötigte Input- und Outputdaten/-Signale analysieren. 	
-2. Zeitkritische und zeitlich unabhängige Funktionen identifizieren und in einem Programmentwurf logisch gliedern, Datentypen den Daten/Signalen zuordnen. 	
-3. Mittels einer Programmiersprache und Programmierumgebung den Programmentwurf umsetzen. 	
-4. Aus der Vorgabe die Testfälle identifizieren, spezifizieren und dokumentieren. 	
+1. Vorgabe auf verlangte Funktionen und benötigte Input- und Outputdaten/-Signale analysieren.
+2. Zeitkritische und zeitlich unabhängige Funktionen identifizieren und in einem Programmentwurf logisch gliedern, Datentypen den Daten/Signalen zuordnen.
+3. Mittels einer Programmiersprache und Programmierumgebung den Programmentwurf umsetzen.
+4. Aus der Vorgabe die Testfälle identifizieren, spezifizieren und dokumentieren.
 5. Realisierte Applikation mit geeigneten Werkzeugen auf der Zielhardware austesten, Fehler identifizieren, korrigieren und dokumentieren.
 
 .col6[
-## Agenda: 
-- 40 Lektionen 
+## Agenda:
+- 40 Lektionen
 - 1 schriftliche LB
 - 1 bewertetes Projekt
 ]
@@ -31,12 +31,12 @@
 ---
 # Was kann ich danach tun?
 .col9[
-## Praxisbezogene Projekte mit Arduino & Co:
+## Praxisbezogene Projekte mit Arduino &amp; Co:
 - automatische Pflanzenbewässerung
 - RC für PC-Games
-- RFID-Zutrittskontrolle 
+- RFID-Zutrittskontrolle
 - IoT-Anwendungen
-- RC-Modellbau, Drohnen? 
+- RC-Modellbau, Drohnen?
 - Ihre Mitarbeit bestimmt, wie weit Sie kommen.
 ]
 .col3[
@@ -47,7 +47,7 @@
 Appetit anregen :-)
 Allenfalls schon ganz kurz was zu Arduino sagen:
 - Open Source Hardware + Entwicklungsplattform zur komfortablen Mikrocontroller-Programmierung...
-- 
+-
 ---
 class: animated slideInRight
 background-image: url(img/arduino_uno.png)
@@ -57,14 +57,19 @@ background-image: url(img/arduino_uno.png)
 ### Block 1
 - Einführung
 - erste Schritte mit Arduino
+- Datentypen und Wertebereiche
 
 ### Block 2
 - Sensoren und Aktoren
-- Bussysteme I2C, SPI, UART
+- Bussysteme
+  - I2C
+  - SPI
+  - UART
 
 ### Block 3
 - Konzept Mikrocontroller
 - Assembler
+- Smarte Sensoren
 ]
 
 .col6[
@@ -76,7 +81,8 @@ background-image: url(img/arduino_uno.png)
 - LAN / WLAN
 
 ### Block 6
-- LB1
+- Zwischenprüfung
+- Zustandsdiagramme
 
 ### Block 7 - 10
 - Mini-Projekte
@@ -115,7 +121,7 @@ count: false
 count: false
 .row[
 ## Heute
-- Übergänge fliessend, z.B. Raspberry Pi: 
+- Übergänge fliessend, z.B. Raspberry Pi:
 	* RAM onboard
 	* Betriebssystem
 	* Multithreading
@@ -126,15 +132,15 @@ count: false
 - Prinzipien werden hier nur ganz kurz angesprochen
 - Ziel der ersten Stunde:
 	- nutzen Arduino-IDE, um Beispielcode zu laden und zu ändern
-	- überwachen Arduino via Serial Monitor   
+	- überwachen Arduino via Serial Monitor
 ---
 
-# Beispiele Mikrocontroller 
+# Beispiele Mikrocontroller
 
 ## Seit den 1980ern:
 - Waschmaschinen, Fernseher, Geschirrspüler, digitale Wecker
 
-## Makerspaces 
+## Makerspaces
 
 Arduino, 3D-Drucker & Co. demokratisieren Produktion. Benutzer bestimmen, was sie wollen und setzen selbst um:
 
@@ -146,7 +152,7 @@ Arduino, 3D-Drucker & Co. demokratisieren Produktion. Benutzer bestimmen, was si
 count: false
 ## Big Scale (IoT + Big Data)
 - [UPS-Trucks mit ausgefeilter Sensorik proaktiv instandhalten](http://www.fieldtechnologies.com/news/gps-tracking-systems-installed-in-ups-trucks-driver-efficiency/)
-- OpenWeatherMap.org sammelt Daten privater Wetterstationen 
+- OpenWeatherMap.org sammelt Daten privater Wetterstationen
 - Amazon Dash Button (wer's braucht...)
 ---
 
@@ -163,7 +169,7 @@ count: false
 ]]
 
 .col6[
-![Arduino-IDE](img/arduino_ide_001.png)
+[![Arduino-IDE](img/arduino_ide_001.png)](img/arduino_ide_001.png)
 ]
 
 .col6[
@@ -206,7 +212,7 @@ Sie nutzen ein Beispielprogramm der Arduino-IDE, um die wichtigsten Funktionen d
 - [Arduino Tutorials](http://www.arduino.org/learning/tutorials/ide-examples)
 . Programmierhandbuch hervorheben
 - Zunächst nur Arduino ohne Breadboard
-- Code gemeinsam durcharbeiten, 
+- Code gemeinsam durcharbeiten,
 - Lernende helfen sich gegenseitig und erweitern Code um "Hello World" + globale Variable hoch zählen und ausgeben
 
 ---
@@ -217,16 +223,16 @@ Sie nutzen ein Beispielprogramm der Arduino-IDE, um die wichtigsten Funktionen d
 - im Programm definieren, welcher *pin* als Input (DI) oder Output (DO) benutzt wird:
 
 ```arduino
-  int pushBtn = 8;
-	int powerLED = 9;
-	void setup(){
-	  pinMode(pushBtn, INPUT);
-	  pinMode(powerLED, OUTPUT);
-	}
-	void loop(){
-	  int btnPres=digitalRead(pushBtn);
-	  digitalWrite(powerLED, btnPres);
-	}
+int pushBtn = 8;
+int powerLED = 9;
+void setup(){
+  pinMode(pushBtn, INPUT);
+  pinMode(powerLED, OUTPUT);
+}
+void loop(){
+  int btnPres=digitalRead(pushBtn);
+  digitalWrite(powerLED, btnPres);
+}
 ```
 
 - Analog: Analog-Digital-Konverter, liefert Werte zwischen 0 und 1023
@@ -244,7 +250,7 @@ Sie nutzen ein Beispielprogramm der Arduino-IDE, um die wichtigsten Funktionen d
 
 ---
 # Mini-Ausflug Elektr(on)ische Schaltungen
-### Beispiel: DI + Pull-Down Widerstand und DO mit LED + Vorwiderstand 
+### Beispiel: DI + Pull-Down Widerstand und DO mit LED + Vorwiderstand
 .col6.max_height450[
 ### Regulärer Schaltplan
 ![Pulldown](img/PullDownBtn_LED_schem.png)
@@ -255,9 +261,9 @@ Sie nutzen ein Beispielprogramm der Arduino-IDE, um die wichtigsten Funktionen d
 
 ![Pulldown](img/PullDownBtn_LED_bb.png)
 ### Breadboard
-- rot und blau (aussen) spaltenweise durchkontaktiert 
+- rot und blau (aussen) spaltenweise durchkontaktiert
 - sinnvoll für +5V, GND
-- innere Kontakte zeilenweise durchkontaktiert 
+- innere Kontakte zeilenweise durchkontaktiert
 ]
 Verdrahtung von Mikrocontroller und Peripherie dokumentieren ;-)
 ???
@@ -280,7 +286,7 @@ Verdrahtung von Mikrocontroller und Peripherie dokumentieren ;-)
 --
 count: false
 ## Pulldown-Widerstand??
-- zur sicheren Definition von Schaltzustand: DI	mit hochohmigen Widerstand an Masse (GND) und Taster anschließen 
+- zur sicheren Definition von Schaltzustand: DI	mit hochohmigen Widerstand an Masse (GND) und Taster anschließen
 
 ???
 kurze Intro zum Verständnis, eventuell nochmal bei Transistoren...
@@ -288,16 +294,18 @@ kurze Intro zum Verständnis, eventuell nochmal bei Transistoren...
 ---
 
 # Aufgabe 1.2
-Eine LED soll leuchten, solange der Taster betätigt ist. Sie wollen zusätzlich die Anzahl Zyklen zählen, wie lange der Taster betätigt wurde. Den Wert geben Sie nach jedem Loslassen des Tasters einmal auf dem Seriellen Monitor aus.  
+Eine LED soll leuchten, solange der Taster betätigt ist. Sie wollen zusätzlich die Anzahl Zyklen zählen, wie lange der Taster betätigt wurde. Den Wert geben Sie nach jedem Loslassen des Tasters einmal auf dem Seriellen Monitor aus.
 
+1. Installieren Sie die [Fritzing-Software](http://fritzing.org/home/)
+1. Erstellen Sie einen Schaltplan für obige Schaltung.
 1. Verdrahten Sie obige Schaltung.
 2. Erstellen Sie ein neues Arduino-Programm.
 3. Definieren Sie die entsprechenden DI / DO im `setup()`
-4. Implementieren und testen Sie die Funktionalität im `loop()`.  
+4. Implementieren und testen Sie die Funktionalität im `loop()`.
 
-**Zeit:** 45 Minuten
+**Zeit:** 60 Minuten
 
-**Ziel:** Alle Teilnehmer können einfache Elektronik-Schaltung lesen und aufbauen und Arduino programmieren 
+**Ziel:** Alle Teilnehmer können einfache Elektronik-Schaltung lesen und aufbauen und Arduino programmieren
 
 ???
 - gerne als Partnerarbeit
@@ -314,7 +322,7 @@ Was haben Sie gelernt?
 	 <!--script src="https://code.jquery.com/jquery-1.9.1.min.js"></script-->
 	 <script>
       var slideshow = remark.create();
-		
+
     </script>
   </body>
 </html>

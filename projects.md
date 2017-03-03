@@ -1,22 +1,25 @@
 # Projekte
 
-## Raumtemperatur/Feuchtigkeitsüberwachung mit Remote-Logging & Alarm *
+## Raumtemperatur/Feuchtigkeitsüberwachung mit Remote-Logging & Alarm @ WISS
 - Lüfter anschalten bei Übertemperatur (mc-kontrolliert)
 - Raumluft-Qualität messen
 - U/I Monitoring
 	- Spannung+Strom für 5/12V Strecke im PC messen
 	- Ausgabe auf Display
 
-## Webserver-basiertes Monitoring (Nagios, grafische Anzeige) *
+## Webserver-basiertes Monitoring (Nagios, grafische Anzeige)  @ ZBW
 - Monitoring (Nagios) visualisieren (z.B. Analoganzeige mit Servo)
 
-## LORA - GPS Game *
+## LORA - GPS Game
+- mehrere Clients senden Ihre GPS Daten auf Server, Visualisierung
+- Gamification: Warm/Kalt routing zum Ziel
+
 
 ## Heim-Automation
 - Pflanzenbewässerung
 - Licht/Temperatur/Zeitabhängige Rolladen/Heizungssteuerung
 	
-## kombinierte RFID und Zahlencode-basierte Zugangskontrolle *
+## kombinierte RFID und Zahlencode-basierte Zugangskontrolle
 
 - mit Remote-Logging & Remote-Deaktivierung
 - Webserver-basiertes Monitoring (grafische Anzeige), z.B. Webcam aktivieren bei falscher Pin-Eingabe oder nicht vorhandener RFID

@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animate.css">
-    
+
   </head>
   <body>
     <textarea id="source">
-    
+
 # Modul 242 - Mikroprozessor-Anwendungen
 
 
@@ -45,7 +45,7 @@ count:false
 ## Beispiel: Spannung messen
 ```arduino
 // Analog input pin for potentiometer
-const int analogInPin = A0;  
+const int analogInPin = A0;
 int sensorValue = 0;
 
 void setup() {
@@ -68,10 +68,10 @@ void loop() {
 ---
 # Aufgabe 2.1
 ## Ausgangslage
-Sie erstellen ein Programm zur Spannungsmessung über einem veränderbaren Widerstand (Potentiometer). Beachten Sie, dass die Analogeingänge Werte zwischen 0 und 1023 liefern. Ihre Ausgabe soll in Volt angegeben werden. 
+Sie erstellen ein Programm zur Spannungsmessung über einem veränderbaren Widerstand (Potentiometer). Beachten Sie, dass die Analogeingänge Werte zwischen 0 und 1023 liefern. Ihre Ausgabe soll in Volt angegeben werden.
 
 ## Erwartetes Ergebnis
-Während der `setup()` Routine wird die zuerst gelesene Spannung seriell ausgegeben. Die `loop()` Routine gibt nur dann den gelesenen Wert aus, wenn sich dieser verändert hat. 
+Während der `setup()` Routine wird die zuerst gelesene Spannung seriell ausgegeben. Die `loop()` Routine gibt nur dann den gelesenen Wert aus, wenn sich dieser verändert hat.
 
 
 **Zeit:** 45 Minuten
@@ -82,10 +82,10 @@ Während der `setup()` Routine wird die zuerst gelesene Spannung seriell ausgege
 - loesungen/aufgabe2_poti_lcd/
 
 ---
-	
+
 # Aktoren über PWM *analog* ansteuern
 
-- PWM: Pulsweitenmodulation 
+- PWM: Pulsweitenmodulation
 - Arduino Uno: D3, D5, D6, D9-D11
 	- mit `analogWrite(PIN, wert)`
 	- 8bit Auflösung (0-255)
@@ -106,7 +106,7 @@ Während der `setup()` Routine wird die zuerst gelesene Spannung seriell ausgege
 
 # Digitale Aktoren
 Mikrocontroller kommunizieren mit Umwelt über Aktoren, z.B.
-- Temperatur zu hoch: Warn-LEDs, Lüfter, Buzzer etc. 
+- Temperatur zu hoch: Warn-LEDs, Lüfter, Buzzer etc.
 - Zustandsanzeige via LCD
 
 ---
@@ -117,9 +117,9 @@ Mikrocontroller kommunizieren mit Umwelt über Aktoren, z.B.
 - Universal Asynchronous Receiver Transmitter
 - für serielle Schnittstellen: RS323 (USB via Wandler)
 - Kommunikation zwischen Mikrocontrollern, PC
-- Geschwindigkeit einstellbar: 
+- Geschwindigkeit einstellbar:
   `Serial.begin(9600);`
-	im SerialMonitor 
+	im SerialMonitor
 ]
 
 --
@@ -130,11 +130,11 @@ count: false
 - Motorola
 
 4 Leitungen je Slave:
-- SS: Slave Select 
+- SS: Slave Select
 - SCLK: Takt
 - MOSI: MasterOut, SlaveIn
 - MISO: MasterIn, SlaveOut
-	
+
 ![SPI mit mehreren Slaves](img/SPI_three_slaves.svg.png)
 ]
 
@@ -144,7 +144,7 @@ count: false
 ## I²C  (1 to many)
 - [Inter-Integrated Circuit](https://de.wikipedia.org/wiki/I%C2%B2C)
 - Phillips, 1982
-- Adressierung über Geräte-interne Adressen 
+- Adressierung über Geräte-interne Adressen
 - 2 Leitungen: SDA (Daten), SCL (Takt)
 ]
 
@@ -197,14 +197,14 @@ FaBoLCD_PCF8574 lcd;
 void setup() {
   // initialize LCD and set up the number of columns and rows:
   lcd.begin(16, 2);
-	//set cursor to line 0 column 0  
+	//set cursor to line 0 column 0
   lcd.setCursor(0, 0);
   // print a message to the LCD
   lcd.print("Booting...");
 }
 ```
 --
-- `FaBoLCD_PCF8574` via *Sketch - Bibliothek einbinden - Bibliothek hinzufügen* im Internet suchen, installieren und Bibliothek zum Programm hinzugefügen. 
+- `FaBoLCD_PCF8574` via *Sketch - Bibliothek einbinden - Bibliothek hinzufügen* im Internet suchen, installieren und Bibliothek zum Programm hinzugefügen.
 - Bibliothek wird ähnlich genutzt wie LiquidCrystal
 
 ???
@@ -218,7 +218,7 @@ Sie erweitern Ihr Programm zur Spannungsmessung
 ## Erwartetes Ergebnis
 Erweitern Sie Ihr Projekt zur Spannungsmessung,  so dass die Spannung auch auf dem LCD angezeigt wird.
 
-**Zeit:** 45 Minuten 
+**Zeit:** 45 Minuten
 
 .img_half_width[
 ![Problemstellung](img/aufg_2.2.jpg)
@@ -226,94 +226,6 @@ Erweitern Sie Ihr Projekt zur Spannungsmessung,  so dass die Spannung auch auf d
 
 ???
 - loesungen/aufgabe2_poti_lcd/
----
-
-# Smarte Sensoren
-
-.col6[
-## Problem 
-- viele passive Sensoren (Temperatur, Licht etc.) verhalten sich **nicht linear**
-- analog gelesene Messwerte nur mit viel Aufwand umrechenbar
-
-  **==> unpraktisch**
-]
-.col6[
-![Kennlinien NTC, PTC](img/kennlinie_ptc_ntc.png)
-.reference[Quelle: [infosys.beckhoff.com](https://infosys.beckhoff.com/espanol.php?content=../content/1034/el320x/html/bt_rtd_technology.htm&id=6395)
-]
-]
-
-???
-- Nichtlinearität Sensoren anhand Grafik erklären
-
---
-count:false
-.row[
-## Lösung: *smarte* Sensoren
-- enthalten selbst Mikrocontroller zur Umrechnung der Rohdaten
-- Rohdaten aus analogen Sensoren normiert und digitalisiert (float)
-- kommunizieren via Bussystem (SPI, I²C,...) mit Arduino & Co.
-- stellen ggf. mehrere Messwerte zur Verfügung
-- benötigen Bibliotheksfunktionen 
-]
-  
----
-# Beispiel: DHT11 bzw. DHT22 ![DHT22](img/DHT22.jpg)
-- liefert Temperatur und Luftfeuchtigkeit
-- *Single Wire Serielle Schnittstelle*
-
-.col6[
-![DHT11 Verschaltung](img/DHT11_schem.png)
-]
-
---
-count: false
-
-.col6[
-```arduino
-#include <DHT.h>
-
-#define DHTPIN 8     // data pin
-#define DHTTYPE DHT11   // DHT22
-DHT dht(DHTPIN, DHTTYPE);
-
-...
-
-void loop(){
-	float temp=dht.readTemperature();
-	float humi=dht.readHumidity();
-	...
-	delay(5000);
-}
-
-
-```
-]
-
----
-
-# Aufgabe 2.3: DHT11 / 22 in Betrieb nehmen 
-
-## Ausgangslage
-Sie erweitern Ihr aktuelles Projekt um den DHT-Sensor.
-
-## Erwartetes Ergebnis:
-Erweitern Sie Ihr Projekt, so dass zusätzlich zur Spannung auch Temperatur und Luftfeuchtigkeit auf dem LCD angezeigt wird. 
-
-## Fortgeschritten: 
-Die Umschaltung zwischen den verschiedenen Messwerten soll über Tastendruck erfolgen. Die Werte werden nur ausgegeben, wenn eine Änderung oder Tastendruck erfolgt.
-
-**Testen Sie Ihr Projekt**, indem Sie beispielsweise den DHT-Sensor anhauchen.
-
-**Zeit:** 45 Minuten 
-
-???
-- loesungen/aufgabe23_dht_lcd/
-
----
-# Homework
-- Schaltplan für bisheriges Projekt mit Fritzing erstellen
-- Messwerte stufenweise mit mehreren LED darstellen 
 
 ---
 class: animated slideInRight
@@ -326,7 +238,7 @@ Was haben Sie gelernt?
 	 <!--script src="https://code.jquery.com/jquery-1.9.1.min.js"></script-->
 	 <script>
       var slideshow = remark.create();
-		
+
     </script>
   </body>
 </html>
