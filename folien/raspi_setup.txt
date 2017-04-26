@@ -18,6 +18,9 @@ iface eth0 inet dhcp
 //doesn't work with UPC router, works with Linux DHCP server :|
 //bridging 
 
+## configure Raspi as WIFI-AP
+https://frillip.com/using-your-raspberry-pi-3-as-a-wifi-access-point-with-hostapd/
+
 # usual suspects:
 sudo apt-get update
 sudo apt-get upgrade (takes a while)
@@ -28,10 +31,11 @@ sudo apt-get purge wolfram-engine
 # Eclipse installieren
 sudo apt-get install eclipse
 //takes ages to start...
-perhaps use BlueJ instead, RobiGame works with processing core.jar in "+lib" directory within src folder
+// rather keep developing on student latop
+// RobiGame works with processing core.jar in "+lib" directory within src folder
 
 # Arduino Install
-sudo apt-get install arduino
+sudo apt-get install arduino => rather doownload from arduino.org
 
 sudo chmod 666 /dev/ttyUSB (oder ttyACM0)
 
@@ -45,13 +49,19 @@ besser vncserver via ssh starten: vncserver -geometry 1024x768
 https://www.realvnc.com/download/vnc/linux/
 (alles andere funktioniert nicht)
 
+#TODO:
+
+screen installieren
+hterm
+
+
 
 # DVD-Support (besides VLC)
-wget http://www.videolan.org/pub/libdvdcss/1.2.12/libdvdcss-1.2.12.tar.bz2
-bzip2 -d libdvdcss-1.2.12.tar.bz2
-tar -xvf libdvdcss-1.2.12.tar
+wget http://download.videolan.org/pub/libdvdcss/1.4.0/libdvdcss-1.4.0.tar.bz2
+bzip2 -d libdvdcss-1.4.0.tar.bz2
+tar -xvf libdvdcss-1.4.0.tar
 
-cd libdvdcss-1.2.12
+cd libdvdcss-1.4.0
 ./configure
 make
 sudo make install

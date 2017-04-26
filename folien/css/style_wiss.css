@@ -1,0 +1,225 @@
+  @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+  @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+  @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+  body { 	
+  	font-family: 'sans';/*'Droid Serif';*/ 
+  }
+
+  h1, h2, h3 {
+    font-family: 'Yanone Kaffeesatz';
+    font-weight: normal;
+  }
+  
+  .remark-slide{
+		background-image: url(../img/wiss.png);
+		background-position: top right;
+		background-repeat: no-repeat;
+		background-size: 80px 50px;
+		background-color: white;  
+  }
+  
+  .remark-slide-content{
+		background-color: rgba(0,0,0,0);  
+  }
+
+	.remark-slide-content h1 {
+    font-size: 55px;
+    margin-top: -5px;
+    margin-bottom: 10px;
+	}
+		img{
+			max-width: 100%;
+			max-height: 470px;
+			margin: 0 auto;
+			display:block;
+		}
+
+		/* divs containing img with half width */
+		.img_half_width{
+			width: 50%;
+			margin: 0 auto;
+		}
+
+		.right img{
+			width: 200px;
+			margin: 50px;
+		}
+		ul{
+			margin: 12px 0 12px 0;
+		}
+
+		.col9{
+			width: 72%;
+			/*border: 1px solid #CCC;*/
+			box-shadow: 2px 2px 5px 2px #CCC;
+			float: left;
+			background-color: rgba(255,255,255,0.5);
+			margin-left: 1%;
+			margin-bottom: 10px;
+			text-align: left;
+		}
+		.col8{
+			width: 65%;
+			/*border: 1px solid #CCC;*/
+			box-shadow: 2px 2px 5px 2px #CCC;
+			float: left;
+			background-color: rgba(255,255,255,0.5);
+			margin-left: 1%;
+			margin-bottom: 10px;
+			text-align: left;
+		}
+
+		.col6{
+			width: 48%;
+			/*border: 1px solid #CCC;*/
+			box-shadow: 2px 2px 5px 2px #CCC;
+			float: left;
+			background-color: rgba(255,255,255,0.5);
+			margin-left: 1%;
+			margin-bottom: 10px;
+			text-align: left;
+
+		}
+		
+		.row .col6{
+			margin-top: 10px;		
+			display: inline-block;
+			float: none;
+		}
+
+		.col4{
+			width: 32%;
+			/*border: 1px solid #CCC;*/
+			box-shadow: 2px 2px 5px 2px #CCC;
+			float: left;
+			background-color: rgba(255,255,255,0.5);
+			margin-left: 1%;
+			/*margin-top: -10px;*/
+			margin-bottom: 10px;
+			text-align: left;
+		}
+
+		.col3{
+			width: 24%;
+			/*border: 1px solid #CCC;*/
+			box-shadow: 2px 2px 5px 2px #CCC;
+			float: left;
+			background-color: rgba(255,255,255,0.5);
+			margin-left: 1%;
+			/*margin-top: -10px;*/
+			margin-bottom: 10px;
+			text-align: left;
+		}
+
+		.max_height450{
+			max-height: 450px;
+			overflow: hidden;
+		}
+
+		.max_height400{
+			max-height: 400px;
+			overflow: hidden;
+		}
+
+		/*  */
+		.remark-slide-content h2{
+			font-size: 32px;
+			margin-bottom: 5px;
+		}
+
+		.remark-slide-content h3{
+			font-size: 28px;
+			margin-bottom: 15px;
+		}
+		
+		table{
+			border-collapse: collapse;
+			width: 95%;
+			margin: 3px auto;
+		}
+		table, th, td{
+			border: 1px solid #AAA;	
+			text-align: center;				
+		}
+
+		/* reduce top and bottom space */
+		.col6 h2, .col6 h3, .row h2, .row h3, .col9 h2, .col9 h3, .col4 h2, .col4.h3{
+    		margin: 3px 10px -10px 10px;
+		}
+
+		.col6 p, .col4 p{
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+
+		.col6 h2+p img, .col6 h3+p img{
+			margin-top: 10px;
+		}
+
+		pre{
+			margin: 4px 8px;
+			padding: 4px;
+			background-color: #eee;
+		}
+
+		/* neat references for pictures */
+		.reference p{
+			text-align: center;
+			font-size: 0.5em;
+			margin-bottom: 3px;
+		}
+		.reference a{
+			text-decoration: none;
+		}
+
+		.clearfix{
+			clear: both;
+			font-size: 0.1em;
+		}
+
+		div.row{
+			
+			/*border: 1px solid #CCC;*/
+			box-shadow: 2px 2px 5px 2px #CCC;
+			width: 98%;
+			margin: 0 auto;
+      padding: 5px 0;
+		}
+
+		.red{ color: red; }
+		.bold{ font-weight: bold;}
+
+		/* background images are stretched */
+		.remark-slide-content{
+			/*background-size: 100% 100%;*/
+			/*transform: rotate(180deg);*/
+		}
+
+		.alpha{
+			background-color: rgba(255,255,255,0.5);
+			padding: 5px 10px;
+		}
+
+		.alpha h1{
+			padding: 10px;
+			margin: 0px;
+		}
+
+		@page {
+		  size: 1210px 681px;
+		  margin: 0;
+
+		}
+
+		@media print {
+		  .remark-slide-scaler {
+			 width: 100% !important;
+			 height: 100% !important;
+			 transform: scale(1) !important;
+			 top: 0 !important;
+			 left: 0 !important;
+		  }
+		}
+
+   .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }

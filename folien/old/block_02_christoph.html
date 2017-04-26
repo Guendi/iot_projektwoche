@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Modul 242 - Mikroprozessor-Anwendungen</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/style_zbw.css">
+    <link rel="stylesheet" href="../css/animate.css">
+
+  </head>
+  <body>
+    <textarea id="source">
+
+# Modul 242 - Mikroprozessor-Anwendungen
+
+
+Löten, Aufbau elektronische Schaltungen
+Analog, Digital, DA-AD-Wandler, Sensoren, Aktoren
+LED, Motoren, Relais, Temparatur-, Bewegungs-, Lichtsensoren, Displays
+Multimeter  Messen Spannung, Strom und Widerstand
+
+
+Fertigkeiten:
+
+ Verlöten fachgerecht elektronische Komponenten
+
+ Bauen einfache Schaltungen mit Aktoren / Sensoren auf und steuern
+diese mittels Microcontroller
+
+
+---
+
+## Roadmap Block 2
+- Sensoren: analog vs. digital
+- Programmbibliotheken
+- Aktoren
+- Bussysteme I2C, SPI, UART
+
+.img_half_width[
+![Problemstellung](img/aufg_2.2.jpg)
+]
+---
+class: animated slideInRight
+background-image: url(img/arduino_uno.png)
+# Wiederholung Block 1
+
+Was haben Sie gelernt?
+
+---
+
+# Analoge Sensoren
+
+Arduino hat spezielle Analog-Eingänge -> 10-bit Analog-Digital-Konverter, liefert Werte zwischen 0 und 1023 für:
+
+- Temperaturabhängige Widerstände
+- Licht-abhängige Widerstände
+- Spannungsmessung (max. 5V)
+
+--
+count:false
+.col6[
+## Beispiel: Spannung messen
+```arduino
+// Analog input pin for potentiometer
+const int analogInPin = A0;
+int sensorValue = 0;
+
+void setup() {
+  // init serial communication
+  Serial.begin(9600);
+}
+
+void loop() {
+  // read the analog in value:
+  sensorValue = analogRead(analogInPin);
+  Serial.println(sensorValue);
+  delay(500); //500ms break
+}
+```
+]
+.col6.max_height400[
+![Analog Read](img/Poti_ReadAnalog_schem.png)
+]
+
+---
+# Aufgabe 2.1
+## Ausgangslage
+Sie erstellen ein Programm zur Spannungsmessung über einem veränderbaren Widerstand (Potentiometer). Beachten Sie, dass die Analogeingänge Werte zwischen 0 und 1023 liefern. Ihre Ausgabe soll in Volt angegeben werden.
+
+## Erwartetes Ergebnis
+Während der `setup()` Routine wird die zuerst gelesene Spannung seriell ausgegeben. Die `loop()` Routine gibt nur dann den gelesenen Wert aus, wenn sich dieser verändert hat.
+
+
+**Zeit:** 45 Minuten
+
+???
+### Hinweise Dozent
+- [Arduino Tutorials](http://www.arduino.org/learning/tutorials/ide-examples)
+- loesungen/aufgabe2_poti_lcd/
+
+---
+
+# Aktoren über PWM *analog* ansteuern
+
+- PWM: Pulsweitenmodulation
+- Arduino Uno: D3, D5, D6, D9-D11
+	- mit `analogWrite(PIN, wert)`
+	- 8bit Auflösung (0-255)
+- z.B. LED in Abhängigkeit von AI dimmen
+
+```arduino
+  sensorValue = analogRead(analogInPin);
+  // map it to the range of the analog out:
+  outputValue = map(sensorValue, 0, 1023, 0, 255);
+  // change the analog out value:
+  analogWrite(analogOutPin, outputValue);
+
+```
+
+???
+Übung dazu, wenn es die Zeit erlaubt
+---
+
+# Digitale Aktoren
+Mikrocontroller kommunizieren mit Umwelt über Aktoren, z.B.
+- Temperatur zu hoch: Warn-LEDs, Lüfter, Buzzer etc.
+- Zustandsanzeige via LCD
+
+---
+# Überblick Bus-Systeme
+
+.col4[
+## UART (1 to 1)
+- Universal Asynchronous Receiver Transmitter
+- für serielle Schnittstellen: RS323 (USB via Wandler)
+- Kommunikation zwischen Mikrocontrollern, PC
+- Geschwindigkeit einstellbar:
+  `Serial.begin(9600);`
+	im SerialMonitor
+]
+
+--
+count: false
+.col4[
+## SPI (1 to many)
+- [Serial Peripheral Interface](https://de.wikipedia.org/wiki/Serial_Peripheral_Interface)
+- Motorola
+
+4 Leitungen je Slave:
+- SS: Slave Select
+- SCLK: Takt
+- MOSI: MasterOut, SlaveIn
+- MISO: MasterIn, SlaveOut
+
+![SPI mit mehreren Slaves](img/SPI_three_slaves.svg.png)
+]
+
+--
+count: false
+.col4[
+## I²C  (1 to many)
+- [Inter-Integrated Circuit](https://de.wikipedia.org/wiki/I%C2%B2C)
+- Phillips, 1982
+- Adressierung über Geräte-interne Adressen
+- 2 Leitungen: SDA (Daten), SCL (Takt)
+]
+
+---
+# 16x2 Display via SPI-Bus ansteuern
+
+.col6[
+
+- 4 Datenleitungen, 2 Busleitungen + Spannungsversorgung
+
+```arduino
+#include <LiquidCrystal.h>
+// initialize library with di numbers
+LiquidCrystal lcd(12, 11, 7, 6, 5, 4);
+
+void setup() {
+  // set up LCD's column + row count
+  lcd.begin(16, 2);
+  // print a message to the LCD
+  lcd.setCursor(0, 0);
+  lcd.print("Booting...");
+}
+```
+- LiquidCrystal Bibliothek einbinden
+- Cursorstellung vor Schreiben beachten
+- [Arduino-Hilfe lesen](https://www.arduino.cc/en/Reference/LiquidCrystal)
+
+]
+
+.col6[
+![1602LCD](img/LCD-1602.jpg)
+
+![16x2 LCD via SPI](img/LCD_schem.png)
+]
+---
+
+# 16x2 Display via I²C Bus ansteuern
+- I²C:  [Inter-Integrated Circuit](https://de.wikipedia.org/wiki/I%C2%B2C)
+- Bus-Adressierung via Bibliothek
+- PCF8574-basierter *Adapter*
+- 2 Datenleitungen (SDA, SCL) + Spannungsversorgung
+
+```arduino
+#include <Wire.h>
+#include <FaBoLCD_PCF8574.h>
+
+// initialize the library
+FaBoLCD_PCF8574 lcd;
+
+void setup() {
+  // initialize LCD and set up the number of columns and rows:
+  lcd.begin(16, 2);
+	//set cursor to line 0 column 0
+  lcd.setCursor(0, 0);
+  // print a message to the LCD
+  lcd.print("Booting...");
+}
+```
+--
+- `FaBoLCD_PCF8574` via *Sketch - Bibliothek einbinden - Bibliothek hinzufügen* im Internet suchen, installieren und Bibliothek zum Programm hinzugefügen.
+- Bibliothek wird ähnlich genutzt wie LiquidCrystal
+
+???
+Bibliothekseinbindung demonstrieren!
+---
+
+# Aufgabe 2.2: LCD via I²C ansteuern
+## Ausgangslage
+Sie erweitern Ihr Programm zur Spannungsmessung
+
+## Erwartetes Ergebnis
+Erweitern Sie Ihr Projekt zur Spannungsmessung,  so dass die Spannung auch auf dem LCD angezeigt wird.
+
+**Zeit:** 45 Minuten
+
+.img_half_width[
+![Problemstellung](img/aufg_2.2.jpg)
+]
+
+???
+- loesungen/aufgabe2_poti_lcd/
+
+---
+class: animated slideInRight
+background-image: url(img/arduino_uno.png)
+# Zusammenfassung Block 2
+
+Was haben Sie gelernt?
+    </textarea>
+    <script src="../js/remark-latest.min.js"></script>
+	 <!--script src="https://code.jquery.com/jquery-1.9.1.min.js"></script-->
+	 <script>
+      var slideshow = remark.create();
+
+    </script>
+  </body>
+</html>

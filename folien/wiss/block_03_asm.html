@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Modul 242 - Mikroprozessor-Anwendungen</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/style_wiss.css">
+    <link rel="stylesheet" href="../css/animate.css">
+  </head>
+  <body>
+    <textarea id="source">
+# Modul 242 - Mikroprozessor-Anwendungen
+
+## Roadmap Block 3
+1. Microprozessor vs. Mikrocontroller
+2. Aufbau Mikrocontroller
+3. Einführung Assembler
+
+.col6[
+## Mikroprozessor:
+- primär für Computer (Desktop, Server, iPhone)
+- *Central Processing Unit* (CPU)
+- enthält:
+	- ALU, FPU, GPU
+	- Register
+- RAM, Interruptsysteme extern
+- idR. keine "einfachen" I/Os
+- *Betriebssystem* verwaltet Speicher und Programmausführung
+- Architekturen<sup>&#10035;</sup>: 32 oder 64bit
+]
+
+.col6[
+## Mikrocontroller:
+- primär für Steuerungsaufgaben (Waschmaschine, Telefon,..)
+- *System on Chip* (SOC)
+	- einfache CPU (nur ALU)
+	- Register, RAM, ROM
+	- Taktgeber, Interrupts
+	- Peripherie (IO, Bus)
+- klassisch: nur ein Programm, läuft permanent
+- aktuell: Bootloader zum Firmware-Update, Mini-OS
+- Architekturen<sup>&#10035;</sup>: 4, 8, 16, 32 bit
+
+]
+
+
+ *&#10035; Architektur* steht hier für die Breite des Datenbusses
+
+---
+
+# Aufbau Mikrocontroller
+.row[
+### ALU
+- Logik- und Rechenoperationen ausführen (8-bit)
+- lädt / speichert Daten aus / im General Purpose Register (GPR, 8-bit)
+
+### General Purpose Register im Atmel 328P
+- Register r0 - r15 nicht für alle Befehle nutzbar
+- für eigene Daten: r16 bis r31 nutzen 
+- Daten aus RAM oder Peripherie vor Verarbeitung in GPR-Register laden
+]
+<br>
+--
+count: false
+
+.col6[
+[![Aufbau Mikrocontroller](../img/avr_architecture.png)](../img/avr_architecture.png)
+.reference[
+Aufbau Mikrocontroller, Quelle: [https://ccrma.stanford.edu/wiki/Microcontroller_Architecture](https://ccrma.stanford.edu/wiki/Microcontroller_Architecture)]
+]
+--
+count: false
+
+.col6[
+## Speicheraufbau und Adressen
+[![Statusregister](../img/avr_address_spaces.png)](../img/avr_address_spaces.png)
+.reference[
+Speicheraufbau AVR, Quelle: [andrewharvey4.wordpress.com](https://andrewharvey4.wordpress.com/2009/03/13/comp2121-wk01/)
+]
+
+]
+
+---
+
+# Assembler
+- maschinennahe Programmiersprache (Arduino = Atmega328p &micro;C)
+- basiert auf ALU Befehlssatz (LAD,ADD,SUB..., siehe [AVR Instruction Set](ext_data/atmel-0856-avr-instruction-set-manual.pdf))
+
+.col6[
+```x86asm
+lad r16, 12   ; Wert 12 in r17 laden
+lad r17, 0x0a ; Wert 10 in r16 laden
+add r16, r17  ; r16 = r16 + r17
+```
+]
+.col6[
+```x86asm
+  00001100
++ 00001010
+= 00010110
+```
+]
+
+--
+
+### Was passiert, wenn das Rechenergebnis nicht in ein Byte passt?
+- Register 8bit (max. Wert = 511) &#10137; selbst basteln: integer, float &#x1f609; <!--arrow_right, smiley -->
+
+.col6[
+### Statusregister (SREG)
+![Statusregister](../img/status_register.png)
+]
+.col6[
+* *flags* im Statusregister werden nach jeder Operation neu gesetzt
+* viele Befehle arbeiten direkt mit diesen flags (siehe [AVR Instruction Set](ext_data/atmel-0856-avr-instruction-set-manual.pdf))
+]
+
+---
+# Assembler: Hardware ansteuern
+
+```x86asm
+; blinky.asm
+; turns on an all LEDs on PortB (digital pin 8 to 13) 
+; if corresponding buttons on PortD (digital pin 0 to 7)
+
+.nolist
+.include "./m328Pdef.inc"
+.list
+
+.def    temp    =r16    ;designate r16 as working register
+
+rjmp Init               ; first line executed
+
+Init:
+        ser temp;       ; set all bits HIGH in r16
+        out DDRB,temp   ; PortB: all PINS are output
+        ldi temp, 0x00  ; all bits high except least one
+        out DDRD, temp  ; PortD: all pins are INput
+        clr temp        ; reset r16
+        out PortB, temp ; set all Output pins LOW
+        out PortD,temp
+
+; Main body of program:
+Main:
+   in    temp,PinD      ; PinD holds the state of PortD, copy this to temp
+   out    PortB,temp    ; sends the 0's and 1's read above to PortB
+   rjmp    Main         ; loops back to the start of Main
+```
+---
+
+# Assemblieren und Laden von der Kommandozeile
+```sh
+# compile (assemble)
+avra blinky.asm
+
+# flash the program onto the mc (type in one line!)
+sudo avrdude -p m328p      # microcontroller type
+    -c arduino             # compiler type
+    -b 115200              # baud rate 
+    -P /dev/ttyACM0        # USB port 
+    -U flash:w:blinky.hex  # binary file to load
+    -F
+```
+---
+# Aufgabe 3.1: ASM - Getting started
+
+##Ausgangslage
+Sie richten Ihren Rechner so ein, dass Sie mit einem Texteditor direkt Assembler-Quellcode schreiben und diesen mit den vorher gezeigten Kommandozeilen-Befehlen auf den &micro;C laden können.
+
+##Auftrag
+1. Installieren Sie die Werkzeuge *avrdude* und *avra*. Prüfen Sie deren Funktionalität auf Terminal-Ebene(in Windows muss vermutlich die Path-Variable ergänzt werden).
+
+2. Erstellen Sie ein kleines Arduino-Projekt mit 4 LEDs an PB0 - PB4 und einem Taster an PD2. Die LEDs sollen aus dem Register r16 angesprochen werden. Im Ruhezustand alle LEDs aus. Auf Tastendruck werden alle LEDs angesteuert. Wird der Taster losgelassen, gehen die LEDs wieder aus.
+
+### Zeit: 60 Minuten
+
+---
+# Woher kommen die Namen für die IOs?
+.col6[
+![Arduino Uno PinOut](../img/uno_wiring_pinout_super.jpeg)
+]
+
+.col6[
+## I/O Ports:
+* Arduino: 3 *Ports*
+	* PortB: 0-5 
+	* PortC: 0-5
+	* PortD: 0-8
+
+## Verwaltung über IO-Register:
+* DDR(B/C/D): Art der GPIOs 
+	
+	*0=IN, 1=OUT, bitweise*
+* ausgeben: 
+	* `out PortB`
+	* `sbi / cbi PinB, nr`
+	
+	Achtung: Ausgänge verbleiben im gesetzten Zustand, bis dieser zurückgesetzt wird!
+* lesen: 
+	* `ld rX, PinB`
+	* sbic, sbis für Verzweigungen 
+]
+
+---
+
+# Beispiel: Bitweiser Zugriff
+```x86asm
+;************************************
+; switches on DIO13 (PB5) if Button on PB0 is pushed
+;************************************
+Init: 
+   sbi DDRD, 4           ; set PD4 to output
+   sbi DDRB, 5           ; set PB5 to output
+   cbi DDRB, 0           ; set PB0 as input
+;======================
+main:
+   sbic  PINB, 0         ; if button is not pressed, skip next line
+   sbi	 PORTB, 5        ; else turn on LED on PD4
+   sbis  PINB, 0         ; if button pressed, skip next line
+   cbi PORTB, 5          ; else turn off LED on PD4
+   rjmp main             ; loop back to the start
+```
+(S)kip if (B)it in (I)/O is (C)leared oder - (S)et: Überspringt einen Befehl, falls diese Bedingung erfüllt ist. **Beispiel:**
+```
+loop:
+      sbis PIND,0
+      rjmp weiter
+      rjmp loop
+```
+Diese Routine wartet so lange, bis an PD0 ein HIGH anliegt.
+---
+# Assembler vs. Hochsprache
+
+.row[
+### Schleifen
+.col6[
+```x86asm
+Loop0815:
+	LD	r16, PinD
+	OUT PortB
+	RJMP Loop0815
+```
+]
+
+.col6[
+```arduino
+while(true){
+	bool i = digitalRead(0);
+	digitalWrite(0, i);
+}
+```
+]
+
+
+### Schleifen mit Verzweigung
+.col6[
+```x86asm
+Main:
+	SBIS PinD,0  ; Bedingung
+	CALL doStuff ; Funktionsaufruf 
+	...
+	RJMP Main
+
+doStuff:       ; Funktion
+	SBI PortD,1
+	RET
+```
+]
+
+.col6[
+```arduino
+void loop(){
+	if(digitalRead(0)){
+		digitalWrite(0, i);
+	}
+	...
+}
+```
+]
+]
+
+Bedingte Sprünge in Assembler können auch über Vergleichsoperationen realisiert werden, z.B. `CPSE r16,r18 ;(COMPARE SKIP EQUAL)`. Weitere Befehle finden Sie im [AVR Instruction Set](ext_data/atmel-0856-avr-instruction-set-manual.pdf).
+ 
+
+---
+# Aufgabe 3.2: man. *Lauflicht* mit Assembler
+##Ausgangslage
+Sie können mit einem Texteditor direkt Assembler-Quellcode schreiben und diesen mit den vorher gezeigten Kommandozeilen-Befehlen auf den &micro;C laden. Assembler-Programme sind oft schneller in der Ausführung, allerdings deutlich komplexer zu erstellen als C-Programme. 
+
+##Auftrag
+Erstellen Sie ein kleines Arduino-Projekt mit 4 LEDs an PB0 - PB4 und einem Taster an PD2. Die LEDs sollen aus dem Register r16 angesprochen werden. Im Ruhezustand ist die erste LED (PB0) angesteuert. Auf Tastendruck wird *r16* mit *2* multipliziert und der neue Wert auf PortB geladen. Der Registerwert soll maximal 8 betragen, damit alle 4 LEDs angesteuert werden. Ist der Überlauf erreicht, wird r16 wieder auf 1 gesetzt.
+
+## Alternative
+Statt mit 2 zu multiplizieren, können Sie auch den Shift-LEFT (LSL) Befehl nutzen.
+
+### Zeit: 60 Minuten
+
+???
+Lösung: loesungen/lauflicht.asm
+---
+class: animated slideInRight
+background-image: url(../img/arduino_uno.png)
+# Zusammenfassung
+
+Was haben Sie gelernt?
+
+    </textarea>
+    <script src="../js/remark-latest.min.js"></script>
+	 <!--script src="https://code.jquery.com/jquery-1.9.1.min.js"></script-->
+	 <script>
+      var slideshow = remark.create();
+
+    </script>
+  </body>
+</html>

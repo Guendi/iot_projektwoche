@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lalelu</title>
+    <meta charset="utf-8">
+		<link rel="stylesheet" href="css/style_zbw.css">
+    <link rel="stylesheet" href="css/animate.css">
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Using Remark.js based - Slideshows
+
+Sven Schirmer
+
+schirmer@green-orca.com
+---
+
+# Agenda
+1. Using Presenter and Clone modes
+1. Images and Links
+2. Multiple Columns
+3. Use MathJax for formulas
+
+---
+# Using Presenter and Clone modes
+
+* Press **P** to toggle Presenter Mode (includes Notes)
+* Press **C** to clone WebBrowser (and then, **P** in one window for Presenter mode)
+
+*just do it now :-)*
+
+???
+and all u needs is a little:
+- HTML (HTML entities work well)
+- CSS (mostly provided)
+- basic Markdown syntax
+
+
+---
+
+# Introduction - Arduino &amp; Co
+
+![My First Arduino](img/Mega2-900.jpg)
+
+Quelle: [Arduino Mega](https://www.arduino.cc/en/Main/ArduinoBoardMega)
+???
+some fullscreen picture 
+---
+name: arduino_enc_eth
+class: two_cols
+# Hooking up the ENC28J60 Ethernet module
+
+![Hooking up the Ethernet module](img/Arduino-Mega-2560-wiring-enc28j60-1024x407.png)
+
+- low cost
+- Ethercard - library contains full TCP/IP stack .footnote[.red.bold[*] Important footnote]
+
+---
+
+# A little bit of MD syntax :-)
+
+.col6[
+## Multiple Columns
+* CSS contains .col6 class with half width
+* just nest stuff in a `.col6` element 
+
+## Slide transitions
+ 
+* new Slides start with `---`
+* for slide transitions, use `--`
+* Presenter notes start with `???`
+
+]
+
+--
+.col6[
+## Some basic code
+```arduino
+#include <DHT.h>
+
+#define DHTPIN 8     // data pin
+#define DHTTYPE DHT11   // DHT22
+DHT dht(DHTPIN, DHTTYPE);
+
+...
+
+void loop(){
+	float temp=dht.readTemperature();
+	float humi=dht.readHumidity();
+	...
+	delay(5000);
+
+```
+]
+
+---
+
+# MathJax
+
+* load MathJax.js: `<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured"></script>`
+* add config script below `remark.create()`:
+```javascript
+  // Setup MathJax
+   MathJax.Hub.Config({
+       tex2jax: {skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
+   });
+   MathJax.Hub.Queue(function() {
+       $(MathJax.Hub.getAllJax()).map(function(index, elem) {
+           return(elem.SourceElement());
+       }).parent().addClass('has-jax');
+   });
+   MathJax.Hub.Configured();
+```
+.col6[
+
+* use plain old Tex-Style:
+
+```
+`\(R=\frac{U_{B}-U_{LED}}{I}\)`
+
+```
+]
+.col6[
+
+* to produce something like this:
+
+.center[
+`\(R=\frac{U_{B}-U_{LED}}{I}\)`
+]
+
+]
+---
+
+# Rock'n Roll
+
+## Further links:
+
+* [Remark Intro](https://remarkjs.com/#1)
+* [Remark Project](https://github.com/gnab/remark)
+* [Markdown Tutorial](http://www.markdowntutorial.com/)
+
+## Have fun :-)
+---
+
+    </textarea>
+    <script src="js/remark-latest.min.js"></script>
+	 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured"></script>
+	 <script>
+      var slideshow = remark.create();
+		// Setup MathJax
+      MathJax.Hub.Config({
+          tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+      });
+      MathJax.Hub.Queue(function() {
+          $(MathJax.Hub.getAllJax()).map(function(index, elem) {
+              return(elem.SourceElement());
+          }).parent().addClass('has-jax');
+      });
+
+      MathJax.Hub.Configured();
+    </script>
+  </body>
+</html>
