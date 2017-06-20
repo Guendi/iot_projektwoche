@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The real IoT</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/style_zbw.css">
+    <link rel="stylesheet" href="../css/animate.css">
+  </head>
+  <body>
+    <textarea id="source">
+# The real IoT
+
+## Roadmap Block 4
+.bigger_font[
+1. Überblick Kommunikationarten
+3. Ethernet-Schnittstelle aktivieren
+4. TCP/IP Protokolle und Verbindungsarten
+5. Mini-Projekt: Daten an Server schicken
+]
+---
+
+# Kommunikationsarten
+
+## Zentrale Fragestellung: Wie kann ich ... 
+.bigger_font[
+- Messwerte von &mu;C an weitere &mu;C, PC oder Server kommunizieren?
+- Signale vom anderen Geräten empfangen?
+]
+
+--
+
+## Lösung: Kommunikation
+
+.bigger_font[
+- Seriell: oldie but goldie
+- LAN/WLAN
+- LoRa, Bluetooth, Infrarot
+]
+.col6[
+![Lora-GPS Webinterface](../img/lora_gps_webinterface.png)
+]
+
+---
+
+# Kommunikation über TCP/IP (Basics)
+.col6[
+
+## TCP vs. UDP
+- *Transportprotokolle* für Nachrichten
+- Adressierung via *IP-Adresse + Port*
+
+### **T**ransmission **C**ontrol **P**rotocol:
+- verbindungsorientiert
+- Empfangskontrolle
+- mit Fehlerbehandlung
+
+### **U**ser **D**atagramm **P**rotocol:
+- *best effort*
+- keine logische Verbindung
+- keine Empfangskontrolle
+- allenfalls Prüfsumme
+- schnell (Einsatz oft für Multimedia-Streaming)
+
+]
+
+--
+count: false
+
+.col6[
+## Verbindungsarten
+<br>
+### Peer 2 Peer
+- ohne zentrale Server
+- Gleichberechtige Teilnehmer
+- Permentes Empfangen und Senden von Netzwerkdaten
+- z.B. Gnutella, BitTorrent, Freenet
+
+### Client-Server-Kommunikation
+- Server (z.B. Raspberry) lauscht permanent
+- Server sendet nur auf Anfrage (Request - Response)
+- übliche Anwendungsprotokolle: HTTP, SMTP, FTP
+
+
+]
+
+---
+# Arduino im IoT
+
+.col6[
+## Arduino Ethernet-Shield
+<br>
+![Arduino ETH](../img/arduino_eth0_shield.jpg)
+
+* enthält Puffer zum Zwischenspeichern von empfangenen Daten
+* als Server oder Client benutzen
+* enthält Micro-SD Slot (für Messdaten oder HTML-Seiten)
+]
+.col6[
+## Benutzung:
+
+* Kommunikation Arduino - Shield via **SPI** bus
+* Pin 11, 12, 13 + Pin 10 als **SS** reserviert
+* Pin 4 als **SS** für SD-Kartenleser
+
+<hr>
+1. Doku lesen:
+	- [Hardware-Setup](https://www.arduino.cc/en/Reference/Ethernet)
+	- [Ethernet](https://www.arduino.cc/en/Reference/Ethernet)
+	- [EthernetClient](https://www.arduino.cc/en/Reference/EthernetClient)
+1. USB-Anschluss abkleben(!!)
+1. Shield aufstecken
+2. Ethernet Library laden (per IDE)
+3. Client konfigurieren
+5. Funktionalität programmieren
+]
+
+---
+# Einfaches TCP Beispiel (HTTP-Protokoll)
+
+.col6[
+
+```arduino
+#include <Ethernet.h>
+// 6 byte MAC address, hexdecimal
+byte mac[] = {0xDE,0xAD,...};
+// www.google.com
+char server[] = "64.233.187.99";
+// own ip
+IPAddress ip = (172, 23, 15, 104);
+EthernetClient client;
+
+void setup() {
+  // setup Ethernet, try DHCP
+  if (Ethernet.begin(mac) == 0) {
+    Serial.println("DHCP failed");
+    // configure static IP address
+    Ethernet.begin(mac, ip);
+  }
+  delay(1000);// wait a second
+  // connect + HTTP request:
+  if (client.connect(server, 80)) {
+    client.println(
+		"GET /index.html HTTP/1.1"
+	);
+  } else {
+    Serial.println("connect fail");
+  }
+}
+```
+]
+.col6[
+
+```arduino
+void loop()
+{
+  // send response to serial port
+  if (client.available()) {
+    // read server response byte
+    char c = client.read();
+    // print it on serial port
+    Serial.print(c);
+  }
+
+  if (!client.connected()) {
+    Serial.println();
+    Serial.println("disconnect");
+    client.stop();
+    for(;;)
+      ;
+  }
+}
+```
+]
+--
+count: false
+.col6[
+* erstellt einmalige Verbindung zu Google **(GET-Request)**
+* sendet Antwort Byte für Byte auf serielle Schnittstelle
+* Einmaliger Request
+]
+
+???
+Quellcode kurz vorstellen
+
+
+---
+# Übung 5.3: Daten an Webserver übertragen
+
+## Ausgangslage
+
+Sie wissen, wie der Arduino-Ethernet Header angeschlossen wird, und wie man damit einfache HTTP-Requests absendet. Nun übertragen Sie Messwerte vom Arduino zum Server. Als Server starten Sie vorbereitetes HTTP-Server Skript auf der VM, welches die Messwerte entgegen nimmt und visualisiert.
+
+
+## Auftrag
+
+1. Starten Sie den Server (z.B.via Terminal: `./Desktop/http_server.py`). Betrachten Sie die Ausgabe unter `http://*server_ip*:8080/info`.  
+2. Kleben Sie ein Stück Isolierband auf die USB-Schnittstelle des Arduino, und stecken Sie den Ethernet-Header auf. 
+3. Senden Sie alle 10 Sekunden Messwerte vom DHT11-Sensor mit dem Arduino mit Ihrer selbstgewählten ID an folgende URL: `http://*server_ip*:8080?`. Verpacken Sie die Werte in einen GET-Request mit folgenden Parametern: `id=...&temp=...&humidity=... `
+4. Als Kontrolle rufen Sie die Werte mit Ihrem Webbrowser ab. 
+5. Analysieren Sie die Server-Antwort mit dem seriellen Monitor. Wie können Sie mit dem Arduino darauf reagieren?
+
+### Zeit: 40 Minuten
+
+???
+## Lösung: 
+
+Http_Communication
+---
+
+# Beispiel UDP - Verbindung
+
+[UDPSendReceiveString](https://www.arduino.cc/en/Tutorial/UDPSendReceiveString)
+
+???
+rein informativ als Vorbereitung für RemoteRobi Game
+
+
+---
+class: animated slideInRight
+background-image: url(../img/arduino_uno.png)
+# Zusammenfassung
+
+Was haben Sie gelernt?
+
+---
+
+# Projekte für die kommenden Tage
+
+* in Zweier- oder Dreiergruppen
+* bitte A14-17 und B14-17 gut durchmischen 
+
+.col6[
+## GPS-LoRa Game
+
+* Advanced Geocaching mit &mu;C
+
+]
+
+.col6[
+
+## Environment Monitoring
+
+* Raspi-Pi Datenlogger 
+
+]
+
+.col6[
+
+## RFID-Zutrittskontrolle
+
+* RFID-Leser &mu;C mit PIN-Eingabe und Server-basierter Freigabe
+
+]
+
+.col6[
+
+## Pseudo-Wii Game
+
+* Game mit Gyroskop-Controller steuern
+
+]
+
+
+
+
+    </textarea>
+    <script src="../js/remark-latest.min.js"></script>
+	 <!--script src="https://code.jquery.com/jquery-1.9.1.min.js"></script-->
+	 <script>
+      var slideshow = remark.create();
+
+    </script>
+  </body>
+</html>

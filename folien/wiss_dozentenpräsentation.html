@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Modul 242 - Mikroprozessor-Anwendungen mit Arduino</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style_wiss.css">
+    <link rel="stylesheet" href="css/animate.css">
+  </head>
+  <body>
+    <textarea id="source">
+# Modul 242 - Mikroprozessor-Anwendungen
+
+## Ablauf
+
+- Vorstellung Bastelbox
+- Vorstellung Modulablauf
+- Diskussion Modulablauf
+- LBV: nichts auf ICT verfügbar, volle Freiheit :-)
+
+---
+
+# Bastelbox-Inhalt
+
+* Arduino UNO inkl. USB-Kabel und Grundplatte
+* Arduino Ethernet – Aufsatz
+* Breadboard gross + Kabelset (30 male-male, 10 male-female)
+
+.col6[
+![Arduino Bastelbox](img/arduino_bastelbox.jpg)
+]
+
+--
+
+.col6[
+* SET LED (je 2 rot, grün, weiss) inkl. Widerstände (150 ohm)
+* Pulldown-Widerstände (3k)
+* SET Breadboard-Poti (300, 1k, 3k)
+* Sensoren:
+	- Taster
+	- DHT11 (Temp., Feucht.)
+	- Fotowiderstand GL5528
+	- RFID-Leser mit 2 Karten
+	- Gyroskop ADXL345
+	- Folientastatur
+* Aktoren
+	- LCD 16x2 mit I2C Schnittstelle (PCF8574)
+	- Lüftermotor mit L9110
+	- Buzzer 5V
+]
+
+
+---
+# Blockweise Präsentationen
+
+.col6[
+## [Block 1](wiss/block_01_intro.html)
+<br>
+## [Block 2](wiss/block_02_sensor_bus.html)
+<br>
+## [Block 3](wiss/block_03_asm.html)
+<br>
+## [Block 4](wiss/block_04_INT_SLEEP.html)
+<br>
+## [Block 5](wiss/block_05_NET.html)
+<br>
+]
+
+.col6[
+## Folien mit [remark.js](https://remarkjs.com/#1)
+* relativ unkomplizierte Syntax
+* unterstützt CSS und HTML
+* ein zentrales Stylesheet
+]
+
+.clearfix[
+]
+
+##@GITHUB: 
+
+[iot_projektwoche](https://github.com/greenorca/iot_projektwoche)
+
+---
+
+# Projekte (Block 6 - 9)
+
+- paarweise arbeiten
+- Dokumentation inkl. Schaltplan
+- Implementierung
+- Präsentation
+
+## zwei Beispiele, ausbaufähig:
+
+.col6[
+## RFID Zugangskontrolle
+
+![RFID-Projekt](img/demo_rfid.jpg)
+
+- RFID-Lesegerät liest Karte
+- PIN via Folientastatur eingeben
+- Verifikation lokal oder via Server
+ 
+]
+
+.col6[
+## Remotecontrol für Robigame
+
+![Wii-Projekt](img/demo_robigame.jpg)
+
+- ala Wii
+- Java-Robigame vorhanden
+- Gyroskop-Daten via UDP an Spieleserver senden 
+]
+
+
+---
+# LBV Vorschläge
+
+- nichts auf [ICT-Webseite](https://cf.ict-berufsbildung.ch/modules.php?name=Mbk&a=20101&cmodnr=242&noheader=1) vorhanden
+- Freiheit, was wir wollen
+- Vorschläge?
+
+
+    </textarea>
+    <script src="js/remark-latest.min.js"></script>
+	 <!--script src="https://code.jquery.com/jquery-1.9.1.min.js"></script-->
+	 <script>
+      var slideshow = remark.create();
+
+    </script>
+  </body>
+</html>

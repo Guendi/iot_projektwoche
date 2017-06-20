@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Elektrotechnik-Basics</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/style_zbw.css">
+    <link rel="stylesheet" href="../css/animate.css">
+  </head>
+  <body>
+    <textarea id="source">
+
+# Elektrotechnik-Basics
+
+Ein Ausflug in die Grundlagen der Hardware und dessen Physik
+
+## Handlungsziele
+1. Grundbegriffe Spannung, Strom, Widerstand
+1. Stromkreis
+1. Erhaltungssätze (Kirchhoff)
+1. aktive und passive Bauelemente (Widerstand, LED, Transistor)
+1. Breadboard
+
+???
+Keine Angst, wir werden dazu keine komplizierten Formeln behandeln
+
+---
+# Elektrisches Potenzial und Spannung (U)
+
+Jeder Punkt im Raum hat ein elektrisches Potenzial (Vergleichbar mit Druck oder Temperatur)
+
+- Das Potenzial ist ein Mass für die Menge an einem Punkt vorhandener geladener Ladungsträger.
+- Ladungsträger sind Elektronen (negativ) oder Ionen (positiv geladen).
+  - Ein einzelnes Elektron besitzt eine Ladung von -1,602 ⋅ 10^-19 C (Coulomb)
+- Herrscht an einem Punk ein Überschuss von negativ geladenen Ladungsträgern, dann hat dieser Punkt ein niedriges Potenzial
+
+.row[
+Der Unterschied zwischen zwei Potenzialen wird elektrische Spannung genannt.
+
+Spannung wird in der Einheit Volt (V) gemessen.
+]
+
+---
+# Elektrischer Strom (I)
+
+Unterschiedliche elektrische Potenziale (z. B. die beiden Pole einer Batterie) haben den Drang sich gegenseitig auszugleichen.
+
+- Dieser Ausgleich kann nur stattfinden, wenn ein Leiter diese Potenziale verbindet
+  - Ein Leiter ist ein elektrisch leitfähiges Material wie z. B. Metall
+  - Ist dazwischen ein Isolator (z. B. Luft, Glas, Kunststoff) findet kein Austausch statt
+- Im Leiter fliessen dabei Ladungsträger von einem Potenzial zum anderen (Vergleichbar mit Luftmolekülen beim Wind)
+  - In den allermeisten Fällen fliessen dabei Elektronen
+
+.row[
+Der Fluss von Ladungsträgern wird elektrischer Strom genannt.
+
+Strom wird in der Einheit Ampere (A) gemessen.
+]
+
+---
+# Elektrische Leistung (P) und Energie (E)
+
+.row[
+Elektrische Leistung, gemessen in Watt (W), ist das Produkt von Spannung und Strom
+- P = U ⋅ I
+
+Leistungsangabe z. B. bei der Kaffeemaschine, Staubsauger, PC Netzteil
+]
+.row[
+Energie ist gleich Leistung mal Zeit. Gemessen in Wattstunden (Wh) oder Joule (J):
+- E = P ⋅ t = U ⋅ I ⋅ t
+
+Z. B. Energieverbrauch beim Stromzähler oder Energieinhalt von wiederaufladbaren Batterien
+]
+
+---
+# Elektrischer Widerstand (R)
+
+Die Materialeigenschaften eines Leiters bestimmen, wie viele Ladungsträger transportiert werden können.
+Diese Eigenschaft wird elektrischer Widerstand genannt.
+
+.row[
+Der elektrische Widerstand ist definiert als das Verhältnis von Spannung zu Strom:
+
+R = U / I
+]
+
+→ Je kleiner der Widerstand, je grösser der Strom
+
+Wenn dieses Verhältnis konstant ist, sagt man, dass dieses Material ein ohmscher Widerstand ist (z. B. alle Metalle)
+
+---
+# Stromkreis und elektrische Schaltung
+
+Potenziale die sich einfach so ausgleichen, damit sie ausgeglichen sind, sind langweilig!
+
+Was uns in der Elektrotechnik interessiert ist, was wir mit diesem Stromfluss machen können.
+- Der Strom soll auf seinem Weg elektrische Arbeit verrichten.
+- Wir lassen ihn dazu durch eine elektrische Schaltung fliessen.
+
+Damit z. B. eine Batterie ihr Potenzial aufrecht erhalten kann, müssen die Ladungsträger wieder zu ihr zurückfliessen. 
+- Wir müssen also einen **Stromkreis** aufbauen mit den beiden Potenzialen der Batterie und unserer Schaltung dazwischen.
+
+---
+# Stromkreis und elektrische Schaltung
+
+[![Elektrischer Stromkreis](../img/Elektrischer Stromkreis.jpg)](../img/Elektrischer Stromkreis.jpg)
+
+Das elektrische Schema ist **die** Dokumentation einer Schaltung.
+
+---
+# Erhaltungssätze (Kirchhoff)
+
+Aus dem physikalischen Grundgesetz der Energieerhaltung folgen zwei Erhaltungssätze:
+- Maschensatz
+  - In jeder geschlossenen Masche ist die Summe der Spannungen 0 V
+- Knotzensatz
+  - In jedem Knoten ist die Summe der Ströme 0 A
+
+---
+# Maschensatz
+
+[![Maschensatz](../img/kirchhoffs-law-voltage.jpg)](../img/kirchhoffs-law-voltage.jpg)
+
+---
+# Knotensatz
+
+[![Knotensatz](../img/kirchhoffs-law-current.png)](../img/kirchhoffs-law-current.png)
+
+---
+# Bauelemente: Quellen
+
+Eine elektrische Quelle ist ein Bauelement, dass einen Potenzialunterschied erzeugt und über längere Zeit Ladungsträger bereitstellen kann.
+
+Dies geschieht immer durch Umwandlung einer physikalischen Energieform in elektrische Energie
+
+## Beispiele von gebräuchlichen Quellen
+- Batterie und wiederaufladbare Batterie (Akkumulator)
+- Generator im Kraftwerk oder Dynamo am Fahrrad
+- Solarzelle
+- Brennstoffzelle
+- Peltieelement
+
+[![Quellen Symbole](../img/Quellen-symbole.gif)](../img/Quellen-symbole.gif)
+
+---
+# Bauelemente: Widerstand
+
+Ein Bauelement, der Widerstand, mit wohl definierter Eigenschaft, dem Widerstand.
+
+[![Widerstand Symbol](../img/Widerstand-symbol.jpeg)](../img/Widerstand-symbol.jpeg)
+
+## Folgende Bauelement sind gebräuchlich
+- Der Widerstand ist fix vorgegeben → Festwiderstand
+- Der Widerstand ist einstellbar → Potentiometer
+- Der Widerstand ist abhängig von einer anderen Grösse → Abhängiger Widerstand
+  - Z. B. abhängig von der Temperatur → PTC, NTC
+  - Z. B. abhängig vom Lichteinfall → LDR
+  - Z. B. abhängig vom mechanischen Zug (Dehnung) → Dehnmessstreifen
+
+???
+Die deutsche Sprache kann hier etwas verwirrend sein. 
+Auf englisch z. B. separate Wörter für die Eigenschaft (Resistance) und das Bauelement (Resistor)
+
+---
+# Bauelemente: Kondensator
+
+Der Kondensator kann eine wohl definierte Menge elektrischer Energie (Kapazität) speichern.
+
+Er ist daher ein bisschen vergleichbar mit einer kleinen Batterie.
+
+## Folgende Bauelement sind gebräuchlich
+- Die Kapazität ist fix vorgegeben → Kondensator
+  - Tantal- und Elektrolytkondensatoren müssen mit korrekter Polung eingebaut werden
+- Die Kapazität ist einstellbar → Drehkondensator
+- Die Kapazität ist abhängig von einer anderen Grösse wie z. B. Luftdruck (die meisten Mikrofone)
+
+[![Kondensator Symbole](../img/Kondensator-symbole.png)](../img/Kondensator-symbole.png)
+
+---
+# Bauelemente: Diode
+
+Durch eine Diode können Elektronen nur in eine Richtung fliessen (im Gegensatz z. B. zu Metallen)
+- So zu sagen ein "Einweg Ventil"
+
+.col6[
+[![Dioden Symbol](../img/diode-symbol.png)](../img/diode-symbol.png)
+]
+.col6[
+[![Diodenkennlinie](../img/Diodenkennlinie.jpg)](../img/Diodenkennlinie.jpg)
+]
+
+???
+Dioden werden aus Halbleitermaterialien wie Silizium gebaut.
+
+Wichtig zu sehen ist, dass die Spannung über der Diode fast konstant ist. Unabhängig vom Strom durch die Diode
+
+Die Baugrösse und Typ der Diode bestimmt den maximalen Strom. Sonst wird sie zerstört.
+
+---
+# Bauelemente: Light Emitting Diode, LED
+
+Im Prinzip wie eine gewöhnliche Diode aber im Unterschied wird Licht abgestrahlt, wenn die LED von Strom durchflossen wird.
+
+[![LED Kennlinie](../img/LED Kennlinie.jpg)](../img/LED Kennlinie.jpg)
+
+---
+# Bauelemente: Light Emitting Diode, LED
+LEDs senden nur Licht einer bestimmten Farbe (Wellenlänge) aus. Die Farbe hängt vom verwendeten Halbleitermaterial ab.
+
+[![LED Wellenlänge.jpg](../img/LED Wellenlänge.jpg)](../img/LED Wellenlänge.jpg)
+
+???
+Weisse LEDs bestehen meistens aus einer Blau leuchtenden LED und einer gelb leuchtenden Phosphorschicht. Die Phosphorschicht wird von der blauen LED zum Leuchten angeregt.
+
+---
+# Bauelemente: Transistor
+
+Mit Transistoren kann ein Strom gesteuert werden → So zu sagen ein "Steuerbares Ventil".
+
+Beispiel NPN Transistor. 
+- Dieser besitzt drei Anschlüsse: Basis (B), Collector (C), Emitter (E)
+- Der kleine Strom zwischen Basis und Emitter (Ib) Anschluss beeinflusst den grossen Strom zwischen Collector und Emitter (Ic)
+
+.col3[
+[![Transistor Symbol](../img/transistor-symbol-npn.png)](../img/transistor-symbol-npn.png)
+]
+.col9[
+[![Transistor Kennlinie](../img/transistor-kennlinie.png)](../img/transistor-kennlinie.png)
+]
+
+???
+In Kennlinie zeigen wie 
+- digital Betrieb (Schalter)
+- analog Betrieb (Verstärker)
+
+Wie bei den Dioden ist der maximale Strom durch Typ und Baugrösse bestimmt.
+
+Es gibt noch andere Transistoren die leicht anders anzusteuern sind.
+
+Integrierte Schaltungen (ICs, Chips, Käfer) bestehen so gut wie ausschliesslich aus Transistoren und Dioden.
+
+---
+# Erste Schaltung planen: LED mit einer Batterie versorgen
+
+Zur Erinnerung:
+- Die Spannung über einer LED ist so gut wie konstant
+- Dioden (somit auch LEDs) werden zerstört wenn zu viel Strom durch sie hindurch fliesst
+
+Frage: Wie schliesse ich eine LED an eine Batterie, mit höherer Spannung als die LED, ohne sie zu zerstören?
+
+--
+Antwort: Wir müssen den Strom durch die Diode begrenzen.
+- Wir benötigen also ein zusätzliches Bauelement, dass den Strom limitiert
+- Ein Festwiderstand erfüllt genau diese Aufgabe
+
+???
+So, genug mit der Theorie, jetzt wollen wir endlich etwas bauen!
+
+--
+[![Schema LED mit Vorwiderstand](../img/LED Vorwiderstand Schema.png)](../img/LED Vorwiderstand Schema.png)
+
+---
+# Erste Schaltung dimensionieren: Vorwiderstand für LED berechnen
+
+Wie gross muss der Widerstandswert für diesen Vorwiderstand sein?
+
+Das können wir mit dem Maschensatz herleiten:
+
+.col6[
+[![Schema LED mit Vorwiderstand](../img/LED Vorwiderstand Schema.png)](../img/LED Vorwiderstand Schema.png)
+]
+
+.col6[
+[![Schema LED mit Vorwiderstand](../img/LED Vorwiderstand Formel.jpeg)](../img/LED Vorwiderstand Formel.jpeg)
+]
+
+.row[
+Wie hoch der Strom durch die LED sein darf, können wir dem LED Datenblatt entnehmen. Übliche kleine LEDs können mit bis zu 20 mA betrieben werden.
+]
+
+---
+#Erste Schaltung als Prototyp aufbauen: Breadboard
+
+[![Verbindungen in einem Breadboard](../img/basic_breadboard_layout.png)](../img/basic_breadboard_layout.png)
+
+---
+# Aufgabe 1.2
+
+## Ausgangslage
+Anstatt einer Batterie verwenden wir den Arduino UNO als Spannungsquelle. Wir verwenden nur die Anschlüsse für +5 V und Ground (GND), es ist also keine Software nötig (kommt in der nächsten Übung).
+
+.col6[
+## Auftrag
+1. Berechnen sie den Vorwiderstand für eine rote LED und 5 V Versorgungsspannung
+1. Berechnen sie die Leistung, die der Widerstand in Wärme umwandelt
+1. Holen sie ein Breadboard, eine rote LED, den von ihnen berechneten Widerstand und zwei Verbindungskabel
+1. Bauen sie ihre Schaltung auf und verbinden sie diese mit dem Arduino
+1. Schliessen sie den Arduino am USB Port ihres Rechners an und überprüfen sie, ob das Ergebnis ihren Erwartungen entspricht
+]
+
+.col6[
+[![Arduino Uno PinOut](../img/uno_wiring_pinout_super.jpeg)](../img/uno_wiring_pinout_super.jpeg)
+]
+
+**Zeit:** 20 Minuten
+
+    </textarea>
+    <script src="../js/remark-latest.min.js"></script>
+	 <!--script src="https://code.jquery.com/jquery-1.9.1.min.js"></script-->
+	 <script>
+      var slideshow = remark.create();
+
+    </script>
+  </body>
+</html>

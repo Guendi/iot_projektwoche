@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The real IoT</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/style_zbw.css">
+    <link rel="stylesheet" href="../css/animate.css">
+
+  </head>
+  <body>
+    <textarea id="source">
+
+# IoT - Block 02
+
+
+## Roadmap Block 2
+
+.bigger_font[
+- Löten
+- Sensoren: analog vs. digital
+- Programmbibliotheken
+- Elektrische Sicherheit
+- Spannung, Ströme und Widerstände messen
+]
+
+.img_half_width[
+![Problemstellung](../img/aufg_2.2.jpg)
+]
+
+---
+## Kurze Einführung ins Weichlöten
+
+Verbindungen zwischen Bauelementen werden in elektronischen Schaltungen werden in den meisten fällen durch Leiterplatten und (Weich)Löten hergestellt.
+- Beim Löten wird geschmolzenes Metall dazu verwendet um zwei Metallteile zu verbinden
+
+### Von Hand Löten
+
+.col6[
+[![Löten](../img/Loeten1.jpg)](../img/Loeten1.jpg)
+]
+.col6[
+[![Lötstelle](../img/Loeten2.jpg)](../img/Loeten2.jpg)
+]
+
+---
+# Von Hand Löten
+
+- Typisches Lötzinn für Elektronik hat einen Schmelzpunkt zwischen 190 und 220 °C
+  - Passen sie auf ihre Finger auf!
+- Das Lötzinn enthält zusätzlich Flussmittel. Ein Zusatz der die Metalloberflächen von Oxidation befreit und der es dem Metall vereinfacht die Oberflache vollständig zu benetzen.
+- Fixieren sie die zu verbindenen Teile während dem Löten
+
+[![So ist es richtig!](../img/soldering_Collings_lab.gif)](../img/soldering_Collings_lab.gif)
+
+
+---
+# Auf was sie achten sollten
+.row[
+[![Probleme](../img/Loeten3.jpg)](../img/Loeten3.jpg)
+]
+
+- Lötstellen Korrigieren oder Bauelemente auslöten können sie mit Lötsauglitze
+- Überstehende Anschlüsse können sie mit einem Seitenschneider knapp über der Lötstelle abschneiden.
+
+---
+# Aufgabe
+
+Löten sie an das Display das Adaptermodul
+
+.col6[
+Modul vorbereiten
+[![Klebeband](../img/Loetuebung_LCD_I2C_vorbereiten.jpg)](../img/Loetuebung_LCD_I2C_vorbereiten.jpg)
+]
+.col6[
+Fertiges System
+[![Fertiges Modul](../img/Loetuebung_LCD_I2C_fertig.jpg)](../img/Loetuebung_LCD_I2C_fertig.jpg)
+]
+
+.col6[
+So ist es richtig
+[![Collins](../img/soldering_Collings_lab.gif)](../img/soldering_Collings_lab.gif)
+]
+
+**Zeit:** 40 min
+
+???
+So, genug mit der Theorie, jetzt wollen wir endlich etwas bauen!
+
+Danach Hände Waschen
+
+---
+
+# 16x2 Display ansteuern (via I²C Bus)
+- I²C:  [Inter-Integrated Circuit](https://de.wikipedia.org/wiki/I%C2%B2C)
+- PCF8574-basierter *Adapter* via Bibliothek
+- 2 Datenleitungen (SDA, SCL) + Spannungsversorgung
+
+.col6[
+```arduino
+#include <Wire.h>
+#include <LiquidCrystal_PCF8574.h>
+// initialize the library
+LiquidCrystal_PCF8574 lcd(0x3F);
+
+void setup() {
+  // initialize LCD (columns,rows)
+  lcd.begin(16, 2);
+	//set cursor to line 0 column 0
+  lcd.setCursor(0, 0);
+  // print a message to the LCD
+  lcd.print("Booting...");
+}
+```
+]
+
+.col6[
+- `LiquidCrystal_PCF8574` via *Sketch - Bibliothek einbinden - Bibliothek hinzufügen* im Internet suchen, installieren und Bibliothek zum Programm hinzugefügen.
+- Bibliothek wird ähnlich genutzt wie LiquidCrystal für SPI
+]
+???
+Bibliothekseinbindung demonstrieren!
+---
+
+# Aufgabe: LCD via I²C ansteuern
+## Ausgangslage
+Sie erweitern Ihr Programm um ein LCD Display.
+
+## Erwartetes Ergebnis
+Erweitern Sie Ihr Projekt,  so dass die Spannung auch auf dem LCD angezeigt wird.
+
+**Zeit:** 30 Minuten
+
+.img_half_width[
+![Problemstellung](../img/aufg_2.2.jpg)
+]
+
+???
+- loesungen/aufgabe2_poti_lcd/
+
+
+---
+
+# Analoge Sensoren
+
+Arduino hat spezielle Analog-Eingänge → 10-bit Analog-Digital-Konverter, liefert Werte zwischen 0 und 1023. Z. B. für:
+- Spannungsmessung (max. 5 V)
+- Licht-abhängige Widerstände
+- Temperaturabhängige Widerstände
+
+--
+count:false
+.col6[
+## Beispiel: Spannung messen
+```arduino
+// Analog input pin for potentiometer
+const int analogInPin = A0;
+int sensorValue = 0;
+
+void setup() {
+  // init serial communication
+  Serial.begin(9600);
+}
+
+void loop() {
+  // read the analog in value:
+  sensorValue = analogRead(analogInPin);
+  Serial.println(sensorValue);
+  delay(500); //500ms break
+}
+```
+]
+.col6.max_height400[
+![Analog Read](../img/Poti_ReadAnalog_schem.png)
+]
+
+---
+# Aufgabe: Lichtintensität messen
+
+## Ausgangslage
+
+Sie erstellen ein Programm zur Messung der Lichtintensität mittels LDR-Widerstand (*LDR: Light Dependent Resistor*). Sie erstellen einen Spannungsteiler mit dem LDR und einem 10k&ohm;-Widerstand und greifen die Messspannung zwischen beiden ab. Die Analog-Eingänge liefern Werte zwischen 0 und 1023. Geben Sie die Lichtintensität in Prozent an.
+
+.col6[
+## Achtung: 
+Analoge Eingänge messen permanent *irgendwas*, wenn *nichts* angeschlossen ist.
+
+
+## Erwartetes Ergebnis
+Während der `setup()` Routine wird die zuerst gelesene Lichtintensität auf dem seriellen Port ausgegeben. Die `loop()` Routine gibt nur dann den gelesenen Wert aus, wenn sich dieser verändert hat.
+
+**Zeit:** 30 Minuten
+]
+
+.col6[
+![Analog Read](../img/LDR_ReadAnalog_schem.png)
+]
+???
+### Hinweise Dozent
+- [Arduino Tutorials](http://www.arduino.org/learning/tutorials/ide-examples)
+- loesungen/aufgabe2_poti_lcd/
+
+---
+
+
+# Smarte Sensoren
+
+.col6[
+## Problem
+- viele passive Sensoren (Temperatur, Licht etc.) verhalten sich **nicht linear**
+- müssen kalibriert werden
+- lange Messleitungen sind problematisch
+- An einem AD Wandler Eingang kann nur ein einzelner Sensor angeschlossen werden
+
+  **==> unpraktisch**
+]
+.col6[
+![Kennlinien NTC, PTC](../img/kennlinie_ptc_ntc.png)
+.reference[Quelle: [infosys.beckhoff.com](https://infosys.beckhoff.com/espanol.php?content=../content/1034/el320x/html/bt_rtd_technology.htm&id=6395)
+]
+]
+
+???
+- Nichtlinearität Sensoren anhand Grafik erklären
+
+--
+count:false
+.row[
+## Lösung: *smarte* Sensoren
+- enthalten selbst Mikrocontroller zur Umrechnung der Rohdaten
+- Rohdaten aus analogen Sensoren normiert und digitalisiert (float)
+- kommunizieren via Bussystem (SPI, I²C,...) mit Arduino & Co.
+- stellen ggf. mehrere Messwerte zur Verfügung
+- benötigen Bibliotheksfunktionen
+]
+
+---
+# Beispiel: DHT11 bzw. DHT22
+- liefert Temperatur und Luftfeuchtigkeit
+- *Single Wire Serielle Schnittstelle*
+
+.col6[
+![DHT11 Verschaltung](../img/DHT11_schem.png)
+![DHT22](../img/DHT22.jpg)
+]
+
+--
+count: false
+
+.col6[
+```arduino
+#include <DHT.h>
+
+#define DHTPIN 8     // data pin
+#define DHTTYPE DHT11   // DHT22
+DHT dht(DHTPIN, DHTTYPE);
+
+...
+
+void loop(){
+	float temp=dht.readTemperature();
+	float humi=dht.readHumidity();
+	...
+	delay(5000);
+}
+
+
+```
+]
+
+---
+
+# Aufgabe: DHT11 in Betrieb nehmen
+
+## Ausgangslage
+
+Sie erweitern Ihr letztes Arduino-Projekt um den DHT-Sensor.
+
+## Erwartetes Ergebnis:
+Erweitern Sie Ihr Projekt, so dass *(ggf. zusätzlich zur Spannung auch)* Temperatur und Luftfeuchtigkeit auf dem seriellen Port ausgegeben wird. Die Werte werden nur bei Änderung der Messwerte ausgegeben.
+
+**Testen Sie Ihr Projekt**, indem Sie beispielsweise den DHT-Sensor anhauchen.
+
+**Zeit:** 30 Minuten
+
+???
+- loesungen/aufgabe23_dht_lcd/
+
+---
+
+# Aktoren
+
+Mikrocontroller kommunizieren mit Umwelt über Aktoren, z.B.
+
+- LED, Buzzer direkt via GPIO (allenfalls Vorwiderstände)
+- Displays (LCD, OLED) via Bussystem
+- Motoren, Ventile 
+  - via Transistoren, Motorbridges, Relais
+
+## Aktoren über PWM *analog* ansteuern
+
+- PWM: Pulsweitenmodulation
+- Arduino Uno: D3, D5, D6, D9-D11
+	- mit `analogWrite(PIN, wert)`
+	- 8bit Auflösung (0-255)
+
+Z.B. LED in Abhängigkeit von einem Analogen Eingang dimmen:
+
+```arduino
+  sensorValue = analogRead(analogInPin);
+  // map it to the range of the analog out:
+  outputValue = map(sensorValue, 0, 1023, 0, 255);
+  // change the analog out value:
+  analogWrite(analogOutPin, outputValue);
+
+```
+
+???
+Übung dazu, wenn es die Zeit erlaubt
+---
+
+# Digitale Aktoren
+
+- Temperatur zu hoch: Warn-LEDs, Lüfter, Buzzer etc.
+- Zustandsanzeige via LCD
+
+
+---
+# Fehlersuche in Schaltungen
+
+Generelle Regeln wie sonst auch üblich:
+- Teile und Herrsche
+- Nur einzelne Änderungen vornehmen
+- Notizen machen was wie getestet wurde
+- Beobachten und Messen anstatt wild zu spekulieren
+
+Im Umgang mit Hardware:
+- Speisung Prüfen: funktioniert das Netzteil, der Hauptschalter, sind die Sicherungen ganz?
+- Steckverbindungen und Kabel prüfen. Sind alle Stecker dort so wie sein sollten. Kommen die Signale dort an, wo sie hin sollen?
+
+
+Reparaturen von Geräten:
+- Sehr oft Probleme mit der Speisung
+- Bei älteren Geräten müssen fast immer die Elektrolytkondensatoren ersetzt werden
+- Korrosion, Staub, Nikotinablagerungen können Kontaktprobleme in Steckern, Schaltern und Potentiometer verursachen
+
+???
+→ Geräte (selber) reparieren ist gut für ihr Portemonnaie und die Umwelt
+
+---
+
+# Multimeter
+
+**Multi**meter: Verschiedene Messungen wie Spannung, Strom, Widerstand etc. durchführbar
+
+Wichtigstes und einfachstes Werkzeug um Fehler aufzuspüren
+
+.img_half_width[
+[![Multimeter](../img/Multimeter_DT-9205A.jpg)](../img/Multimeter_DT-9205A.jpg)
+]
+
+---
+# Ströme messen (TODO: USB-Kabel präparieren)
+
+Da der Strom innerhalb des Stromkreises fliesst, muss das Multimeter in den Stromkreis eingeschleift werden. Im Multimeter sind dazu Messwiderstände eingebaut. Diese haben oft Werte `< 10` &ohm;.
+
+
+[![Multimeter](../img/Strommessung.jpg)](../img/Strommessung.jpg)
+
+---
+# Spannungen messen
+
+[![Messschaltung für Spannungen](../img/Spannungsmessung.jpg)](../img/Spannungsmessung.jpg)
+
+**Achtung:** Das Multimeter oder die Schaltung kann kaputt gehen wenn sie versehentlich die Anschlüsse für die Strommessung verwenden
+
+---
+# Weitere Messungen
+
+## Widerstand
+- Gerät muss ausschaltet sein
+- Wenn sie ein einzelnes Bauelement messen wollen, müssen sie es vom restlichen Stromkreis trennen
+
+Der Durchgangsprüfer ist eine einfache Widerstandsmessung, die durch ein Piepen angibt, dass der Widerstand sehr niedrig ist.
+
+## Diodentest
+- Bauelement vom restlichen Stromkreis trennen
+- Achten sie darauf, dass sie die Diode nicht verkehrt herum testen
+
+---
+# Elektrische Sicherheit
+
+.col3[]
+.col6[
+[![Achtung Hochspannung](../img/Achtung-Hochspannung.jpg)](../img/Achtung-Hochspannung.jpg)
+
+**Strom kann töten!**
+]
+.col3[]
+
+???
+Jeder von ihnen wird gehört haben, dass man nicht in die Steckdose greifen soll.
+
+---
+# Wirkung von elektrischem Strom im Menschlichenkörper
+
+[![Auswirkungen von Berührungsstrom](../img/Auswirkungen von Berührungsstrom.jpg)](../img/Auswirkungen von Berührungsstrom.jpg)
+
+---
+# Die Gefahr die von elektrischer Spannung
+
+.col6[
+[![Widerstand Mensch](../img/Widerstand-Mensch.gif)](../img/Widerstand-Mensch.gif)
+]
+
+.col6[
+**Spannungen die höher als 50 V sind, können Ströme verursachen die für einen Mensch tödlich sein können!**
+
+Regel:
+- Ein elektrisches Gerät gilt als gefährlich, bevor nicht das Gegenteil gezeigt wurde
+]
+
+.row[
+- Wenn immer möglich, schalten sie ein Gerät aus, bevor sie Messungen durchführen.
+- Kontrollieren sie die Betriebspannung eines Gerät oder Messen sie vorsichtig nach
+- Arbeiten sie an einem Arbeitsplatz der durch einen Fehlerstromschutzschalter (FI) geschützt ist.
+]
+
+---
+
+# Aufgabe: Verschiedene Messungen durchführen
+
+.row[
+## Auftrag
+1. Messen sie die Spannungen an den verschiedenen Speisungsanschlüssen am Arduino
+1. Messen sie die Stromaufnahme der LED und des LCDs
+1. Messen sie den Wert des LED Vorwiderstands. Versuchen sie zu beantworten woher der Unterschied kommt.
+1. Messen sie ihren eigenen Körperwiderstand. Was passiert wenn sie die Hautstellen davor anfuchten?
+1. Messen sie die Durchlassspannung verschiedenfarbiger LEDs und vergewissern sie sich, dass sie tatsächlich nur in einer Richtung stromdurchlässig sind.
+1. Nutzen sie den Durchgangsprüfer um zu zeigen, dass die Verbindungen in ihrem Breadboard so sind, wie gezeigt.
+]
+
+**Zeit:** 20 Minuten
+
+---
+class: animated slideInRight
+background-image: url(../img/arduino_uno.png)
+# Zusammenfassung Block 2
+
+Was haben Sie gelernt?
+    </textarea>
+    <script src="../js/remark-latest.min.js"></script>
+	 <!--script src="https://code.jquery.com/jquery-1.9.1.min.js"></script-->
+	 <script>
+      var slideshow = remark.create();
+
+    </script>
+  </body>
+</html>
