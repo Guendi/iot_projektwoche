@@ -139,36 +139,79 @@ void countSeconds(){
 }
 
 ```
-
 ]
 ???
 
 ---
+# Aufgabe: LCD - Uhr mit Pausenalarm 
+
+## Ausgangslage: 
+Ein interessantes Experiment ist der Aufbau einer Digitaluhr mit Timer-Interrupts.    
+
+## Aufgabe:
+Mittels Timer-ISR werden Stunden, Minuten und Sekunden auf der oberen Zeile des LCD angezeigt. Zur Pause ertönt ein kurzer Piepton (der Buzzer ist der schwarze Zylinder in Ihrer Bastelbox).
+
+* Die Uhrzeit sauber formatiert (e.g. 09:09:03) auf der oberen Zeile anzeigen. 
+* Messen Sie zudem die Laufzeit des Uhrzeit-Schreibens in Millisekunden, und geben Sie den Wert in der zweiten Zeile aus.
+* Messen Sie danach die Millisekunden, die zwischen den ISR-Aufrufen vergehen.
+* **Zusatz:** Projekt um Einstellfunktion für die Uhrzeit mittels Button erweitern. 
+ 
+**Hinweis**: Für die ersten Versuche können Sie die initiale Uhrzeit noch in der `setup()` einstellen. 
+
+## Erwartetes Ergebnis: 
+Uhr funktioniert, und die Zeit zum Beschreiben der LCD-Anzeige wird gemessen.
+
+**Zeit:** 40 Minuten
+
+---
 # Sleep Modes
 
-## Grundlagen
-
-[http://playground.arduino.cc/Learning/ArduinoSleepCode](http://playground.arduino.cc/Learning/ArduinoSleepCode)
-
+.bigger_font[ 
+* **Ziel:** Strom sparen für batteriebetriebene &mu;C
+* `void loop() wird gestoppt!
+* Sleep-Modes und Eigenheiten:
+	- SLEEP_MODE_IDLE: alle Interrupts, kaum Einsparung
+	- SLEEP_MODE_ADC
+  - SLEEP_MODE_PWR_SAVE
+  - SLEEP_MODE_STANDBY
+  - SLEEP_MODE_PWR_DOWN: am sparsamsten, nur durch HW.Interrupt oder Reset beenden
+* [http://playground.arduino.cc/Learning/ArduinoSleepCode](http://playground.arduino.cc/Learning/ArduinoSleepCode)
+]
 ## Library
 
 [Adafruit SleepyDog](https://github.com/adafruit/Adafruit_SleepyDog)
 
+---
+# Beispiel
+
 ```arduino
 #include <Adafruit_SleepyDog.h>
+volatile bool triggered;
+
+void trigger(){
+  triggered = true;
+}
+
+void setup() {
+  pinMode(2, INPUT);
+  attachInterrupt(digitalPinToInterrupt(2), trigger, RISING);
+  lcd.begin(16,2);
+  lcd.setBacklight(HIGH);
+  lcd.clear(); lcd.setCursor(0,0);
+  lcd.write("initialized...");
+  delay(500);
+}
 
 void loop() {
-
-  digitalWrite(LED_BUILTIN, LOW);
-
+  lcd.setBacklight(LOW);  
   // sleep as long as possible
-  Watchdog.sleep();
-  
-  // turn LED on for 200 ms
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(200);
-}
-  
+  Watchdog.sleep(SLEEP_MODE_PWR_DOWN);
+  if(triggered){
+    triggered = false;
+    lcd.setBacklight(HIGH);
+    delay(3000);
+  }
+}  
 ```
 
 ---

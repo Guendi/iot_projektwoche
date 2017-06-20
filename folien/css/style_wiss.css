@@ -200,8 +200,13 @@
 					
 		}
 
-		.bigger_font li{
+		.bigger_font ul li{
 			font-size: 1.2em;
+			margin-bottom: 10px;		
+		}
+
+		.bigger_font li ul li{
+			font-size: 0.9em;
 			margin-bottom: 10px;		
 		}
 
