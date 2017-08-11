@@ -32,7 +32,7 @@ count: false
 ## Hardware-Interrupts
 
 - Arduino Uno: Pin 2, 3
-- Flankentyp konfigurierbar (`RISING, FALLING`...) 
+- Flankentyp konfigurierbar (`RISING, FALLING`...)
 ]
 
 --
@@ -57,20 +57,20 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT); //using the built-in LED
   pinMode(interruptPin, INPUT_PULLUP);
 
-  // attach ISR to interrupt 
+  // attach ISR to interrupt
   // for desired state change (LOW;CHANGE;FALLING;RISING)
   attachInterrupt(digitalPinToInterrupt(interruptPin), blink, RISING);
 }
 
 void loop() {
-	// may even be empty
-	digitalWrite(LED_BUILTIN, state);
+  // may even be empty
+  digitalWrite(LED_BUILTIN, state);
 }
 
 // ISR
 void blink() {
-	//disable interrupt while processing it
-	detachInterrupt(digitalPinToInterrupt(interruptPin));
+  //disable interrupt while processing it
+  detachInterrupt(digitalPinToInterrupt(interruptPin));
   state = !state; // toggle state variable
   // re-enable interrupt
   attachInterrupt(digitalPinToInterrupt(interruptPin), blink, RISING);
@@ -79,17 +79,17 @@ void blink() {
 ```
 ---
 
-# Aufgabe: Zähler mit Hardware-Interrupt realisieren
+# Aufgabe 4.1: Zähler mit Hardware-Interrupt realisieren
 
-## Ausgangslage: 
-Sie wissen, wie Interrupt-Service-Routinen für Hardware-Interrupts erstellt werden. 
+## Ausgangslage:
+Sie wissen, wie Interrupt-Service-Routinen für Hardware-Interrupts erstellt werden.
 
 ## Auftrag:
-Erstellen Sie ein Arduino-Projekt, welches die Anzahl Tastendrücke per ISR zählt und auf dem LCD-Dislay ausgibt. 
+Erstellen Sie ein Arduino-Projekt, welches die Anzahl Tastendrücke per ISR zählt und auf dem LCD-Dislay ausgibt.
 
 **Hinweis:** Taster *prellen*, d.h. ein Tastendruck kann mehrere Interrupts auslösen. Mit `unsigned long lastUpdate = millis()` können Sie den aktuellen Millisekunden-Zählwert des Systems auslesen. Der Rest ist in Ihrer Hand :-)
 
-## Erwartetes Ergebnis: 
+## Erwartetes Ergebnis:
 Sauber zählende Schaltung.
 
 **Zeit:** 30 Minuten
@@ -143,30 +143,31 @@ void countSeconds(){
 ???
 
 ---
-# Aufgabe: LCD - Uhr mit Pausenalarm 
+# Aufgabe 4.2: LCD - Uhr
 
-## Ausgangslage: 
-Ein interessantes Experiment ist der Aufbau einer Digitaluhr mit Timer-Interrupts.    
+## Ausgangslage:
+Ein interessantes Experiment ist der Aufbau einer Digitaluhr mit Timer-Interrupts.
 
 ## Aufgabe:
-Mittels Timer-ISR werden Stunden, Minuten und Sekunden auf der oberen Zeile des LCD angezeigt. Zur Pause ertönt ein kurzer Piepton (der Buzzer ist der schwarze Zylinder in Ihrer Bastelbox).
+Mittels Timer-ISR werden Stunden, Minuten und Sekunden auf der oberen Zeile des LCD angezeigt.
 
-* Die Uhrzeit sauber formatiert (e.g. 09:09:03) auf der oberen Zeile anzeigen. 
+* Die Uhrzeit sauber formatiert (e.g. 09:09:03) auf der oberen Zeile anzeigen.
 * Messen Sie zudem die Laufzeit des Uhrzeit-Schreibens in Millisekunden, und geben Sie den Wert in der zweiten Zeile aus.
 * Messen Sie danach die Millisekunden, die zwischen den ISR-Aufrufen vergehen.
-* **Zusatz:** Projekt um Einstellfunktion für die Uhrzeit mittels Button erweitern. 
- 
-**Hinweis**: Für die ersten Versuche können Sie die initiale Uhrzeit noch in der `setup()` einstellen. 
 
-## Erwartetes Ergebnis: 
+**Zusatz:** Zur Pause ertönt ein kurzer Piepton (der Buzzer ist der schwarze Zylinder in Ihrer Bastelbox).
+
+**Hinweis**: Für die ersten Versuche können Sie die initiale Uhrzeit noch in der `setup()` einstellen.
+
+## Erwartetes Ergebnis:
 Uhr funktioniert, und die Zeit zum Beschreiben der LCD-Anzeige wird gemessen.
 
-**Zeit:** 40 Minuten
+**Zeit:** 60 Minuten
 
 ---
 # Sleep Modes
 
-.bigger_font[ 
+.bigger_font[
 * **Ziel:** Strom sparen für batteriebetriebene &mu;C
 * `void loop() wird gestoppt!
 * Sleep-Modes und Eigenheiten:
@@ -203,7 +204,7 @@ void setup() {
 }
 
 void loop() {
-  lcd.setBacklight(LOW);  
+  lcd.setBacklight(LOW);
   // sleep as long as possible
   Watchdog.sleep(SLEEP_MODE_PWR_DOWN);
   if(triggered){
@@ -211,19 +212,19 @@ void loop() {
     lcd.setBacklight(HIGH);
     delay(3000);
   }
-}  
+}
 ```
 
 ---
-# Aufgabe: Gewusst wie spart Energie 
+# Zusatzaufgabe: Gewusst wie spart Energie
 
-## Ausgangslage: 
+## Ausgangslage:
 In der Welt der Mikrocontroller ist der Eigenenergieverbrauch ein wichtiger Faktor, insbesondere wenn die Geräte mit Batterien betrieben werden. Sie lernen, den Energiebedarf durch *SleepModes* zu verringern.
 
 ## Aufgabe:
 Luftfeuchtigkeit und Temperatur sollen für 1 Minute nach Tastendruck gelesen und ausgegeben werden. Danach geht das Gerät (und das Display) wieder in den Schlafmodus.
 
-## Erwartetes Ergebnis: 
+## Erwartetes Ergebnis:
 Projekt funktioniert mit Deep-Sleep.
 
 **Zeit:** 30 Minuten

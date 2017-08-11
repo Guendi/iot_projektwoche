@@ -210,6 +210,13 @@
 			margin-bottom: 10px;		
 		}
 
+		.bigger_font ol li{
+			font-size: 1.2em;
+			margin-bottom: 10px;		
+		}
+
+
+		
 		div.row{
 			
 			/*border: 1px solid #CCC;*/

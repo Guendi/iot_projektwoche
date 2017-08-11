@@ -68,7 +68,12 @@ void loop() {
 ---
 # Aufgabe 2.1
 ## Ausgangslage
-Sie erstellen ein Programm zur Spannungsmessung über einem veränderbaren Widerstand (Potentiometer oder lichtabhängiger Widerstand). Beachten Sie, dass die Analogeingänge Werte zwischen 0 und 1023 liefern. Ihre Ausgabe soll in Volt angegeben werden.
+Sie erstellen ein Programm zur Messung analoger Umweltdaten.
+
+## Auftrag
+1. Messen Sie zunächst die Spannung über einem Potentiometer (die kleinen blaune dreibeinigen Elemente). Die Ausgabe erfolgt über die serielle Schnittstelle und wird in Volt angegeben. Beachten Sie, dass die Analogeingänge Werte zwischen 0 und 1023 liefern.
+
+2. Der lichtabhängige Widerstand (LDR) hat etwa 150 &#8486; wenn es sehr hell ist, und ca. 30 k&#8486; bei Dunkelheit. Zur Messung der Lichtstärke kann man den LDR mit einem weiteren Widerstand in Reihe schalten und dazwischen die Messspannung für den Arduino-Eingang abgreifen. Die Ausgabe erfolgt über die serielle Schnittstelle und soll in `%` angegeben werden.
 
 ## Erwartetes Ergebnis
 Während der `setup()` Routine wird die zuerst gelesene Spannung seriell ausgegeben. Die `loop()` Routine gibt nur dann den gelesenen Wert aus, wenn sich dieser verändert hat.
@@ -109,7 +114,7 @@ count:false
 ## Lösung: *smarte* Sensoren
 - enthalten selbst Mikrocontroller zur Umrechnung der Rohdaten
 - Rohdaten aus analogen Sensoren normiert und digitalisiert (float)
-- kommunizieren via Bussystem (SPI, I²C,...) mit Arduino & Co.
+- kommunizieren via Bussystem (SPI, I²C,...) mit Arduino &amp; Co.
 - stellen ggf. mehrere Messwerte zur Verfügung
 - benötigen Bibliotheksfunktionen
 ]
@@ -155,8 +160,7 @@ void loop(){
 # Aufgabe 2.2: DHT11 in Betrieb nehmen
 
 ## Ausgangslage
-
-Sie erweitern Ihr letztes Arduino-Projekt um den DHT-Sensor.
+Mit dem DHT11 können sowohl Luftfeuchtigkeit als auch Temperatur gemessen werden. Zum Auslesen des Sensors benötigen Sie die entsprechende Programmbibliothek. Sie erweitern nun Ihr letztes Arduino-Projekt um den DHT-Sensor.
 
 ## Erwartetes Ergebnis:
 Erweitern Sie Ihr Projekt, so dass *(ggf. zusätzlich zur Spannung auch)* Temperatur und Luftfeuchtigkeit auf dem seriellen Port ausgegeben wird. Die Werte werden nur bei Änderung der Messwerte ausgegeben.
@@ -311,7 +315,7 @@ Bibliothekseinbindung demonstrieren!
 
 # Aufgabe 2.3: LCD via I²C ansteuern
 ## Ausgangslage
-Sie erweitern Ihr Programm zur Spannungsmessung
+Sie erweitern Ihr Programm zur Spannungs- und Temperaturmessung um eine LCD-Anzeige.
 
 ## Erwartetes Ergebnis
 Erweitern Sie Ihr Projekt,  so dass die Spannung bzw. Temperatur und Luftfeuchtigkeit auf dem LCD angezeigt wird. Vervollständigen Sie Ihre Schaltpläne.
