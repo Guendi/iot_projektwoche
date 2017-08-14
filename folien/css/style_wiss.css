@@ -11,6 +11,16 @@
     font-weight: normal;
   }
   
+  h1{
+		font-size: 2em !important;
+		font-weight: lighter;  
+  }
+
+  h2{
+		font-size: 1.5em !important;
+  }
+  
+  /* define the wiss logo top right */
   .remark-slide{
 		background-image: url(../img/wiss.png);
 		background-position: top right;
@@ -59,6 +69,12 @@
 			margin-bottom: 10px;
 			text-align: left;
 		}
+		
+		.col9 ul li{
+			font-size: 1.2em;
+			line-height: 1.5em;		
+		}		
+		
 		.col8{
 			width: 65%;
 			/*border: 1px solid #CCC;*/
@@ -178,6 +194,28 @@
 			font-size: 0.1em;
 		}
 
+		.bigger_font{
+			margin-top: 20px;
+					
+		}
+
+		.bigger_font ul li{
+			font-size: 1.2em;
+			margin-bottom: 10px;		
+		}
+
+		.bigger_font li ul li{
+			font-size: 0.9em;
+			margin-bottom: 10px;		
+		}
+
+		.bigger_font ol li{
+			font-size: 1.2em;
+			margin-bottom: 10px;		
+		}
+
+
+		
 		div.row{
 			
 			/*border: 1px solid #CCC;*/

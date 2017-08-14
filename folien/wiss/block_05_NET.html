@@ -84,6 +84,9 @@ void setup() {
 ```
 ]
 
+--
+count:false
+
 .col6[
 ```arduino
 void loop() {
@@ -97,6 +100,8 @@ void loop() {
 }
 ```
 ]
+--
+count:false
 
 .bigger_font[
 * Serielle Schnittstelle wird in jedem Schleifendurchlauf abgefragt
@@ -110,8 +115,10 @@ void loop() {
 Sie können bereits mit den PortMonitor Daten vom Arduino zum Debuggen empfangen. Nun sollen beim Arduino LEDs vom PC über die serielle Schnittstelle angesteuert werden.
 
 ## Auftrag
-Erstellen Sie ein kleines Arduino-Projekt mit 4 LEDs an DIO 2 - 5. Programmieren Sie den Arduino so, dass beim Empfang der Ziffer 1 nur die erste LED angeschaltet wird, bei der 2 nur die zweite usw. Beachten Sie, dass alle Daten byteweise übertragen werden (Hinweis: ASCII Tabelle).
+Erstellen Sie ein kleines Arduino-Projekt mit 4 LEDs an DIO 2 – 5. Denken Sie an die Vorwiderstände.
+Programmieren Sie den Arduino so, dass beim Empfang der Ziffer 1 nur die erste LED an- bzw ausgeschaltet wird, bei der 2 nur die zweite usw. Beachten Sie, dass alle Daten byteweise übertragen werden (Hinweis: ASCII Tabelle), und nach jeder Ziffer auch ein Zeilenumbruch-Zeichen gesendet wird (welches Sie ″abfangen″ müssen).
 
+**Zusatz:** Wenn ungültige Werte eingegeben werden, sollen alle LEDs dreimal kurz aufblinken. Das machen Sie am Besten in einer seperaten Funktion.
 
 ### Zeit: 40 Minuten
 
@@ -192,11 +199,11 @@ Serial.write(message,3)
 
 Programmieren Sie den Arduino so, dass eine Nachricht (z.B. `"Hallo Welt"`) bis zum Zeilenumbruch (LF=10) eingelesen und erst dann zurück übertragen wird. Was passiert, wenn Sie mehrere Nachrichten nacheinander übertragen?
 
-### Erweiterung: 
+### Erweiterung:
 
 Nutzen Sie den seriellen Interrupt dazu: [https://www.arduino.cc/en/Tutorial/SerialEvent](https://www.arduino.cc/en/Tutorial/SerialEvent)
 
-### Zeit: 20 Minuten
+### Zeit: 40 Minuten
 
 ???
 Lösung: loesungen/SimpleSerialComm2.ino
@@ -377,19 +384,19 @@ void setup() {
 # Übung 5.3: Daten an Webserver übertragen
 
 ## Ausgangslage
-Sie haben gehört, wie der Arduino-Ethernet Header angeschlossen wird, und wie man damit einfache HTTP-Requests absendet. Auf dem Desktop Ihrer VM befindet sich ein vorbereitetes HTTP-Server Skript, welches die Messwerte entgegen nimmt und visualisiert. Sie nutzen es, um Messwerte vom Arduino zum Server zu übertragen.
+Sie haben gehört, wie Sie den Arduino-Ethernet Header anschliessen und wie man damit einfache HTTP-Requests absendet. Im Modulordner im EP2 befindet sich ein Webserver-Skript, welches die Messwerte entgegen nimmt und visualisiert. Sie nutzen es, um Messwerte vom Arduino zum Server zu übertragen. Ggf. installieren Sie zum Ausführen des Skripts die Python-Laufzeitumgebung von [www.python.org](https://www.python.org/ftp/python/3.6.2/python-3.6.2.exe).
 
 ## Auftrag
 
-1. Starten Sie den Server (z.B.via Terminal: `./Desktop/http_server.py`), und schauen Sie sich die Ausgabe unter der URL http://*server_ip*:8080/info an.  
-2. Kleben Sie ein Stück Isolierband auf die USB-Schnittstelle des Arduino, und stecken Sie den Ethernet-Header auf. 
-3. Programmieren Sie den Arduino so, dass alle 10 Sekunden Messwerte vom DHT11 samst Ihrer selbstgewählten ID an den Server gesendet werden. Nutzen Sie die folgende URL:  http://*server_ip*:8080?. Verpacken Sie die Werte in einen GET-Request mit folgenden Parametern: id=...&temp=...&humidity=... 
-4. Als Kontrolle rufen Sie die Werte mit Ihrem Webbrowser ab. 
+1. Starten Sie den Server (z.B.via Terminal: `./Desktop/http_server.py`), und schauen Sie sich die Ausgabe unter der URL http://*server_ip*:8080/info an.
+2. Kleben Sie ein Stück Isolierband auf die USB-Schnittstelle des Arduino, und stecken Sie den Ethernet-Header auf.
+3. Programmieren Sie den Arduino so, dass alle 10 Sekunden Messwerte vom DHT11 samst Ihrer selbstgewählten ID an den Server gesendet werden. Nutzen Sie die folgende URL:  http://*server_ip*:8080?. Verpacken Sie die Werte in einen GET-Request mit folgenden Parametern: id=...&amp;temp=...&amp;humidity=...
+4. Als Kontrolle rufen Sie die Werte mit Ihrem Webbrowser ab.
 5. Analysieren Sie die Server-Antwort mit dem seriellen Monitor. Wie können Sie mit dem Arduino darauf reagieren?
 
 ### Zeit: 40 Minuten
 
-### Lösung: 
+### Lösung:
 
 Http_Communication
 ---
