@@ -19,11 +19,11 @@
 
 # Interrupts allgemein
 .bigger_font[
-- unterbrechen aktuellen Programmablauf
-- starten spezielle Interrupt-Routine (ISR)
-- ISR ohne Parameter und ohne Rückgabewert
-- ISR möglichst kurz (z.B. um Zustandsvariable zu ändern)
-- nach ISR Rücksprung zum vorherigen Programmablauf
+1. unterbrechen aktuellen Programmablauf für zeitkritische Aufgaben
+2. starten spezielle Interrupt-Routine (ISR)
+3. ISR ohne Parameter und ohne Rückgabewert
+4. ISR möglichst kurz (z.B. um Zustandsvariable zu ändern, `delay()`, `lcd.write()` funktioniert nicht!)
+5. nach ISR Rücksprung zum vorherigen Programmablauf
 ]
 --
 count: false
@@ -32,7 +32,7 @@ count: false
 ## Hardware-Interrupts
 
 - Arduino Uno: Pin 2, 3
-- Flankentyp konfigurierbar 
+- Flankentyp konfigurierbar (`RISING, FALLING`...)
 ]
 
 --
@@ -51,41 +51,45 @@ count: false
 
 ```arduino
 const byte interruptPin = 2;
-volatile byte state = LOW; // make sure the compiler keeps the variable :-)
+volatile byte state = LOW; // ensure the compiler keeps the variable in RAM
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT); //using the built-in LED
   pinMode(interruptPin, INPUT_PULLUP);
 
-  // attach ISR to interrupt 
+  // attach ISR to interrupt
   // for desired state change (LOW;CHANGE;FALLING;RISING)
   attachInterrupt(digitalPinToInterrupt(interruptPin), blink, RISING);
 }
 
 void loop() {
-	// may even be empty
+  // may even be empty
+  digitalWrite(LED_BUILTIN, state);
 }
 
 // ISR
 void blink() {
-  state = !state; // toggle output
-  digitalWrite(LED_BUILTIN, state);
+  //disable interrupt while processing it
+  detachInterrupt(digitalPinToInterrupt(interruptPin));
+  state = !state; // toggle state variable
+  // re-enable interrupt
+  attachInterrupt(digitalPinToInterrupt(interruptPin), blink, RISING);
 }
 
 ```
 ---
 
-# Aufgabe: Zähler mit Hardware-Interrupt realisieren
+# Aufgabe 4.1: Zähler mit Hardware-Interrupt realisieren
 
-## Ausgangslage: 
-Sie wissen, wie Interrupt-Service-Routinen für Hardware-Interrupts erstellt werden. 
+## Ausgangslage:
+Sie wissen, wie Interrupt-Service-Routinen für Hardware-Interrupts erstellt werden.
 
 ## Auftrag:
-Erstellen Sie ein Arduino-Projekt, welches die Anzahl Tastendrücke per ISR zählt und auf dem LCD-Dislay ausgibt. 
+Erstellen Sie ein Arduino-Projekt, welches die Anzahl Tastendrücke per ISR zählt und auf dem LCD-Dislay ausgibt.
 
 **Hinweis:** Taster *prellen*, d.h. ein Tastendruck kann mehrere Interrupts auslösen. Mit `unsigned long lastUpdate = millis()` können Sie den aktuellen Millisekunden-Zählwert des Systems auslesen. Der Rest ist in Ihrer Hand :-)
 
-## Erwartetes Ergebnis: 
+## Erwartetes Ergebnis:
 Sauber zählende Schaltung.
 
 **Zeit:** 30 Minuten
@@ -111,73 +115,116 @@ Lösung: Interrupt_Counter
 | 3 - 5  | 16   | nur für Mega |
 
 ]
+--
 .clearfix[
 ]
 .row[
+* Timer via TimerOne-Bibliothek initialisieren
+* ISR für Timer-Events definieren
+
 ```arduino
+#include <TimerOne.h>
+
 void setup(){
-  pinMode(ledPin, OUTPUT);
-  // initialize timer1 
-  noInterrupts();           // disable all interrupts
-  TCCR1A = 0;  TCCR1B = 0;  TCNT1  = 0;
-  OCR1A = 31250;            // compare match register 16MHz/256/2Hz
-  TCCR1B |= (1 << WGM12);   // CTC mode
-  TCCR1B |= (1 << CS12);    // 256 prescaler 
-  TIMSK1 |= (1 << OCIE1A);  // enable timer compare interrupt
-  interrupts();             // enable all interrupts
+	...
+	// Configure timer
+  Timer1.initialize();
+  Timer1.setPeriod(10000000); // period in nanoseconds
+  Timer1.attachInterrupt(countSeconds);
+
 }
 
-ISR(TIMER1_COMPA_vect){ // timer compare interrupt service routine
-  digitalWrite(ledPin, digitalRead(ledPin) ^ 1);   // toggle LED pin
+void countSeconds(){
+	// do stuff here
 }
-
-void loop(){ /* your program here... */ }
 
 ```
 ]
 ???
 
-nur kurz anreisen, keine grösseren Übungen...
+---
+# Aufgabe 4.2: LCD - Uhr
+
+## Ausgangslage:
+Ein interessantes Experiment ist der Aufbau einer Digitaluhr mit Timer-Interrupts.
+
+## Aufgabe:
+Mittels Timer-ISR werden Stunden, Minuten und Sekunden auf der oberen Zeile des LCD angezeigt.
+
+* Die Uhrzeit sauber formatiert (e.g. 09:09:03) auf der oberen Zeile anzeigen.
+* Messen Sie zudem die Laufzeit des Uhrzeit-Schreibens in Millisekunden, und geben Sie den Wert in der zweiten Zeile aus.
+* Messen Sie danach die Millisekunden, die zwischen den ISR-Aufrufen vergehen.
+
+**Zusatz:** Zur Pause ertönt ein kurzer Piepton (der Buzzer ist der schwarze Zylinder in Ihrer Bastelbox).
+
+**Hinweis**: Für die ersten Versuche können Sie die initiale Uhrzeit noch in der `setup()` einstellen.
+
+## Erwartetes Ergebnis:
+Uhr funktioniert, und die Zeit zum Beschreiben der LCD-Anzeige wird gemessen.
+
+**Zeit:** 60 Minuten
 
 ---
-
 # Sleep Modes
 
-## Grundlagen
-
-[http://playground.arduino.cc/Learning/ArduinoSleepCode](http://playground.arduino.cc/Learning/ArduinoSleepCode)
-
+.bigger_font[
+* **Ziel:** Strom sparen für batteriebetriebene &mu;C
+* `void loop() wird gestoppt!
+* Sleep-Modes und Eigenheiten:
+	- SLEEP_MODE_IDLE: alle Interrupts, kaum Einsparung
+	- SLEEP_MODE_ADC
+  - SLEEP_MODE_PWR_SAVE
+  - SLEEP_MODE_STANDBY
+  - SLEEP_MODE_PWR_DOWN: am sparsamsten, nur durch HW.Interrupt oder Reset beenden
+* [http://playground.arduino.cc/Learning/ArduinoSleepCode](http://playground.arduino.cc/Learning/ArduinoSleepCode)
+]
 ## Library
 
-[Adafruit SleepyDog](://github.com/adafruit/Adafruit_SleepyDog)
+[Adafruit SleepyDog](https://github.com/adafruit/Adafruit_SleepyDog)
+
+---
+# Beispiel
 
 ```arduino
 #include <Adafruit_SleepyDog.h>
+volatile bool triggered;
+
+void trigger(){
+  triggered = true;
+}
+
+void setup() {
+  pinMode(2, INPUT);
+  attachInterrupt(digitalPinToInterrupt(2), trigger, RISING);
+  lcd.begin(16,2);
+  lcd.setBacklight(HIGH);
+  lcd.clear(); lcd.setCursor(0,0);
+  lcd.write("initialized...");
+  delay(500);
+}
 
 void loop() {
-
-  digitalWrite(LED_BUILTIN, LOW);
-
+  lcd.setBacklight(LOW);
   // sleep as long as possible
-  Watchdog.sleep();
-  
-  // turn LED on for 200 ms
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(200);
+  Watchdog.sleep(SLEEP_MODE_PWR_DOWN);
+  if(triggered){
+    triggered = false;
+    lcd.setBacklight(HIGH);
+    delay(3000);
+  }
 }
-  
 ```
 
 ---
-# Aufgabe: Gewusst wie spart Energie 
+# Zusatzaufgabe: Gewusst wie spart Energie
 
-## Ausgangslage: 
+## Ausgangslage:
 In der Welt der Mikrocontroller ist der Eigenenergieverbrauch ein wichtiger Faktor, insbesondere wenn die Geräte mit Batterien betrieben werden. Sie lernen, den Energiebedarf durch *SleepModes* zu verringern.
 
 ## Aufgabe:
 Luftfeuchtigkeit und Temperatur sollen für 1 Minute nach Tastendruck gelesen und ausgegeben werden. Danach geht das Gerät (und das Display) wieder in den Schlafmodus.
 
-## Erwartetes Ergebnis: 
+## Erwartetes Ergebnis:
 Projekt funktioniert mit Deep-Sleep.
 
 **Zeit:** 30 Minuten

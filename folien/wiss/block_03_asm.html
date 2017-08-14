@@ -51,10 +51,10 @@
 .row[
 ### ALU
 - Logik- und Rechenoperationen ausführen (8-bit)
-- lädt / speichert Daten aus / im General Purpose Register (GPR, 8-bit)
+- lädt / speichert Daten aus / im General Purpose Register
 
-### General Purpose Register im Atmel 328P
-- Register r0 - r15 nicht für alle Befehle nutzbar
+### General Purpose Register im Atmel 328P  (GPR, 8-bit)
+- Register **r0 - r15 nicht für alle Befehle nutzbar**
 - für eigene Daten: r16 bis r31 nutzen 
 - Daten aus RAM oder Peripherie vor Verarbeitung in GPR-Register laden
 ]
@@ -83,7 +83,7 @@ Speicheraufbau AVR, Quelle: [andrewharvey4.wordpress.com](https://andrewharvey4.
 
 # Assembler
 - maschinennahe Programmiersprache (Arduino = Atmega328p &micro;C)
-- basiert auf ALU Befehlssatz (LAD,ADD,SUB..., siehe [AVR Instruction Set](ext_data/atmel-0856-avr-instruction-set-manual.pdf))
+- basiert auf ALU Befehlssatz (LAD,ADD,SUB..., siehe [AVR Instruction Set](http://www.atmel.com/images/atmel-0856-avr-instruction-set-manual.pdf))
 
 .col6[
 ```x86asm
@@ -111,7 +111,7 @@ add r16, r17  ; r16 = r16 + r17
 ]
 .col6[
 * *flags* im Statusregister werden nach jeder Operation neu gesetzt
-* viele Befehle arbeiten direkt mit diesen flags (siehe [AVR Instruction Set](ext_data/atmel-0856-avr-instruction-set-manual.pdf))
+* viele Befehle arbeiten direkt mit diesen flags (siehe [AVR Instruction Set](http://www.atmel.com/images/atmel-0856-avr-instruction-set-manual.pdf))
 ]
 
 ---
@@ -123,7 +123,7 @@ add r16, r17  ; r16 = r16 + r17
 ; if corresponding buttons on PortD (digital pin 0 to 7)
 
 .nolist
-.include "./m328Pdef.inc"
+.include "./m328Pdef.inc";header file for M328 controller
 .list
 
 .def    temp    =r16    ;designate r16 as working register
@@ -148,9 +148,13 @@ Main:
 ---
 
 # Assemblieren und Laden von der Kommandozeile
+
+* am Einfachsten mit vm_iot:
+	- sudo apt-get install avrdude avrprog
+
 ```sh
 # compile (assemble)
-avra blinky.asm
+avra blinky.asm # results in blinky.hex maschine code
 
 # flash the program onto the mc (type in one line!)
 sudo avrdude -p m328p      # microcontroller type
@@ -160,18 +164,7 @@ sudo avrdude -p m328p      # microcontroller type
     -U flash:w:blinky.hex  # binary file to load
     -F
 ```
----
-# Aufgabe 3.1: ASM - Getting started
 
-##Ausgangslage
-Sie richten Ihren Rechner so ein, dass Sie mit einem Texteditor direkt Assembler-Quellcode schreiben und diesen mit den vorher gezeigten Kommandozeilen-Befehlen auf den &micro;C laden können.
-
-##Auftrag
-1. Installieren Sie die Werkzeuge *avrdude* und *avra*. Prüfen Sie deren Funktionalität auf Terminal-Ebene(in Windows muss vermutlich die Path-Variable ergänzt werden).
-
-2. Erstellen Sie ein kleines Arduino-Projekt mit 4 LEDs an PB0 - PB4 und einem Taster an PD2. Die LEDs sollen aus dem Register r16 angesprochen werden. Im Ruhezustand alle LEDs aus. Auf Tastendruck werden alle LEDs angesteuert. Wird der Taster losgelassen, gehen die LEDs wieder aus.
-
-### Zeit: 60 Minuten
 
 ---
 # Woher kommen die Namen für die IOs?
@@ -280,7 +273,20 @@ void loop(){
 
 Bedingte Sprünge in Assembler können auch über Vergleichsoperationen realisiert werden, z.B. `CPSE r16,r18 ;(COMPARE SKIP EQUAL)`. Weitere Befehle finden Sie im [AVR Instruction Set](ext_data/atmel-0856-avr-instruction-set-manual.pdf).
  
+---
+# Aufgabe 3.1: ASM - Getting started
 
+##Ausgangslage
+Sie richten Ihren Rechner so ein, dass Sie mit einem Texteditor direkt Assembler-Quellcode schreiben und diesen mit den vorher gezeigten Kommandozeilen-Befehlen auf den &micro;C laden können.
+
+##Auftrag
+1. Installieren Sie die Werkzeuge *avrdude*, *avrprog* und *avra*. Prüfen Sie deren Funktionalität auf Terminal-Ebene(in Windows muss vermutlich die Path-Variable ergänzt werden).
+
+2. Kopieren Sie die m328Pdef.inc in Ihren Assembler-Ordner (EP2 bzw. Dropbox)
+
+2. Erstellen Sie ein kleines Arduino-Projekt mit 4 LEDs an PB0 - PB4 und einem Taster an PD2. Die LEDs sollen aus dem Register r16 angesprochen werden. Im Ruhezustand alle LEDs aus. Auf Tastendruck werden alle LEDs angesteuert. Wird der Taster losgelassen, gehen die LEDs wieder aus.
+
+### Zeit: 60 Minuten
 ---
 # Aufgabe 3.2: man. *Lauflicht* mit Assembler
 ##Ausgangslage

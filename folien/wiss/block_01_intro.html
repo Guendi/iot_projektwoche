@@ -21,13 +21,46 @@
 ## Agenda:
 - 40 Lektionen
 - 1 schriftliche LB
-- 1 bewertetes Projekt
+- 1 praktische Prüfung
 ]
 .col6[
 ## Grundlagen:
-- M403, M404
+- M114, M117, M403, M404
 - Mathe :-)
 ]
+
+---
+
+# Bastelbox-Inhalt
+
+* Arduino UNO inkl. USB-Kabel und Grundplatte
+* Arduino Ethernet – Aufsatz
+* Breadboard gross + Kabelset (30 male-male, 10 male-female)
+
+.col6[
+![Arduino Bastelbox](../img/arduino_bastelbox.jpg)
+]
+
+--
+
+.col6[
+* SET LED (je 2 rot, grün, weiss) inkl. Widerstände (150 ohm)
+* Pulldown-Widerstände (3k)
+* SET Breadboard-Poti (300, 1k, 3k)
+* Sensoren:
+	- Taster
+	- DHT11 (Temp., Feucht.)
+	- Fotowiderstand GL5528
+	- RFID-Leser mit 2 Karten
+	- Gyroskop ADXL345
+	- Folientastatur
+* Aktoren
+	- LCD 16x2 mit I2C Schnittstelle (PCF8574)
+	- Lüftermotor mit L9110
+	- Buzzer 5V
+]
+
+
 ---
 # Was kann ich danach tun?
 .col9[
@@ -143,7 +176,7 @@ count: false
 
 ## Makerspaces
 
-Arduino, 3D-Drucker & Co. demokratisieren Produktion. Benutzer bestimmen, was sie wollen und setzen selbst um:
+Arduino, 3D-Drucker &amp; Co. demokratisieren Produktion. Benutzer bestimmen, was sie wollen und setzen selbst um:
 
 - Raumtemperatur-, Luft- und Bodenfeuchtigkeit überwachen, regulieren
 - Smarte "Klingel" mit Kamera
@@ -202,11 +235,14 @@ Sie nutzen ein Beispielprogramm der Arduino-IDE, um die wichtigsten Funktionen d
 ## Auftrag
 1. Arduino-IDE installieren und starten
 2. Arduino via USB-Kabel mit PC verbinden
-2. Board auswählen *(Werkzeuge - Board)*
-3. Port auswählen *(Werkzeuge - Port)*
-4. Beispielprogramm öffnen *(Datei - Beispiele - DigitalRead)*
-6. Compile und Upload
-7. Port Monitor öffnen *(Werkzeuge - Serial Monitor)*
+3. Board auswählen (Werkzeuge - Board)
+4. Port auswählen (Werkzeuge - Port)
+5. Beispielprogramm öffnen *(Datei - Beispiele - DigitalReadSerial)*
+6. Ändern Sie die Zeile `Serial.println(buttonState);` um in `Serial.println("Hello Arduino");`
+7. Ändern Sie `delay(1);` um in `delay(500);`
+8. Compile und Upload, dann Port Monitor öffnen *(Werkzeuge - Serial Monitor)* und Baudrate einstellen wie im Programm
+
+Sehen Sie die Nachricht?
 
 
 **Zeit:** 20 Minuten
@@ -214,7 +250,7 @@ Sie nutzen ein Beispielprogramm der Arduino-IDE, um die wichtigsten Funktionen d
 ???
 ### Hinweise Dozent
 - [Arduino Tutorials](http://www.arduino.org/learning/tutorials/ide-examples)
-. Programmierhandbuch hervorheben
+. Programmierhandbuch und ZealDocs hervorheben
 - Zunächst nur Arduino ohne Breadboard
 - Code gemeinsam durcharbeiten,
 - Lernende helfen sich gegenseitig und erweitern Code um "Hello World" + globale Variable hoch zählen und ausgeben
@@ -245,7 +281,7 @@ void loop(){
 ]
 
 .col6[
-![Arduino Uno PinOut](../img/uno_wiring_pinout_super.jpeg)
+[![Arduino Uno PinOut](../img/uno_wiring_pinout_super.jpeg)](../img/uno_wiring_pinout_super.jpeg)
 ]
 
 ???
@@ -253,14 +289,14 @@ void loop(){
 - Digital: `HIGH` (5V) oder `LOW` (0V)
 
 ---
-#Erste Schaltung als Prototyp aufbauen: Breadboard
+#Prototyp-Schaltungen aufbauen mit Breadboards
 
-- Rot und blau (aussen) spaltenweise durchkontaktiert
-  - Sinnvoll für +5V, GND
-- Innere Kontakte zeilenweise durchkontaktiert
+- Rot und blau (aussen) zeilenweise durchkontaktiert
+  - Sinnvoll für +5V - rot, 0V - blau (GND)
+- Innere Kontakte spaltenweise durchkontaktiert
 
 .col9[
-[![Verbindungen in einem Breadboard](../img/basic_breadboard_layout.png)](../img/basic_breadboard_layout.png)
+[![Verbindungen in einem Breadboard](../img/basic_breadboard_layout_wiss.png)](../img/basic_breadboard_layout_wiss.png)
 ]
 
 ???
@@ -273,7 +309,7 @@ void loop(){
 ### Beispiel: DI + Pull-Down Widerstand und DO mit LED + Vorwiderstand
 .col6.max_height450[
 ### Regulärer Schaltplan
-![Pulldown](../img/PullDownBtn_LED_schem.png)
+[![Pulldown](../img/PullDownBtn_LED_schem.png)](../img/PullDownBtn_LED_schem.png)
 ]
 
 .col6.max_height450[
@@ -282,13 +318,48 @@ void loop(){
 - **Wichtig:** Verdrahtung von Mikrocontroller und Peripherie dokumentieren!
 - Fritzing ist OpenSource Projekt insbesondere für Arduino
 
-![Pulldown](../img/PullDownBtn_LED_bb.png)
+[![Pulldown](../img/PullDownBtn_LED_bb.png)](../img/PullDownBtn_LED_bb.png)
 
 
 ]
+---
+
+# Widerstände???
+
+## URI für Vorwiderstandsberechnung LED
+.big[
+- `R = U / I`
+- LED (je nach Spezifikation): `U=2V, I=20mA`
+- fliesst zuviel Strom durch die LED, geht sie kaputt
+- Spannungen in Reihenschaltung teilen sich auf, ergo
+	- `U_R = 5V - U_LED = 3V`
+	- `R = 3V / 0.02A = 150 Ohm`
+- für Arduino nicht zwingend notwendig
+- LED - Polung beachten (langes Bein an **`+`**)
+]
+
+???
+kurze Intro zum Verständnis
 
 ---
-# Pulldown/Pullup Widerstand
+# Aufgabe 1.2
+
+## Ausgangslage
+Sie wissen, wie Vorwiderstände z.B. für LEDs berechnet werden können. Nun setzen Sie dieses Wissen anhand einer einfachen Schaltung und eines simplen Programmes für den Arduino um. Als Hilfsmittel steht Ihnen das Skript und das deutschsprachige [Arduino-Handbuch](http://www.netzmafia.de/skripten/hardware/Arduino/Arduino_Programmierhandbuch.pdf) sowie das Internet zur Verfügung.
+
+
+## Auftrag
+1. Entwicklen und verdrahten Sie einen Schaltplan zur Ansteuerung einer LED mit einem der Arduino-GPIOs (e.g. GPIO4).
+2. Erstellen Sie ein Programm, welches dafür sorgt, dass die LED im Sekundentakt blinkt. Nutzen Sie dazu die Befehle:
+	- `pinMode`
+	- `delay`
+	- `digitalWrite`
+
+
+**Zeit:** 20 Minuten
+
+---
+# Pulldown/Pullup Widerstände
 
 - Zur sicheren Definition vom Schaltzustand
   - **Pulldown:** DI mit hochohmigen Widerstand an Masse (GND) und Taster an +5 V anschliessen
@@ -305,23 +376,7 @@ void loop(){
 
 ---
 
-# Widerstände???
-
-## URI für Vorwiderstandsberechnung LED
-- `R = U / I`
-- LED (je nach Spezifikation): `U=2V, I=20mA`
-- Spannungen in Reihenschaltung teilen sich auf, ergo
-	- `U_R = 5V - U_LED = 3V`
-	- `R = 3V / 0.02A = 150 Ohm`
-- für Arduino nicht zwingend notwendig
-- LED - Polung beachten (langes Bein an **`+`**)
-
-
-???
-kurze Intro zum Verständnis
----
-
-# Aufgabe 1.2
+# Aufgabe 1.3
 Eine LED soll leuchten, solange der Taster betätigt ist. Sie wollen zusätzlich die Anzahl Zyklen zählen, wie lange der Taster betätigt wurde. Den Wert geben Sie nach jedem Loslassen des Tasters einmal auf dem Seriellen Monitor aus.
 
 1. Installieren Sie die [Fritzing-Software](http://fritzing.org/home/)
@@ -331,9 +386,11 @@ Eine LED soll leuchten, solange der Taster betätigt ist. Sie wollen zusätzlich
 3. Definieren Sie die entsprechenden DI / DO im `setup()`
 4. Implementieren und testen Sie die Funktionalität im `loop()`.
 
+**Achtung:** `Serial.println(...)` funktioniert mit Strings **ODER** Zahlen. Benutzen Sie entweder zwei Ausgabebefehle oder wandeln Sie den Zählerwert in einen String um (`String(conuter)`).
+
 **Zeit:** 60 Minuten
 
-**Ziel:** Alle Teilnehmer können einfache Elektronik-Schaltung lesen und aufbauen und Arduino programmieren
+**Ziel:** Der Teilnehmer mit dem kleinsten korrekten Zählerwert gewinnt!
 
 ???
 - gerne als Partnerarbeit

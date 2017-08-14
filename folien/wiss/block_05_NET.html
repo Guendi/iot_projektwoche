@@ -11,23 +11,33 @@
 # Modul 242 - Mikroprozessor-Anwendungen
 
 ## Roadmap Block 5
+
+.bigger_font[
 1. Überblick Kommunikationarten
 2. Ethernet-Schnittstelle aktivieren
 3. TCP/IP Protokolle und Verbindungsarten
 4. Mini-Projekt: Daten an Server schicken
+]
 
 ---
 
 # Kommunikationsarten
 
+.bigger_font[
 ## Zentrale Fragestellung: Wie kann ich ... ???
 - Messwerte von &mu;C an weitere &mu;C, PC oder Server kommunizieren
 - Signale vom anderen Geräten empfangen
+]
+
+--
 
 ## Lösung: Kommunikation
+
+.bigger_font[
 - Seriell: oldie but goldie
 - LAN/WLAN
 - LoRa, Bluetooth, Infrarot
+]
 
 .col6[
 ![Lora-GPS Webinterface](../img/lora_gps_webinterface.png)
@@ -36,9 +46,15 @@
 
 # Serielle Kommunikation
 
+.bigger_font[
+
 - SPI, I2C, **RS323**, UART, USB (via RS232 - Wandler)
 - Punkt-zu-Punkt Verbindung
+]
 
+--
+
+.bigger_font[
 ## RS323
 - zwei Leitungen: **TD->RD**, **TX->RX** (ggf. weitere für differentielle Fehlerkorrektur, Handshake-Signale)
 - Reichweite umgekehrt proportional Baudrate (Übertragungsgeschwindigkeit)
@@ -46,11 +62,13 @@
 - Fehlererkennung via Paritätsbit möglich, für Arduino nicht notwendig
 - Senden und Empfangen prinzipiell byte-weise, ergo:
 
-	**selbst Sende-Empfangsprotokoll erstellen** für komplexe Nachrichten
+	für komplexe Nachrichten **selbst Sende-Empfangsprotokoll erstellen**
+
+]
 
 ---
 
-# Beispielcode
+# Beispielcode permanenter Listener 
 
 .col6[
 ```arduino
@@ -66,9 +84,6 @@ void setup() {
 ```
 ]
 
---
-count:false
-
 .col6[
 ```arduino
 void loop() {
@@ -82,15 +97,11 @@ void loop() {
 }
 ```
 ]
---
-count:false
 
-- *Listener* sind permanent aktiv
-
-???
-
-Quellcode erklären oder live aufbauen, Wirkungsweise demonstrieren
-
+.bigger_font[
+* Serielle Schnittstelle wird in jedem Schleifendurchlauf abgefragt
+* ein Byte lesen, ein Byte zurück senden 
+]
 ---
 
 # Übung 5.1: LEDs seriell zum Blinken bringen
@@ -101,13 +112,65 @@ Sie können bereits mit den PortMonitor Daten vom Arduino zum Debuggen empfangen
 ## Auftrag
 Erstellen Sie ein kleines Arduino-Projekt mit 4 LEDs an DIO 2 - 5. Programmieren Sie den Arduino so, dass beim Empfang der Ziffer 1 nur die erste LED angeschaltet wird, bei der 2 nur die zweite usw. Beachten Sie, dass alle Daten byteweise übertragen werden (Hinweis: ASCII Tabelle).
 
-## Erweiterung (oder separate Übung??)
-Programmieren Sie den Arduino so, dass eine Nachricht (z.B. Hallo Welt) bis zum Zeilenumbruch (LF=10) eingelesen und erst dann zurück übertragen wird.
 
 ### Zeit: 40 Minuten
 
 ???
 Lösung: loesungen/SimpleSerialComm.ino
+
+---
+
+# Beispielcode Interrupt Listener 
+
+.col6[
+```arduino
+String inputString = "";
+boolean stringComplete = false; 
+
+void setup() {
+  Serial.begin(9600);
+  // reserve 200 bytes for input
+  inputString.reserve(200);
+}
+void loop() {
+  if (stringComplete) {
+    Serial.println(inputString);
+    inputString = ""; // clear
+    stringComplete = false;
+  }
+}
+```
+]
+
+.col6[
+```arduino
+void serialEvent() {
+  while (Serial.available()) {
+    // get the new byte:
+    char inChar = (char)Serial.read();
+    // add it to the inputString:
+    inputString += inChar;
+    // if the incoming character is a newline, set a flag
+    // so the main loop can do something about it:
+    if (inChar == '\n') {
+      stringComplete = true;
+    }
+  }
+}
+```
+]
+.clearfix[
+]
+
+.bigger_font[
+* via SerialEvent ()
+* ggf mehrere Bytes lesen bis Zeilenumbruch
+* Nachricht ist fertig, wenn Zeilenumbruch erkannt wurde 
+]
+
+???
+
+Quellcode erklären oder live aufbauen, Wirkungsweise demonstrieren
 
 ---
 # Übung 5.2: Mehrteilige Nachrichten
@@ -129,7 +192,11 @@ Serial.write(message,3)
 
 Programmieren Sie den Arduino so, dass eine Nachricht (z.B. `"Hallo Welt"`) bis zum Zeilenumbruch (LF=10) eingelesen und erst dann zurück übertragen wird. Was passiert, wenn Sie mehrere Nachrichten nacheinander übertragen?
 
-### Zeit: 40 Minuten
+### Erweiterung: 
+
+Nutzen Sie den seriellen Interrupt dazu: [https://www.arduino.cc/en/Tutorial/SerialEvent](https://www.arduino.cc/en/Tutorial/SerialEvent)
+
+### Zeit: 20 Minuten
 
 ???
 Lösung: loesungen/SimpleSerialComm2.ino
@@ -274,7 +341,37 @@ count: false
 
 ???
 Quellcode kurz vorstellen
+---
+# IP-Konfiguration für Arduino
 
+## Wichtig: MAC Addresse
+- wird selbst festgelegt - muss einmalig sein!
+
+## IP per DHCP konfigurieren
+```arduino
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };  
+void setup(){
+	if (Ethernet.begin(mac)==0){
+		Serial.println("Failed to get DHCP lease");
+	}
+}
+
+```
+
+## IP manuell konfigurieren 
+```arduino
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };  
+IPAddress dnServer(192, 168, 0, 1);
+IPAddress gateway(192, 168, 0, 1);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress ip(192, 168, 0, 42);
+void setup() {
+  Serial.begin(9600);
+  Ethernet.begin(mac, ip, dnServer, gateway, subnet);
+  Serial.print("IP = ");   Serial.println(Ethernet.localIP());
+}
+
+```
 
 ---
 # Übung 5.3: Daten an Webserver übertragen
