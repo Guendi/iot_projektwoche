@@ -13,27 +13,27 @@
 # IoT - Block 02
 
 
-## Roadmap Block 2
+## Roadmap Block 02
 
 .bigger_font[
 - Löten
 - Sensoren: analog vs. digital
-- Programmbibliotheken
-- Elektrische Sicherheit
-- Spannung, Ströme und Widerstände messen
+- Aktoren
+
+
 ]
 
-.img_half_width[
+.img_full_width[
 ![Problemstellung](../img/aufg_2.2.jpg)
 ]
 
 ---
-## Kurze Einführung ins Weichlöten
+## Kurze Einführung ins Weichlöten (< 450°C, meist zwischen 180 und 250°C)
 
-Verbindungen zwischen Bauelementen werden in elektronischen Schaltungen werden in den meisten fällen durch Leiterplatten und (Weich)Löten hergestellt.
-- Beim Löten wird geschmolzenes Metall dazu verwendet um zwei Metallteile zu verbinden
+Verbindungen zwischen Bauelementen in elektronischen Schaltungen werden in den meisten Fällen durch Leiterplatten und (Weich-) Löten hergestellt.
+- Beim Löten wird geschmolzenes Metall (Lötzinn) dazu verwendet, zwei Metallteile zu verbinden.
 
-### Von Hand Löten
+### Von Hand löten
 
 .col6[
 [![Löten](../img/Loeten1.jpg)](../img/Loeten1.jpg)
@@ -43,90 +43,107 @@ Verbindungen zwischen Bauelementen werden in elektronischen Schaltungen werden i
 ]
 
 ---
-# Von Hand Löten
+# Von Hand löten
 
-- Typisches Lötzinn für Elektronik hat einen Schmelzpunkt zwischen 190 und 220 °C
+## Grundsätze
+- Typisches Lötzinn für Elektronik (Zinn, Kupfer, Silber, Antimon, Zink, Blei) hat einen Schmelzpunkt zwischen 190 und 220 °C.
   - Passen sie auf ihre Finger auf!
-- Das Lötzinn enthält zusätzlich Flussmittel. Ein Zusatz der die Metalloberflächen von Oxidation befreit und der es dem Metall vereinfacht die Oberflache vollständig zu benetzen.
-- Fixieren sie die zu verbindenen Teile während dem Löten
+- Das Lötzinn enthält zusätzlich Flussmittel (meist Kolophonium), ein Zusatz, der das Lot vor dem oxidieren schützt und der es dem Metall vereinfacht, die Oberfläche vollständig zu benetzen.
+- Fixieren Sie die zu verbindenen Teile während dem Löten, ggf. vorverzinnen.
+- Die zu lötenden Kontakte müssen sauber sein (ggf. mit Alkohol reinigen).
+- Lötspitze reinigen und verzinnen.
 
+.img_full_width[
 [![So ist es richtig!](../img/soldering_Collings_lab.gif)](../img/soldering_Collings_lab.gif)
-
+]
 
 ---
-# Auf was sie achten sollten
+# Auf was Sie achten sollten
 .row[
 [![Probleme](../img/Loeten3.jpg)](../img/Loeten3.jpg)
 ]
 
-- Lötstellen Korrigieren oder Bauelemente auslöten können sie mit Lötsauglitze
-- Überstehende Anschlüsse können sie mit einem Seitenschneider knapp über der Lötstelle abschneiden.
+- "Kalte Lötstellen" entstehen z.B. bei falscher Temperatur oder zu schneller Zugabe von Lot.
+- Bleifreies Lot muss länger erhitzt werden => Gefahr eines Hitzetodes!
+- Lötstellen korrigieren oder Bauelemente auslöten können sie mit einer Entlötlitze oder -pumpe.
+- Überstehende Anschlüsse können Sie mit einem Seitenschneider knapp über der Lötstelle abschneiden.
+- Lot kann herabtropfen und spritzen, Rauch nicht einatmen (Belüftung!).
+- Nach dem Löten **Hände waschen**.
 
 ---
 # Aufgabe
 
-Löten sie an das Display das Adaptermodul
+Löten Sie das Adaptermodul an das Display.
 
 .col6[
-Modul vorbereiten
+Modul vorbereiten.
 [![Klebeband](../img/Loetuebung_LCD_I2C_vorbereiten.jpg)](../img/Loetuebung_LCD_I2C_vorbereiten.jpg)
 ]
 .col6[
-Fertiges System
+Fertiges System.
 [![Fertiges Modul](../img/Loetuebung_LCD_I2C_fertig.jpg)](../img/Loetuebung_LCD_I2C_fertig.jpg)
 ]
 
 .col6[
-So ist es richtig
+So ist es richtig:
 [![Collins](../img/soldering_Collings_lab.gif)](../img/soldering_Collings_lab.gif)
 ]
 
-**Zeit:** 40 min
-
-???
-So, genug mit der Theorie, jetzt wollen wir endlich etwas bauen!
-
-Danach Hände Waschen
+**Zeit:** 30 min
 
 ---
 
-# 16x2 Display ansteuern (via I²C Bus)
-- I²C:  [Inter-Integrated Circuit](https://de.wikipedia.org/wiki/I%C2%B2C)
+# 16x2 Display via I²C Bus ansteuern
+- [Inter-Integrated Circuit](https://de.wikipedia.org/wiki/I%C2%B2C): serieller Datenbus, hersteller-definierte Adresse
 - PCF8574-basierter *Adapter* via Bibliothek
-- 2 Datenleitungen (SDA, SCL) + Spannungsversorgung
+- 2 Datenleitungen: SDA = Serial Data, SCL = Serial Clock = Takt
+- http://www.arduino.cc/en/Reference/LiquidCrystal
 
 .col6[
 ```arduino
 #include <Wire.h>
 #include <LiquidCrystal_PCF8574.h>
-// initialize the library
+
+// initialize the library (try 0x27)
 LiquidCrystal_PCF8574 lcd(0x3F);
 
 void setup() {
-  // initialize LCD (columns,rows)
+  // initialisize LCD (columns,rows)
   lcd.begin(16, 2);
-	//set cursor to line 0 column 0
+  // set cursor to line 0 column 0
   lcd.setCursor(0, 0);
+  // backlight (0 to 255)
+  lcd.setBacklight(255);
   // print a message to the LCD
-  lcd.print("Booting...");
+  lcd.print("Hello World!");
+}
+
+void loop(){
+  // cursor to column 0, line 1
+  lcd.setCursor(0, 1);
+  // print the number of seconds:
+  lcd.print(millis() / 1000);
 }
 ```
 ]
 
 .col6[
 - `LiquidCrystal_PCF8574` via *Sketch - Bibliothek einbinden - Bibliothek hinzufügen* im Internet suchen, installieren und Bibliothek zum Programm hinzugefügen.
-- Bibliothek wird ähnlich genutzt wie LiquidCrystal für SPI
+- Bibliothek wird ähnlich genutzt wie LiquidCrystal ohne I²C.
 ]
-???
-Bibliothekseinbindung demonstrieren!
+
+.col3[
+[![Arduino Uno PinOut](../img/uno_wiring_pinout_super.jpeg)](../img/uno_wiring_pinout_super.jpeg)
+]
+
 ---
 
 # Aufgabe: LCD via I²C ansteuern
 ## Ausgangslage
-Sie erweitern Ihr Programm um ein LCD Display.
+Sie erweitern Ihr Programm um ein LC-Display.
 
 ## Erwartetes Ergebnis
-Erweitern Sie Ihr Projekt,  so dass die Spannung auch auf dem LCD angezeigt wird.
+Erweitern Sie Ihr Projekt, sodass die Spannung auch auf dem LCD angezeigt wird.
 
 **Zeit:** 30 Minuten
 
@@ -134,15 +151,13 @@ Erweitern Sie Ihr Projekt,  so dass die Spannung auch auf dem LCD angezeigt wird
 ![Problemstellung](../img/aufg_2.2.jpg)
 ]
 
-???
-- loesungen/aufgabe2_poti_lcd/
 
 
 ---
 
 # Analoge Sensoren
 
-Arduino hat spezielle Analog-Eingänge → 10-bit Analog-Digital-Konverter, liefert Werte zwischen 0 und 1023. Z. B. für:
+Arduino hat spezielle Analog-Eingänge → 10-bit Analog-Digital-Konverter, liefert Werte zwischen 0 und 1023, z.B. für:
 - Spannungsmessung (max. 5 V)
 - Licht-abhängige Widerstände
 - Temperaturabhängige Widerstände
@@ -153,7 +168,7 @@ count:false
 ## Beispiel: Spannung messen
 ```arduino
 // Analog input pin for potentiometer
-const int analogInPin = A0;
+const int anIn = A1;
 int sensorValue = 0;
 
 void setup() {
@@ -163,7 +178,7 @@ void setup() {
 
 void loop() {
   // read the analog in value:
-  sensorValue = analogRead(analogInPin);
+  sensorValue = analogRead(anIn);
   Serial.println(sensorValue);
   delay(500); //500ms break
 }
@@ -178,10 +193,10 @@ void loop() {
 
 ## Ausgangslage
 
-Sie erstellen ein Programm zur Messung der Lichtintensität mittels LDR-Widerstand (*LDR: Light Dependent Resistor*). Sie erstellen einen Spannungsteiler mit dem LDR und einem 10k&ohm;-Widerstand und greifen die Messspannung zwischen beiden ab. Die Analog-Eingänge liefern Werte zwischen 0 und 1023. Geben Sie die Lichtintensität in Prozent an.
+Sie erstellen ein Programm zur Messung der Lichtintensität mittels LDR-Widerstand (*LDR: Light Dependent Resistor*). Dazu bauen Sie einen Spannungsteiler mit dem LDR und einem 10k&ohm;-Widerstand und greifen die Messspannung zwischen beiden ab. Die Analog-Eingänge am Arduino liefern `int`-Werte zwischen 0 und 1023. Gesucht ist die Lichtintensität in Prozent.
 
 .col6[
-## Achtung: 
+## Achtung:
 Analoge Eingänge messen permanent *irgendwas*, wenn *nichts* angeschlossen ist.
 
 
@@ -206,10 +221,10 @@ Während der `setup()` Routine wird die zuerst gelesene Lichtintensität auf dem
 
 .col6[
 ## Problem
-- viele passive Sensoren (Temperatur, Licht etc.) verhalten sich **nicht linear**
+- Viele analoge (passive) Sensoren (Temperatur, Licht etc.) verhalten sich **nicht linear**.
 - müssen kalibriert werden
 - lange Messleitungen sind problematisch
-- An einem AD Wandler Eingang kann nur ein einzelner Sensor angeschlossen werden
+- An einem AD-Wandler-Eingang kann nur ein einzelner Sensor angeschlossen werden.
 
   **==> unpraktisch**
 ]
@@ -250,7 +265,7 @@ count: false
 ```arduino
 #include <DHT.h>
 
-#define DHTPIN 8     // data pin
+#define DHTPIN 8        // data pin
 #define DHTTYPE DHT11   // DHT22
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -273,10 +288,10 @@ void loop(){
 
 ## Ausgangslage
 
-Sie erweitern Ihr letztes Arduino-Projekt um den DHT-Sensor.
+Sie erweitern Ihr letztes Arduino-Projekt um den DHT-Sensor (digital humidity and temperature).
 
 ## Erwartetes Ergebnis:
-Erweitern Sie Ihr Projekt, so dass *(ggf. zusätzlich zur Spannung auch)* Temperatur und Luftfeuchtigkeit auf dem seriellen Port ausgegeben wird. Die Werte werden nur bei Änderung der Messwerte ausgegeben.
+Erweitern Sie Ihr Projekt, sodass *(ggf. zusätzlich zur Spannung auch)* Temperatur und Luftfeuchtigkeit auf dem seriellen Port ausgegeben werden. Die Werte werden nur bei Änderung der Messwerte ausgegeben.
 
 **Testen Sie Ihr Projekt**, indem Sie beispielsweise den DHT-Sensor anhauchen.
 
@@ -289,17 +304,19 @@ Erweitern Sie Ihr Projekt, so dass *(ggf. zusätzlich zur Spannung auch)* Temper
 
 # Aktoren
 
-Mikrocontroller kommunizieren mit Umwelt über Aktoren, z.B.
+Mikrocontroller kommunizieren mit ihrer Umwelt über Aktoren, z.B.
 
-- LED, Buzzer direkt via GPIO (allenfalls Vorwiderstände)
-- Displays (LCD, OLED) via Bussystem
-- Motoren, Ventile 
+- LED, Buzzer direkt via GPIO (allenfalls Vorwiderstände!)
+- digitale Aktoren: Displays (LCD, OLED) via Bussystem
+- Motoren, Ventile
   - via Transistoren, Motorbridges, Relais
+
+--
 
 ## Aktoren über PWM *analog* ansteuern
 
 - PWM: Pulsweitenmodulation
-- Arduino Uno: D3, D5, D6, D9-D11
+- Arduino Uno: D3, D5, D6, D9-D11 (~)
 	- mit `analogWrite(PIN, wert)`
 	- 8bit Auflösung (0-255)
 
@@ -314,137 +331,55 @@ Z.B. LED in Abhängigkeit von einem Analogen Eingang dimmen:
 
 ```
 
-???
-Übung dazu, wenn es die Zeit erlaubt
 ---
+# Pulsweitenmodulation
 
-# Digitale Aktoren
+## Grundlagen
+- Eine variabel einstellbare Impulsfolge ergibt geglättet ein analoges Signal.
+- Standard-Frequenzen beim Arduino Uno:
+	- D5,6: 1 kHz (976.56 Hz) | D3,9,10,11: 0.5 kHz (490.20 Hz)
+	- einstellbar zwischen 30.64 Hz und 62.5 MHz
 
-- Temperatur zu hoch: Warn-LEDs, Lüfter, Buzzer etc.
-- Zustandsanzeige via LCD
+--
 
+.col6[
+[![PWM](../img/pwm.gif)](../img/pwm.gif)
+]
+
+--
+
+.col6[
+## Anwendungsbeispiele
+- nicht nur LED!
+- Servos (Robotik)
+- Schrittmotoren
+- analoge Modellbahn
+]
+
+.col6[
+## Links
+- https://www.arduino.cc/en/Tutorial/PWM
+- https://www.righto.com/2009/07/secrets-of-arduino-pwm.html
+- https://arduino-info.wikispaces.com/Arduino-PWM-Frequency
+]
 
 ---
 # Fehlersuche in Schaltungen
 
 Generelle Regeln wie sonst auch üblich:
-- Teile und Herrsche
-- Nur einzelne Änderungen vornehmen
-- Notizen machen was wie getestet wurde
-- Beobachten und Messen anstatt wild zu spekulieren
+- teile und herrsche
+- nur einzelne Änderungen vornehmen
+- Notizen machen, was wie getestet wurde
+- beobachten und messen anstatt wild spekulieren
 
 Im Umgang mit Hardware:
-- Speisung Prüfen: funktioniert das Netzteil, der Hauptschalter, sind die Sicherungen ganz?
-- Steckverbindungen und Kabel prüfen. Sind alle Stecker dort so wie sein sollten. Kommen die Signale dort an, wo sie hin sollen?
-
-
-Reparaturen von Geräten:
-- Sehr oft Probleme mit der Speisung
-- Bei älteren Geräten müssen fast immer die Elektrolytkondensatoren ersetzt werden
-- Korrosion, Staub, Nikotinablagerungen können Kontaktprobleme in Steckern, Schaltern und Potentiometer verursachen
-
-???
-→ Geräte (selber) reparieren ist gut für ihr Portemonnaie und die Umwelt
-
----
-
-# Multimeter
-
-**Multi**meter: Verschiedene Messungen wie Spannung, Strom, Widerstand etc. durchführbar
-
-Wichtigstes und einfachstes Werkzeug um Fehler aufzuspüren
-
-.img_half_width[
-[![Multimeter](../img/Multimeter_DT-9205A.jpg)](../img/Multimeter_DT-9205A.jpg)
-]
-
----
-# Ströme messen (TODO: USB-Kabel präparieren)
-
-Da der Strom innerhalb des Stromkreises fliesst, muss das Multimeter in den Stromkreis eingeschleift werden. Im Multimeter sind dazu Messwiderstände eingebaut. Diese haben oft Werte `< 10` &ohm;.
-
-
-[![Multimeter](../img/Strommessung.jpg)](../img/Strommessung.jpg)
-
----
-# Spannungen messen
-
-[![Messschaltung für Spannungen](../img/Spannungsmessung.jpg)](../img/Spannungsmessung.jpg)
-
-**Achtung:** Das Multimeter oder die Schaltung kann kaputt gehen wenn sie versehentlich die Anschlüsse für die Strommessung verwenden
-
----
-# Weitere Messungen
-
-## Widerstand
-- Gerät muss ausschaltet sein
-- Wenn sie ein einzelnes Bauelement messen wollen, müssen sie es vom restlichen Stromkreis trennen
-
-Der Durchgangsprüfer ist eine einfache Widerstandsmessung, die durch ein Piepen angibt, dass der Widerstand sehr niedrig ist.
-
-## Diodentest
-- Bauelement vom restlichen Stromkreis trennen
-- Achten sie darauf, dass sie die Diode nicht verkehrt herum testen
-
----
-# Elektrische Sicherheit
-
-.col3[]
-.col6[
-[![Achtung Hochspannung](../img/Achtung-Hochspannung.jpg)](../img/Achtung-Hochspannung.jpg)
-
-**Strom kann töten!**
-]
-.col3[]
-
-???
-Jeder von ihnen wird gehört haben, dass man nicht in die Steckdose greifen soll.
-
----
-# Wirkung von elektrischem Strom im Menschlichenkörper
-
-[![Auswirkungen von Berührungsstrom](../img/Auswirkungen von Berührungsstrom.jpg)](../img/Auswirkungen von Berührungsstrom.jpg)
-
----
-# Die Gefahr die von elektrischer Spannung
-
-.col6[
-[![Widerstand Mensch](../img/Widerstand-Mensch.gif)](../img/Widerstand-Mensch.gif)
-]
-
-.col6[
-**Spannungen die höher als 50 V sind, können Ströme verursachen die für einen Mensch tödlich sein können!**
-
-Regel:
-- Ein elektrisches Gerät gilt als gefährlich, bevor nicht das Gegenteil gezeigt wurde
-]
-
-.row[
-- Wenn immer möglich, schalten sie ein Gerät aus, bevor sie Messungen durchführen.
-- Kontrollieren sie die Betriebspannung eines Gerät oder Messen sie vorsichtig nach
-- Arbeiten sie an einem Arbeitsplatz der durch einen Fehlerstromschutzschalter (FI) geschützt ist.
-]
-
----
-
-# Aufgabe: Verschiedene Messungen durchführen
-
-.row[
-## Auftrag
-1. Messen sie die Spannungen an den verschiedenen Speisungsanschlüssen am Arduino
-1. Messen sie die Stromaufnahme der LED und des LCDs
-1. Messen sie den Wert des LED Vorwiderstands. Versuchen sie zu beantworten woher der Unterschied kommt.
-1. Messen sie ihren eigenen Körperwiderstand. Was passiert wenn sie die Hautstellen davor anfuchten?
-1. Messen sie die Durchlassspannung verschiedenfarbiger LEDs und vergewissern sie sich, dass sie tatsächlich nur in einer Richtung stromdurchlässig sind.
-1. Nutzen sie den Durchgangsprüfer um zu zeigen, dass die Verbindungen in ihrem Breadboard so sind, wie gezeigt.
-]
-
-**Zeit:** 20 Minuten
+- Speisung Prüfen: Funktioniert das Netzteil, der Hauptschalter, sind die Sicherungen ganz?
+- Steckverbindungen und Kabel prüfen. Sind alle Stecker dort so wie sein sollten? Kommen die Signale dort an, wo sie hin sollen?
 
 ---
 class: animated slideInRight
 background-image: url(../img/arduino_uno.png)
-# Zusammenfassung Block 2
+# Zusammenfassung Block 02
 
 Was haben Sie gelernt?
     </textarea>

@@ -17,7 +17,7 @@
 - fernbedienbare Aktoren, Sensoren
 - seit 1980ern in Industriesteuerungen
 - Daten sammeln und auswerten
-- *cool stuff:* 
+- *cool stuff:*
 	- proaktive Instandhaltung (UPS-Trucks)
 	- Wetterstationen
 
@@ -41,6 +41,49 @@ Quelle: https://twitter.com/jaguar_network
 
 ---
 
+# Was hat IoT mit Hackerspaces zu tun?
+
+* ist vernetzt mit CCC (Chaos Computer Club)
+* Zeigen wie die (Computer-) Welt funktioniert!
+
+
+--
+count:false
+.col6[
+## Ruum 42
+
+* Leute mit Freude am miteinander lernen
+* kreativer Umgang mit Technik im weitesten Sinn
+
+![ruum42](../img/ruum42.jpg)
+]
+
+--
+.col6[
+## Antrieb
+
+- Neugier und Spass an der Freude
+- kaputt? das kann man sicher flicken
+
+]
+
+--
+count:false
+.col6[
+## Hackerethik:
+- Freiheit
+- Offenheit
+- Datenschutz
+- Security
+]
+
+---
+
+# Vorstellung IoT-Projekte
+
+
+---
+
 # Internet of Things - Projektwoche
 
 .bigger_font[
@@ -59,16 +102,16 @@ count: false
 
 .col6[
 ## Agenda:
-- 40 Lektionen
-  - davon 20 Lektionen Projekt
-  - mit Abschlusspräsentation
+- 32 Lektionen (8 Blöcke a 4 UE)
+  - 4 Blöcke Theorie + Praxis
+  - 4 Blöcke Projekt + Demo
 ]
 
 --
 count: false
 
 .col6[
-## Benötigte Vorkenntnisse:
+## Hilfreiche Vorkenntnisse:
 - Java-Programmierkenntnisse
 - Datenbank-Administration
 - Grundkenntnisse Netzwerke
@@ -88,7 +131,6 @@ background-image: url(../img/arduino_uno.png)
 - Einführung Mikrocontroller vs. PC
 - Raspberry Pi vs. Arduino
 - erste Schritte mit Arduino
-- Datentypen
 - Elektrotechnik-Basics
 - Breadboard
 
@@ -115,14 +157,14 @@ count: false
 - Kommunikation Mikrocontroller
 - LAN / WLAN
 - Client-Server Kommunikation
-- Vorstellung der möglichen Projekte
+- Teamfindung Projekte
 ]
 
 --
 count: false
 
 .row[
-### Block 5 - 10
+### Block 5 - 8
 - Projekte
 - Projektvorstellungen
 ]
@@ -148,7 +190,8 @@ Block 4 Fertigkeiten:
 - Programmieren Kommunikationsschnittstellen, senden Sensordaten und steuern Aktoren an.
 
 ---
-# Mikrocontroller vs. Mikroprozessor
+
+# Mikroprozessor vs. Mikrocontroller
 
 .col6[
 ## Mikroprozessor
@@ -194,31 +237,37 @@ count: false
 
 # Beispiele Mikrocontroller
 
+.row[
 ## Seit den 1980ern:
 - Waschmaschinen
 - Fernseher, Steroanlagen
 - Geschirrspüler
 - DVD-ROM Laufwerk, Maus
 - Industrieanlagen-Automation
-
-## Makerspaces
-
-- Arduino, 3D-Drucker &amp; Co. demokratisieren Produktion
-- Benutzer bestimmen, was sie wollen und setzen selbst um:
-  - Raumtemperatur oder Bodenfeuchtigkeit überwachen, regulieren
-  - Smarte "Klingel" mit Kamera
-  - Drohnen oder Wii-Controller selbst basteln
-
+]
 --
 count: false
 
+.row[
 ## Big Scale (IoT + Big Data)
 - [UPS-Trucks mit ausgefeilter Sensorik proaktiv instandhalten](http://www.fieldtechnologies.com/news/gps-tracking-systems-installed-in-ups-trucks-driver-efficiency/)
 - OpenWeatherMap.org sammelt Daten privater Wetterstationen
 - Amazon Dash Button (wer's braucht...)
+]
+--
+count: false
 
-???
+.row[
+## Was ist Arduino
 
+- OpenSource Hardware + Software
+- entwickelt, um kleinen und grossen *Kindern* die Freude am Programmieren zu vermitteln
+- Arduino, 3D-Drucker &amp; Co. demokratisieren Produktion
+- Benutzer bestimmen, was sie wollen und setzen selbst um
+  - Raumtemperatur oder Bodenfeuchtigkeit überwachen, regulieren
+  - Smarte "Klingel" mit Kamera
+  - Drohnen oder Wii-Controller selbst basteln
+]
 ---
 
 # Arduino in Betrieb nehmen
@@ -228,7 +277,7 @@ count: false
 2. Arduino via USB-Kabel anschliessen
 2. Board wählen *(Werkzeuge - Board)*
 3. Port wählen *(Werkzeuge - Port)*
-4. Beispielprogramm öffnen *(Datei - Beispiele - DigitalRead)*
+4. Beispielprogramm öffnen *(Datei - Beispiele - Basics - DigitalRead)*
 6. Compile und Upload
 7. Port Monitor öffnen *(Werkzeuge - Serial Monitor)*
 ]]
@@ -246,15 +295,20 @@ count: false
 .col6[
 ### void setup()
 - zu Beginn einmal durchlaufen
-- initialisieren I/O etc.
+- konfigurieren Ein/Ausgänge etc.
 
 ### void loop()
 - nach setup() permanent durchlaufen
 ]
 
+--
+count: false
 .col6[
 ### Serial.println(...)
-- auf PC überwachen, was auf dem Controller vorgeht
+- Daten vom Controller (via USB) an PC senden
+
+### delay(int n)
+- Ausführung für n Millisekunden unterbrechen
 ]
 
 ---
@@ -271,12 +325,40 @@ Sie nutzen ein Beispielprogramm der Arduino-IDE, um die wichtigsten Funktionen d
 2. Arduino via USB-Kabel mit PC verbinden
 2. Board auswählen *(Werkzeuge - Board)*
 3. Port auswählen *(Werkzeuge - Port)*
-4. Beispielprogramm öffnen *(Datei - Beispiele - DigitalRead)*
+4. Beispielprogramm öffnen *(Datei - Beispiele - Basics - DigitalRead)*
 6. Compile und Upload
 7. Port Monitor öffnen *(Werkzeuge - Serial Monitor)*
 
 
 **Zeit:** 20 Minuten
+
+---
+# Zusatzaufgabe 1.1 a
+
+## Ausgangslage
+Sie erweitern das Beispielprogramm, um die Anzahl der Schleifendurchläufe in der `loop()` Methode zu zählen und über die serielle Schnittstelle auszugeben.
+
+Nach jedem Durchlauf soll die Ausführung für 1 Sekunde pausieren. Zum Zählen benötigen Sie ..., genau eine globale Variable!
+
+
+**Zeit:** 20 Minuten
+
+--
+
+~~~
+int z = 0;
+
+void setup(){
+  //...
+}
+
+void loop(){
+  Serial.println(z);
+  z++;
+  delay(1000);
+}
+
+~~~
 
 ???
 ### Hinweise Dozent
@@ -303,17 +385,22 @@ Keine Angst, wir werden dazu keine komplizierten Formeln behandeln
 ---
 # Elektrisches Potenzial und Spannung (U)
 
-Jeder Punkt im Raum hat ein elektrisches Potenzial (Vergleichbar mit Druck oder Temperatur)
+<br>
+.row[
+## Jeder Punkt im Raum hat ein elektrisches Potenzial (vergleichbar mit Druck oder Temperatur)
 
-- Das Potenzial ist ein Mass für die Menge an einem Punkt vorhandener geladener Ladungsträger.
-- Ladungsträger sind Elektronen (negativ) oder Ionen (positiv geladen).
-  - Ein einzelnes Elektron besitzt eine Ladung von -1,602 ⋅ 10^-19 C (Coulomb)
+- Potenzial: Mass für die Menge an einem Punkt vorhandener geladener Ladungsträger.
+- Ladungsträger: Elektronen (negativ) oder Ionen (positiv).
+  - Ladung eines einzelnes Elektrons: -1,602 ⋅ 10^-19 C (Coulomb)
 - Herrscht an einem Punkt ein Überschuss von negativ geladenen Ladungsträgern, dann hat dieser Punkt ein niedriges Potenzial
+]
+<br>
 
 .row[
-Der Unterschied zwischen zwei Potenzialen wird elektrische Spannung genannt.
+## Elektrische Spannung
 
-Spannung wird in der Einheit Volt (V) gemessen.
+* Potentialunterschied zwischen zwei Punkten
+* wird in der Einheit Volt (V) gemessen
 ]
 
 ---
@@ -374,11 +461,11 @@ Was uns in der Elektrotechnik interessiert ist, was wir mit diesem Stromfluss ma
 - Der Strom soll auf seinem Weg elektrische Arbeit verrichten.
 - Wir lassen ihn dazu durch eine elektrische Schaltung fliessen.
 
-Damit z. B. eine Batterie ihr Potenzial aufrecht erhalten kann, müssen die Ladungsträger wieder zu ihr zurückfliessen. 
+Damit z. B. eine Batterie ihr Potenzial aufrecht erhalten kann, müssen die Ladungsträger wieder zu ihr zurückfliessen.
 - Wir müssen also einen **Stromkreis** aufbauen mit den beiden Potenzialen der Batterie und unserer Schaltung dazwischen.
 
 ---
-# Stromkreis und elektrische Schaltung
+# Stromkreis, elektrische Schaltung
 
 [![Elektrischer Stromkreis](../img/Elektrischer Stromkreis.jpg)](../img/Elektrischer Stromkreis.jpg)
 
@@ -435,7 +522,7 @@ Ein Bauelement, der Widerstand, mit wohl definierter Eigenschaft, dem Widerstand
   - Z. B. abhängig vom mechanischen Zug (Dehnung) → Dehnmessstreifen
 
 ???
-Die deutsche Sprache kann hier etwas verwirrend sein. 
+Die deutsche Sprache kann hier etwas verwirrend sein.
 Auf englisch z. B. separate Wörter für die Eigenschaft (Resistance) und das Bauelement (Resistor)
 
 ---
@@ -506,7 +593,7 @@ Beispiel NPN Transistor:
 ]
 
 ???
-In Kennlinie zeigen wie 
+In Kennlinie zeigen wie
 - digital Betrieb (Schalter)
 - analog Betrieb (Verstärker)
 
@@ -552,7 +639,7 @@ Das können wir mit dem Maschensatz herleiten:
 ]
 
 .row[
-Wie hoch der Strom durch die LED sein darf, können wir dem LED Datenblatt entnehmen.
+Wie hoch der Strom durch die LED sein darf, steht im LED Datenblatt.
 
 Übliche kleine LEDs können mit bis zu 20 mA betrieben werden.
 ]
@@ -560,13 +647,22 @@ Wie hoch der Strom durch die LED sein darf, können wir dem LED Datenblatt entne
 ---
 #Erste Schaltung als Prototyp aufbauen: Breadboard
 
-- Rot und blau (aussen) spaltenweise durchkontaktiert
-  - Sinnvoll für +5V, GND
-- Innere Kontakte zeilenweise durchkontaktiert
+- Rot und blau (aussen) zeilenweise durchkontaktiert
+  - Sinnvoll für +5V (rot), GND (blau)
+- Innere Kontakte spaltenweise durchkontaktiert
 
-.col9[
-[![Verbindungen in einem Breadboard](../img/basic_breadboard_layout.png)](../img/basic_breadboard_layout.png)
+.col6[
+[![Verbindungen in einem Breadboard](../img/basic_breadboard_layout_wiss.png)](../img/basic_breadboard_layout.png)
+
+* Arduino liefert 3.3V, 5V und Masse (GND) direkt vom Board (siehe PinOut!)
 ]
+
+--
+count:false
+.col6[
+[![Verbindungen in einem Breadboard](../img/Aufg_1.1_LED_bb.png)](../img/Aufg_1.1_LED_bb.png)
+]
+
 
 ---
 # Aufgabe 1.2
@@ -576,37 +672,35 @@ Anstatt einer Batterie verwenden wir den Arduino UNO als Spannungsquelle. Wir ve
 
 .col9[
 ## Auftrag
-1. Berechnen sie den Vorwiderstand für eine rote LED und 5 V Versorgungsspannung
-1. Berechnen sie die Leistung, die der Widerstand in Wärme umwandelt
-1. Holen sie ein Breadboard, eine rote LED, den von ihnen berechneten Widerstand und zwei Verbindungskabel
-1. Bauen sie ihre Schaltung auf und verbinden sie diese mit dem Arduino
-1. Schliessen sie den Arduino am USB Port ihres Rechners an und überprüfen sie, ob das Ergebnis ihren Erwartungen entspricht
+1. Holen Sie ein Breadboard, eine rote LED, den von ihnen berechneten Widerstand und vier Verbindungskabel
+1. Bauen Sie Ihre Schaltung auf und verbinden Sie diese mit dem Arduino
+1. Schliessen Sie den Arduino am USB Port Ihres Rechners an und überprüfen Sie, ob das Ergebnis Ihren Erwartungen entspricht
+
+  **Zeit:** 20 Minuten
+
 ]
 
 .col3[
 [![Arduino Uno PinOut](../img/uno_wiring_pinout_super.jpeg)](../img/uno_wiring_pinout_super.jpeg)
 ]
 
-**Zeit:** 20 Minuten
-
 ---
 # Arduino GPIO
 
 .col6[
 - *General Purpose Input/Output*
-- Digital: `HIGH` (> 3 V) oder `LOW` (< 0,8 V)
+- Digitaltechnik: HIGH (> 3V) oder LOW (< 0.8V)
 - im Programm definieren, welcher *pin* als Input (DI) oder Output (DO) benutzt wird:
 
 ```arduino
-int pushBtn = 8;
-int powerLED = 9;
+int LED = 9;
 void setup(){
-  pinMode(pushBtn, INPUT);
-  pinMode(powerLED, OUTPUT);
+  pinMode(LED, OUTPUT);
 }
 void loop(){
-  int btnPres=digitalRead(pushBtn);
-  digitalWrite(powerLED, btnPres);
+  int state=!digitalRead(LED);
+  digitalWrite(LED, state);
+  delay(500);
 }
 ```
 
@@ -627,14 +721,29 @@ count: false
 
 # Pulldown/Pullup Widerstand
 
-- Zur sicheren Definition vom Schaltzustand
-  - Pulldown: DI mit hochohmigen Widerstand an Masse (GND) und Taster an +5 V anschliessen
-  - Pullup: DI mit hochohmigen Widerstand an +5 V und Taster an Masse (GND) anschliessen
+- **notwendig** zur sicheren Definition vom Schaltzustand eines Tasters
+  - **Pulldown:** digitalen Eingang über hochohmigen Widerstand an Masse (GND) und Taster an +5 V anschliessen
+  - **Pullup:** digitalen Eingang mit hochohmigen Widerstand an +5 V und Taster an Masse (GND) anschliessen
 
-.col9[
+.col6[
 [![Pulldown](../img/PullDownBtn_LED_bb.png)](../img/PullDownBtn_LED_bb.png)
 ]
+.col6[
 
+```arduino
+int pushBtn = 8;
+int powerLED = 9;
+void setup(){
+  pinMode(pushBtn, INPUT);
+  pinMode(powerLED, OUTPUT);
+}
+void loop(){
+  int btnPres=digitalRead(pushBtn);
+  digitalWrite(powerLED, btnPres);
+}
+```
+
+]
 
 ???
 **Tipp: ** Verdrahtung von Mikrocontroller und Peripherie dokumentieren ;-)
@@ -643,7 +752,7 @@ kurze Intro zum Verständnis, eventuell nochmal bei Transistoren...
 
 ---
 
-# Aufgabe 1.2
+# Aufgabe 1.3
 Eine LED soll leuchten, solange der Taster betätigt ist. Sie wollen zusätzlich die Anzahl Zyklen zählen, wie lange der Taster betätigt wurde. Den Wert geben Sie nach jedem Loslassen des Tasters einmal auf dem Seriellen Monitor aus.
 
 1. Installieren Sie die [Fritzing-Software](http://fritzing.org/home/)
@@ -670,10 +779,10 @@ background-image: url(../img/arduino_uno.png)
 ## Was haben Sie gelernt, was haben Sie nicht verstanden?
 
     </textarea>
-    <script src="../js/remark-latest.min.js"></script>
-	 <!--script src="https://code.jquery.com/jquery-1.9.1.min.js"></script-->
-	 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
-	 <script>
+    <!--script src="../js/remark-latest.min.js"></script-->
+    <script src="http://gnab.github.io/remark/downloads/remark-latest.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script>
       var slideshow = remark.create();
       // Setup MathJax
       MathJax.Hub.Config({
@@ -681,11 +790,11 @@ background-image: url(../img/arduino_uno.png)
           skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
           }
       });
-      MathJax.Hub.Queue(function() {
+      /*MathJax.Hub.Queue(function() {
           $(MathJax.Hub.getAllJax()).map(function(index, elem) {
               return(elem.SourceElement());
           }).parent().addClass('has-jax');
-      });
+      });*/
 
       MathJax.Hub.Configured();
     </script>

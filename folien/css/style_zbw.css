@@ -2,9 +2,18 @@
   @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
   @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
-  body { font-family: 'Droid Serif'; }
+  /**body { font-family: 'Droid Serif'; }
   h1, h2, h3 {
-    font-family: 'Yanone Kaffeesatz';
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-weight: normal;
+  }*/
+
+  body {
+    font-family: sans-serif;
+  }
+
+  h1, h2, h3 {
+    font-family: serif;
     font-weight: normal;
   }
 
@@ -13,15 +22,15 @@
 		background-position: top right;
 		background-repeat: no-repeat;
 		background-size: 80px 80px;
-		background-color: white;  
+		background-color: white;
   }
 
   .remark-slide-content{
-		background-color: rgba(0,0,0,0);  
+		background-color: rgba(0,0,0,0);
   }
 
 	.remark-slide-content h1 {
-    font-size: 55px;
+    font-size: 40px;
     margin-top: -5px;
     margin-bottom: 10px;
 	}
@@ -67,9 +76,13 @@
 			text-align: left;
 
 		}
-		
+
+    .col6 li{
+      font-size: 18px;
+    }
+
 		.row .col6{
-			margin-top: 10px;		
+			margin-top: 10px;
 			display: inline-block;
 			float: none;
 		}
@@ -110,12 +123,14 @@
 
 		/*  */
 		.remark-slide-content h2{
-			font-size: 32px;
+			font-size: 24px;
+      font-weight: bold;
 			margin-bottom: 5px;
 		}
 
 		.remark-slide-content h3{
-			font-size: 28px;
+			font-size: 20px;
+      font-weight: bold;
 			margin-bottom: 15px;
 		}
 
@@ -128,6 +143,7 @@
 			/*margin-top: 0;
 			margin-bottom: 0;*/
 			margin: 8px 5px;
+      font-size: 0.8em;
 		}
 
 		.col6 h2+p img, .col6 h3+p img{
@@ -158,22 +174,22 @@
 			margin: 0 auto;
       padding: 5px 0;
 		}
-		
-		
+
+
 		table{
 			border: 1px solid black;
-			border-collapse: collapse;	
+			border-collapse: collapse;
 			margin: 5px auto;
 		}
-		
+
 		tr:nth-child(even){
-			background-color: #DDD;		
+			background-color: #DDD;
 		}
-		
+
 		th, td{
 			text-align: center;
 			padding: 5px 15px;
-			border: 1px solid black;		
+			border: 1px solid black;
 		}
 
 		.red{ color: red; }
@@ -194,10 +210,10 @@
 			padding: 10px;
 			margin: 0px;
 		}
-		
+
 		.bigger_font li{
 			font-size: 1.2em;
-			margin-bottom: 10px;		
+			margin-bottom: 10px;
 		}
 
 		@page {
@@ -216,6 +232,11 @@
 		  }
 		}
 
-	
+    .tiny{
+      font-size: 0.5em;
+    }
 
-   .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+   .remark-code, .remark-inline-code {
+     font-family: 'Ubuntu Mono', monospace;
+     font-size: 0.8em;
+   }

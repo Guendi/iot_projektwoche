@@ -29,7 +29,7 @@
 
 ### General Purpose Register im Atmel 328P
 - Register r0 - r15 nicht für alle Befehle nutzbar
-- für eigene Daten: r16 bis r31 nutzen 
+- für eigene Daten: r16 bis r31 nutzen
 - Daten aus RAM oder Peripherie vor Verarbeitung in GPR-Register laden
 ]
 <br>
@@ -68,8 +68,8 @@ Programmier- Referenz auf [arduino.cc](https://arduino.cc/en/Reference/HomePage)
 - 32 kB Flash
 - 1 kB EEPROM
 - 20 GPIO Pins
-    - 6 davon mit PWM
-    - 6 davon mit analogem Input
+    - davon 6 PWM*
+    - davon 6 AI**
 ]
 
 --
@@ -82,10 +82,10 @@ count: false
 - 8 MHz Taktfrequenz
 - 2.5 kB RAM Speicher
 - 32 kB Flash
-- 1 kB EEEPROM
+- 1 kB EEPROM
 - 20 GPIO Pins
-    - 8 davon mit PWM
-    - 10 davon mit analogem Input
+    - davon 8 PWM*
+    - davon 10 AI**
 - USB im Chip
 - LoRa Chip zur kabellosen Kommunikation
 ]
@@ -101,6 +101,14 @@ count: false
 - 4 MB Flash
 - 9 GPIO Pins
 - 2.4 GHz WLAN im Chip integriert
+- Programmierbar mit Arduino Umgebung, MicroPython und Lua
+]
+
+.row[
+.tiny[
+* \* PWM: Pulsweitenmodulation
+* \*\* AI: analog input (Analogeingang)
+]
 ]
 
 ---
@@ -108,10 +116,11 @@ count: false
 # Interrupts allgemein
 .bigger_font[
 - unterbrechen aktuellen Programmablauf
-- starten spezielle Interrupt-Routine (ISR)
-- ISR ohne Parameter und ohne Rückgabewert
+- starten Interrupt Service Routines (ISR)
 - ISR möglichst kurz (z.B. um Zustandsvariable zu ändern)
-- nach ISR Rücksprung zum vorherigen Programmablauf
+- ISR ohne Parameter und ohne Rückgabewert - golbale Variablen mit Schlüsselwort "volatile" verwenden
+- delay() funktioniert nicht innerhalb ISRs
+- nach ISR automatischer Rücksprung zum vorherigen Programmablauf
 ]
 --
 count: false
@@ -120,7 +129,7 @@ count: false
 ## Hardware-Interrupts
 
 - Arduino Uno: Pin 2, 3
-- Flankentyp konfigurierbar 
+- Flankentyp konfigurierbar
 ]
 
 --
@@ -143,9 +152,9 @@ volatile byte state = LOW; // make sure the compiler keeps the variable :-)
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT); //using the built-in LED
-  pinMode(interruptPin, INPUT_PULLUP);
+  pinMode(interruptPin, INPUT); //instead of INPUT_PULLUP
 
-  // attach ISR to interrupt 
+  // attach ISR to interrupt
   // for desired state change (LOW;CHANGE;FALLING;RISING)
   attachInterrupt(digitalPinToInterrupt(interruptPin), blink, RISING);
 }
@@ -165,15 +174,15 @@ void blink() {
 
 # Aufgabe: Zähler mit Hardware-Interrupt realisieren
 
-## Ausgangslage: 
-Sie wissen, wie Interrupt-Service-Routinen für Hardware-Interrupts erstellt werden. 
+## Ausgangslage:
+Sie wissen, wie Interrupt-Service-Routinen für Hardware-Interrupts erstellt werden.
 
 ## Auftrag:
-Erstellen Sie ein Arduino-Projekt, welches die Anzahl Tastendrücke per ISR zählt und auf dem LCD-Dislay ausgibt. 
+Erstellen Sie ein Arduino-Projekt, welches die Anzahl Tastendrücke per ISR zählt und auf dem LCD-Dislay ausgibt.
 
 **Hinweis:** Taster *prellen*, d.h. ein Tastendruck kann mehrere Interrupts auslösen. Mit `unsigned long lastUpdate = millis()` können Sie den aktuellen Millisekunden-Zählwert des Systems auslesen. Der Rest ist in Ihrer Hand :-)
 
-## Erwartetes Ergebnis: 
+## Erwartetes Ergebnis:
 Sauber zählende Schaltung.
 
 **Zeit:** 30 Minuten
@@ -204,12 +213,12 @@ Lösung: Interrupt_Counter
 ```arduino
 void setup(){
   pinMode(ledPin, OUTPUT);
-  // initialize timer1 
+  // initialize timer1
   noInterrupts();           // disable all interrupts
   TCCR1A = 0;  TCCR1B = 0;  TCNT1  = 0;
   OCR1A = 31250;            // compare match register 16MHz/256/2Hz
   TCCR1B |= (1 << WGM12);   // CTC mode
-  TCCR1B |= (1 << CS12);    // 256 prescaler 
+  TCCR1B |= (1 << CS12);    // 256 prescaler
   TIMSK1 |= (1 << OCIE1A);  // enable timer compare interrupt
   interrupts();             // enable all interrupts
 }
@@ -247,24 +256,24 @@ void loop() {
 
   // sleep as long as possible
   Watchdog.sleep();
-  
+
   // turn LED on for 200 ms
   digitalWrite(LED_BUILTIN, HIGH);
   delay(200);
 }
-  
+
 ```
 
 ---
-# Aufgabe: Gewusst wie spart Energie 
+# Aufgabe: Gewusst wie spart Energie
 
-## Ausgangslage: 
+## Ausgangslage:
 In der Welt der Mikrocontroller ist der Eigenenergieverbrauch ein wichtiger Faktor, insbesondere wenn die Geräte mit Batterien betrieben werden. Sie lernen, den Energiebedarf durch *SleepModes* zu verringern.
 
 ## Aufgabe:
 Luftfeuchtigkeit und Temperatur sollen für 1 Minute nach Tastendruck gelesen und ausgegeben werden. Danach geht das Gerät (und das Display) wieder in den Schlafmodus.
 
-## Erwartetes Ergebnis: 
+## Erwartetes Ergebnis:
 Projekt funktioniert mit Deep-Sleep.
 
 **Zeit:** 30 Minuten
@@ -274,7 +283,7 @@ Setup Strommessung, um Stromspareffekt zu visualisieren
 
 ???
 
-Lösung: 
+Lösung:
 
 ---
 # Überblick Bus-Systeme
@@ -282,7 +291,7 @@ Lösung:
 .col4[
 ## UART (1 to 1)
 - Universal Asynchronous Receiver Transmitter
-- für serielle Schnittstellen: RS323 (USB via Wandler)
+- für serielle Schnittstellen: RS232 (USB via Wandler)
 - Kommunikation zwischen Mikrocontrollern, PC
 - Geschwindigkeit einstellbar:
   `Serial.begin(9600);`
@@ -295,7 +304,7 @@ count: false
 .col4[
 ## SPI (1 to many)
 - [Serial Peripheral Interface](https://de.wikipedia.org/wiki/Serial_Peripheral_Interface)
-- Motorola
+- Motorola, ca. 1985
 
 4 Leitungen je Slave:
 - SS: Slave Select
@@ -318,12 +327,12 @@ count: false
 
 ???
 Überblick geben
---- 
+---
 
 # PCF8574-basierter *Adapter*
 
 Das LCD Display aus den Übungen wird über einen I²C Port Expander angestuert.
- 
+
 - Nur 2 Datenleitungen (SDA, SCL) + Spannungsversorgung nötig
 - Andere Pins am Arduino sind frei für Things
 
@@ -353,6 +362,8 @@ Das LCD Display aus den Übungen wird über einen I²C Port Expander angestuert.
 
 
 .center[(1 = gebrückt, 0 = offen)]
+
+* gewisse PCF-Port-Expander laufen standardmässig auf 0x27!
 ]
 
 .col6[
@@ -407,7 +418,6 @@ void setup() {
 --
 count: false
 
-
 ???
 nur nochmal kurz zeigen wegen der Adressierung
 
@@ -415,14 +425,14 @@ nur nochmal kurz zeigen wegen der Adressierung
 
 # Zusatzaufgabe: Mehrere LCDs mit einem Arduino ansteuern
 
-## Ausgangslage: 
+## Ausgangslage:
 Sie haben bereits Daten über die I²C Schnittstelle an ein LCD ausgegeben. Nun sollen mehrere Display gleichzeitig von einem Arduino angesteuert werden.
 
 ## Auftrag:
 
 Arbeiten Sie paarweise. Informieren Sie sich, wie die Addresse des PCF8574 hardwaremässig geändert werden kann. Ändern Sie die I²C-Adresse eines PCF8574 *(juhu, löten!)* und senden Sie beispielsweise die Luftfeuchtigkeit und Temperaturmesswerte vom DHT11 auf unterschiedliche Displays.
 
-## Erwartetes Ergebnis: 
+## Erwartetes Ergebnis:
 Luftfeuchtigkeit und Temperaturmesswerte vom DHT11 werden auf unterschiedlichen Displays angezeigt.
 
 **Zeit:** 30 Minuten
@@ -478,6 +488,7 @@ void loop() {
     inByte = Serial.read();
     Serial.print("Received: ");
     // retransmit data
+    // as decimal value
     Serial.println(inByte, DEC);
   }
 }
@@ -490,8 +501,8 @@ count:false
 .row[
 - Arduino wartet *permanent* auf Daten
 - Pufferspeicher ist 64 Byte gross
-- liest diese Byte-weise
-- und sende diese zurück
+- liest Daten Byte-weise
+- mit Serial.println() wird das Zeichen als Dezimalwert zurückgegeben und ein Zeilenumbruch angehängt.
 ]
 
 ???
@@ -521,8 +532,8 @@ Sie können bereits mit den PortMonitor Daten zum Arduino senden. Nun lesen Sie 
 
 In `C++` können einzelne `char`s bzw. `byte`s in `byte`-Arrays eingefügt werden. Zum Bespiel so:
 ```arduino
-// initialize byte array with 100 bytes length
-char* message = new byte[100];
+// initialize byte array with 100 bytes length 
+char* message = new char[100];
 // example: access by index
 message[0] = 'h'; message[1] = 'o'; message[2] = 'i';
 // write first 3 bytes to serial port
@@ -537,6 +548,37 @@ Programmieren Sie den Arduino so, dass eine Nachricht (z.B. *"Hallo Welt"*) bis 
 
 ???
 Lösung: loesungen/SimpleSerialComm2.ino
+oder mit String:
+
+String msg = "";
+bool messageReceived = false;
+
+void setup() {
+  Serial.begin(115200);  // setup serial port
+}
+
+void loop() {
+  if (Serial.available() > 0 && messageReceived == false) {
+    // read single byte
+    byte inByte = Serial.read();
+    if (inByte!=10){ // wait for NewLine
+      msg=msg+(char)inByte;
+      cnt++;
+    }
+    else {
+      messageReceived = true;
+    }
+  }
+
+  if (messageReceived == true){
+    Serial.print("received: ");
+    Serial.println(msg);
+    messageReceived= false;
+    msg=""; // reset string
+  }
+}
+
+
 
 ---
 
@@ -547,24 +589,20 @@ background-image: url(../img/arduino_uno.png)
 Was haben Sie gelernt?
 
     </textarea>
-    <script src="../js/remark-latest.min.js"></script>
-	 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
-    
-	 <script>
+    <script src="http://gnab.github.io/remark/downloads/remark-latest.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script type="text/javascript">
       var slideshow = remark.create();
+
       // Setup MathJax
       MathJax.Hub.Config({
           tex2jax: {
           skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
           }
       });
-      MathJax.Hub.Queue(function() {
-          $(MathJax.Hub.getAllJax()).map(function(index, elem) {
-              return(elem.SourceElement());
-          }).parent().addClass('has-jax');
-      });
 
       MathJax.Hub.Configured();
+    </script>
     </script>
   </body>
 </html>

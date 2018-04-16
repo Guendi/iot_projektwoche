@@ -47,7 +47,7 @@ and all u needs is a little:
 
 Quelle: [Arduino Mega](https://www.arduino.cc/en/Main/ArduinoBoardMega)
 ???
-some fullscreen picture 
+some fullscreen picture
 ---
 name: arduino_enc_eth
 class: two_cols
@@ -65,10 +65,10 @@ class: two_cols
 .col6[
 ## Multiple Columns
 * CSS contains .col6 class with half width
-* just nest stuff in a `.col6` element 
+* just nest stuff in a `.col6` element
 
 ## Slide transitions
- 
+
 * new Slides start with `---`
 * for slide transitions, use `--`
 * Presenter notes start with `???`
@@ -100,17 +100,18 @@ void loop(){
 
 # MathJax
 
-* load MathJax.js: `<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured"></script>`
+* load MathJax.js:
+```html
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured"
+  type="text/javascript">
+</script>
+```
 * add config script below `remark.create()`:
 ```javascript
   // Setup MathJax
    MathJax.Hub.Config({
        tex2jax: {skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']}
-   });
-   MathJax.Hub.Queue(function() {
-       $(MathJax.Hub.getAllJax()).map(function(index, elem) {
-           return(elem.SourceElement());
-       }).parent().addClass('has-jax');
    });
    MathJax.Hub.Configured();
 ```
@@ -147,19 +148,14 @@ void loop(){
 
     </textarea>
     <script src="js/remark-latest.min.js"></script>
-	 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured"></script>
-	 <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script>
       var slideshow = remark.create();
 		// Setup MathJax
       MathJax.Hub.Config({
           tex2jax: {
           skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
           }
-      });
-      MathJax.Hub.Queue(function() {
-          $(MathJax.Hub.getAllJax()).map(function(index, elem) {
-              return(elem.SourceElement());
-          }).parent().addClass('has-jax');
       });
 
       MathJax.Hub.Configured();
